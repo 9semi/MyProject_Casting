@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7548372605604331010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2270489064492749971}
+  - component: {fileID: 3597594535671261998}
+  m_Layer: 0
+  m_Name: 8_MatchManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2270489064492749971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548372605604331010}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3597594535671261998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548372605604331010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acdf296604426594fb556c15348405d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _opponentNameList:
+  - Jinsu
+  - Giyoon
+  - Wonho
+  - Seolmin
+  - Amy
+  - John
+  - Oliver
+  - Lucy
+  - Lisa
+  - Walter
+  - Mary
+  - Laura
+  - Paul
+  - Peter
+  - Vincent
+  - William
+  - Kelly
+  - Oscar
+  - Owen
+  - Thomas
+  _resultUI: {fileID: 0}
+  _gameManager: {fileID: 0}
+  _petManager: {fileID: 0}
+  _fishControl: {fileID: 0}
+  _ingameUIManager: {fileID: 0}
+  _conditionText: {fileID: 0}
+  _myNameText: {fileID: 0}
+  _myBar: {fileID: 0}
+  _myScoreText: {fileID: 0}
+  _opponentNameText: {fileID: 0}
+  _opponentBar: {fileID: 0}
+  _opponentScoreText: {fileID: 0}
+  _timerImage: {fileID: 0}
+  _timerText: {fileID: 0}
+  _resultObject: {fileID: 0}
+  _equipmentUI: {fileID: 0}
+  _exitUI: {fileID: 0}
+  _noticeObject: {fileID: 0}
+  _noticeText: {fileID: 0}
+  _fishPopupObject: {fileID: 0}
+  bleTotal: {fileID: 0}

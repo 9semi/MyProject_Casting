@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "220098080134",
+    "firebase_url": "https://casting-65895273-default-rtdb.firebaseio.com",
+    "project_id": "casting-65895273",
+    "storage_bucket": "casting-65895273.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220098080134:android:25617d61410ab1396c9007",
+        "android_client_info": {
+          "package_name": "com.mobilemovement.casting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220098080134-12osbiv1fi5eoq16ojf6nn4i4hp5r7ul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobilemovement.casting",
+            "certificate_hash": "d18afe684a2bf3911c6f216a10600b4a9f72b2cd"
+          }
+        },
+        {
+          "client_id": "220098080134-3gi9h5enr754p6e5m2aebkaubg9atgmd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobilemovement.casting",
+            "certificate_hash": "095af527bfd9351468132a3314b9b58cc766c983"
+          }
+        },
+        {
+          "client_id": "220098080134-i7j8ot69c4fh9g53j3arbckk85vhc03n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaQYvHxBtGzXpJTVgJwKFKO3Iv6UVwQKM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220098080134-i7j8ot69c4fh9g53j3arbckk85vhc03n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

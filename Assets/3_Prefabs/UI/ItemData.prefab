@@ -1,0 +1,1494 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6258272438819098200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6258272438819098202}
+  - component: {fileID: 6258272438819098203}
+  m_Layer: 0
+  m_Name: ItemData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6258272438819098202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258272438819098200}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6258272438819098203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6258272438819098200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338433f49259dc54a941e6a5be2ba071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  packageItemDB:
+  - Type: 10
+    serialNumber: 8000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uC6D4\uAC04 \uACE8\uB4DC \uD328\uD0A4\uC9C0 \uD50C\uB798\uD2F0\uB118"
+    itemInfo: "\uAD6C\uB9E4\uD560 \uC2DC 3\uB9CC \uACE8\uB4DC\uB97C \uC5BB\uACE0
+      30\uC77C\uAC04 3\uCC9C \uACE8\uB4DC\uB97C \uC5BB\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    goldCost: 0
+    pearlCost: 0
+    cashCost: 5900
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 98726ac1f0684e341b08ef70f03acdda, type: 3}
+    itemImage: {fileID: 21300000, guid: 64b74534095feb044a32f7360f9339ff, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 10
+    serialNumber: 8001
+    typeNum: 1
+    baitNum: 0
+    quantity: 0
+    korName: "\uC6D4\uAC04 \uACE8\uB4DC \uD328\uD0A4\uC9C0 \uB2E4\uC774\uC544\uBAAC\uB4DC"
+    itemInfo: "\uAD6C\uB9E4\uD560 \uC2DC 5\uB9CC \uACE8\uB4DC\uB97C \uC5BB\uACE0
+      30\uC77C\uAC04 5\uCC9C \uACE8\uB4DC\uB97C \uC5BB\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    goldCost: 0
+    pearlCost: 0
+    cashCost: 9900
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 98726ac1f0684e341b08ef70f03acdda, type: 3}
+    itemImage: {fileID: 21300000, guid: d7c59513b36b2144aa26faf63dcb2508, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 10
+    serialNumber: 8002
+    typeNum: 1
+    baitNum: 0
+    quantity: 0
+    korName: "\uAD11\uACE0 \uC81C\uAC70 \uD328\uD0A4\uC9C0"
+    itemInfo: "\uC601\uAD6C\uC801\uC73C\uB85C \uAC8C\uC784 \uB0B4\uC758 \uBAA8\uB4E0
+      \uAD11\uACE0\uB97C \uC81C\uAC70\uD558\uACE0 \uC9C4\uC8FC 100\uAC1C\uB97C \uD68D\uB4DD\uD569\uB2C8\uB2E4."
+    goldCost: 0
+    pearlCost: 0
+    cashCost: 9800
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 98726ac1f0684e341b08ef70f03acdda, type: 3}
+    itemImage: {fileID: 21300000, guid: 75c2a5e69dcaf0f46b4585f6eef73a21, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  passItemDB:
+  - Type: 0
+    serialNumber: 0
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uC815\uB3D9\uC9C4 \uD328\uC2A4"
+    itemInfo: "\uC815\uB3D9\uC9C4 \uD328\uC2A4 \uD504\uB9AC\uBBF8\uC5C4 \uBCF4\uC0C1\uC744
+      \uC5BB\uC744 \uC218 \uC788\uB294 \uD2F0\uCF13"
+    goldCost: 0
+    pearlCost: 0
+    cashCost: 8900
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 98726ac1f0684e341b08ef70f03acdda, type: 3}
+    itemImage: {fileID: 21300000, guid: 43f53562dc56db147b142768135e4769, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 0
+    serialNumber: 1
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uC2A4\uCE74\uC774\uC6E8\uC774 \uD328\uC2A4"
+    itemInfo: "\uC2A4\uCE74\uC774\uC6E8\uC774 \uD328\uC2A4 \uD504\uB9AC\uBBF8\uC5C4
+      \uBCF4\uC0C1\uC744 \uC5BB\uC744 \uC218 \uC788\uB294 \uD2F0\uCF13"
+    goldCost: 0
+    pearlCost: 0
+    cashCost: 8900
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 98726ac1f0684e341b08ef70f03acdda, type: 3}
+    itemImage: {fileID: 21300000, guid: 98ea7a92e42a70c42ba54a00ac21edac, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 0
+    serialNumber: 2
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uD638\uBA38\uC2A4\uD54F \uD328\uC2A4"
+    itemInfo: "\uD638\uBA38\uC2A4\uD54F \uD328\uC2A4 \uD504\uB9AC\uBBF8\uC5C4 \uBCF4\uC0C1\uC744
+      \uC5BB\uC744 \uC218 \uC788\uB294 \uD2F0\uCF13"
+    goldCost: 0
+    pearlCost: 0
+    cashCost: 8900
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 98726ac1f0684e341b08ef70f03acdda, type: 3}
+    itemImage: {fileID: 21300000, guid: 5df6c61f870f89b48853bb402d6e6fc8, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  rodItemDB:
+  - Type: 1
+    serialNumber: 1000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "1\uD638 \uB09A\uC2EF\uB300"
+    itemInfo: "100g \uC774\uD558\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294 \uB9E4\uC6B0
+      \uBD80\uB4DC\uB7EC\uC6B4 \uB09A\uC2EF\uB300"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 8
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: bf1f0fefd1bf0634fb6ff4d1277f5675, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 2100000, guid: 01e47854fcb1cb44ea1700fed1a854ec, type: 2}
+  - Type: 1
+    serialNumber: 1001
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "2\uD638 \uB09A\uC2EF\uB300"
+    itemInfo: "100g~450g \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uBD80\uB4DC\uB7EC\uC6B4 \uB09A\uC2EF\uB300"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 4
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 6f3f682edd1eb7448af3cb77d9d3d26c, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 2100000, guid: c2135ee5dba78e14d97b19b560c9e4bb, type: 2}
+  - Type: 1
+    serialNumber: 1002
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "3\uD638 \uB09A\uC2EF\uB300"
+    itemInfo: "450g~2kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uC57D\uAC04 \uBD80\uB4DC\uB7EC\uC6B4 \uB09A\uC2EF\uB300"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 2
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 5ad1bd0c5967f7b498e5a32b78499822, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 2100000, guid: 1977fcbd63f032d43ba315dfd49b5e02, type: 2}
+  - Type: 1
+    serialNumber: 1003
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "4\uD638 \uB09A\uC2EF\uB300"
+    itemInfo: "2kg~8kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294 \uB09A\uC2EF\uB300"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 1
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 63404657db1988649b84cb059a4fe027, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 2100000, guid: 1696235f06c86144281d10599295834a, type: 2}
+  - Type: 1
+    serialNumber: 1004
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "5\uD638 \uB09A\uC2EF\uB300"
+    itemInfo: "8kg~ 30kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uC57D\uAC04 \uB2E8\uB2E8\uD55C \uB09A\uC2EF\uB300"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0.5
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: a3755a103e17e644f89004f1e73a37b2, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 2100000, guid: 7a68f9ebf43d7f045b0cd6117e2ec707, type: 2}
+  - Type: 1
+    serialNumber: 1005
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "6\uD638 \uB09A\uC2EF\uB300"
+    itemInfo: "30kg~120kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uB2E8\uB2E8\uD55C \uB09A\uC2EF\uB300"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0.25
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 7a36b7cc28d8cc44487a94b4bc154aa3, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 2100000, guid: 0a5ad8d58709ac041a6f4842f92f8e91, type: 2}
+  - Type: 1
+    serialNumber: 1006
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "7\uD638 \uB09A\uC2EF\uB300"
+    itemInfo: "120kg \uC774\uC0C1\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294 \uB9E4\uC6B0
+      \uB2E8\uB2E8\uD55C \uB09A\uC2EF\uB300"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0.125
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 455db375de69f3243901f316c68b620f, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 2100000, guid: 7608a4c4c9d3dbb4f8e8f7dde49d6e82, type: 2}
+  reelItemDB:
+  - Type: 6
+    serialNumber: 6000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "1\uD638 \uC2A4\uD53C\uB2DD \uB9B4"
+    itemInfo: "100g \uC774\uD558\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294 \uC2A4\uD53C\uB2DD
+      \uB9B4"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 8
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 6d0d1ccc6cdcc254ebed29585cfd1a34, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 6
+    serialNumber: 6001
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "2\uD638 \uC2A4\uD53C\uB2DD \uB9B4"
+    itemInfo: "100g~450g \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uC2A4\uD53C\uB2DD \uB9B4"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 4
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 50bcbfeaff405e04387e7f60e32368ce, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 6
+    serialNumber: 6002
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "3\uD638 \uC2A4\uD53C\uB2DD \uB9B4"
+    itemInfo: "450g~2kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uC2A4\uD53C\uB2DD \uB9B4"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 2
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 5350051465faffe4692f443aefe3b84b, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 6
+    serialNumber: 6003
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "4\uD638 \uBCA0\uC774\uD2B8 \uB9B4"
+    itemInfo: "2kg~8kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294 \uBCA0\uC774\uD2B8
+      \uB9B4"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 1
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: b414a49e868afb84b877c9dffff9f3d4, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 6
+    serialNumber: 6004
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "5\uD638 \uBCA0\uC774\uD2B8 \uB9B4"
+    itemInfo: "8kg~ 30kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uBCA0\uC774\uD2B8 \uB9B4"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0.5
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 0112609aa7925394ca6876cf5897cf00, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 6
+    serialNumber: 6005
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "6\uD638 \uC7A5\uAD6C \uB9B4"
+    itemInfo: "30kg~120kg \uC0AC\uC774\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294
+      \uC7A5\uAD6C \uB9B4"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0.25
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: c9d8a1380c5c8f746b0d25d8ab83668e, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 6
+    serialNumber: 6006
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "7\uD638 \uC7A5\uAD6C \uB9B4"
+    itemInfo: "120kg \uC774\uC0C1\uC758 \uBB3C\uACE0\uAE30\uB97C \uB09A\uB294 \uC7A5\uAD6C
+      \uB9B4"
+    goldCost: 50000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0.125
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 9de87c53bfa708147b69d53fce470864, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  baitItemDB:
+  - Type: 2
+    serialNumber: 2000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uAC00\uC7AC"
+    itemInfo: "\uAC00\uC7AC\uB97C \uD1B5\uC73C\uB85C \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: a54c56a49924864409f669dfbe395179, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2001
+    typeNum: 0
+    baitNum: 1
+    quantity: 0
+    korName: "\uAC08\uCE58"
+    itemInfo: "\uAC08\uCE58\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 35407c18f0b2d02459ff5f333a27439f, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2002
+    typeNum: 0
+    baitNum: 2
+    quantity: 0
+    korName: "\uAC8C"
+    itemInfo: "\uC5C4\uC9C0 \uC190\uD1B1 \uD06C\uAE30\uC758 \uB9D0\uB791\uB9D0\uB791\uD55C
+      \uAC8C"
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 335fc37d6b41b8a40adf97d6e97a1ea7, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2003
+    typeNum: 0
+    baitNum: 3
+    quantity: 0
+    korName: "\uACE0\uB4F1\uC5B4"
+    itemInfo: "\uC4F0\uAE30 \uC88B\uAC8C \uC798\uB77C \uC5FC\uC7A5\uC744 \uD55C \uACE0\uB4F1\uC5B4
+      \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 56a7dfec25caaac4bae8ac10a08a6f4c, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2004
+    typeNum: 0
+    baitNum: 4
+    quantity: 0
+    korName: "\uACE4\uC7C1\uC774"
+    itemInfo: "\uD06C\uB9B4\uACFC \uBE44\uC2B7\uD55C \uC0C8\uC6B0\uB97C \uB2EE\uC740
+      \uAC11\uAC01\uB958 \uBBF8\uB07C\uB85C \uC18C\uD615 \uC5B4\uC885\uC774 \uC88B\uC544\uD55C\uB2E4."
+    goldCost: 700
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 2470a7ced1a994d498d07fdd02b4e6c5, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2005
+    typeNum: 0
+    baitNum: 5
+    quantity: 0
+    korName: "\uAD74"
+    itemInfo: "\uC8FC\uBCC0 \uAC2F\uBC14\uC704\uC5D0\uC11C \uC27D\uAC8C \uAD6C\uD560
+      \uC218 \uC788\uB294 \uAD74 \uBBF8\uB07C"
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 85a5bd1dd2b4b0241a91a2f997978d3e, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2006
+    typeNum: 0
+    baitNum: 6
+    quantity: 0
+    korName: "\uAF43\uC0C8\uC6B0"
+    itemInfo: "\uBCF4\uB9AC\uC0C8\uC6B0\uACFC\uC758 \uC808\uC9C0 \uB3D9\uBB3C\uB85C
+      \uD1B5\uC73C\uB85C \uBBF8\uB07C\uB85C \uC0AC\uC6A9\uD55C\uB2E4."
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 2cfd373b78ad8e741a3e6647428aa2c0, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2007
+    typeNum: 0
+    baitNum: 7
+    quantity: 0
+    korName: "\uB119\uCE58"
+    itemInfo: "\uB119\uCE58\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: ceb44b4e2ac5857418d2bf399bff62ca, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2008
+    typeNum: 0
+    baitNum: 8
+    quantity: 0
+    korName: "\uB2EC\uD33D\uC774"
+    itemInfo: "\uAECD\uC9C8\uC9F8 \uC0AC\uC6A9\uD558\uB294 \uB2EC\uD33D\uC774 \uBBF8\uB07C"
+    goldCost: 400
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 7d2643103dfd8a7448a294895ec1f034, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2009
+    typeNum: 0
+    baitNum: 9
+    quantity: 0
+    korName: "\uB300\uAD6C"
+    itemInfo: "\uB300\uAD6C\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: a14a0b878ff40e44c846cca075337a8f, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2010
+    typeNum: 0
+    baitNum: 10
+    quantity: 0
+    korName: "\uB300\uD558"
+    itemInfo: "\uB300\uD558\uB85C \uBD88\uB9AC\uB294 \uD770\uB2E4\uB9AC\uC0C8\uC6B0\uB294
+      \uD6CC\uB96D\uD55C \uBBF8\uB07C \uC5ED\uD560\uC744 \uD55C\uB2E4."
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 7a5a0e07655f8204cbf07860b9f12357, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2011
+    typeNum: 0
+    baitNum: 11
+    quantity: 0
+    korName: "\uB3C4\uB451\uAC8C"
+    itemInfo: "\uD574\uC548\uC758 \uC808\uBCBD\uC774\uB098 \uD759\uBCBD\uC5D0 \uC0AC\uB294
+      \uBD89\uC740\uC0C9\uC744 \uB760\uB294 \uAC8C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: f9d1137be9d361c4484480540e010e2b, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2012
+    typeNum: 0
+    baitNum: 12
+    quantity: 0
+    korName: "\uB450\uB354\uC9C0\uAC8C"
+    itemInfo: "\uBAA8\uB798\uB97C \uD30C\uACE0 \uC0AC\uB294 \uB450\uB354\uC9C0\uB97C
+      \uB2EE\uC740 \uAC8C"
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 6f864573ffdf5794db33fd882bfc633f, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2013
+    typeNum: 0
+    baitNum: 13
+    quantity: 0
+    korName: "\uB530\uAC1C\uBE44"
+    itemInfo: "\uC8FC\uBCC0 \uAC2F\uBC14\uC704\uC5D0\uC11C \uC27D\uAC8C \uAD6C\uD560
+      \uC218 \uC788\uB294 \uB530\uAC1C\uBE44 \uBBF8\uB07C"
+    goldCost: 300
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 85979973bd4015e40a9c27e390e7f5e5, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2014
+    typeNum: 0
+    baitNum: 14
+    quantity: 0
+    korName: "\uBA4D\uAC8C"
+    itemInfo: "\uBB38\uC5B4\uC758 \uB2E4\uB9AC\uB97C \uC798\uB77C \uC0AC\uC6A9\uD55C
+      \uBBF8\uB07C"
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 157ddb4ac6b900c4c89ef80e888ec1b4, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2015
+    typeNum: 1
+    baitNum: 15
+    quantity: 0
+    korName: "\uBA54\uD0C8\uC9C0\uADF8"
+    itemInfo: "5\uD638 \uBD09\uB3CC\uACFC \uAC19\uC740 \uBD80\uB825\uC744 \uAC16\uB294
+      \uBB34\uAC70\uC6B4 \uC778\uC870\uBBF8\uB07C\uB85C \uC801\uADF9\uC801\uC73C\uB85C
+      \uC6C0\uC9C1\uC5EC\uC8FC\uC5B4\uC57C \uD55C\uB2E4."
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 7ef491907f9cc3b40a242b5cde0ee677, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2016
+    typeNum: 0
+    baitNum: 16
+    quantity: 0
+    korName: "\uBA78\uCE58"
+    itemInfo: "\uBA78\uCE58\uB97C \uD1B5\uC73C\uB85C \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: f29abe49b4aa149489da1fed67647a03, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2017
+    typeNum: 0
+    baitNum: 17
+    quantity: 0
+    korName: "\uBA85\uD0DC"
+    itemInfo: "\uBA85\uD0DC\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: bf42c4a964b681d4b9f17bf1e0164b9a, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2018
+    typeNum: 0
+    baitNum: 18
+    quantity: 0
+    korName: "\uBAA8\uB798\uC0C8\uC6B0"
+    itemInfo: "\uBAA8\uB798\uD574\uC548\uC5D0 \uC0AC\uB294 \uBC14\uB2E4\uC0C8\uC6B0"
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 961ef64fecbaccd49b891386d00c2279, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2019
+    typeNum: 0
+    baitNum: 19
+    quantity: 0
+    korName: "\uBB38\uC5B4"
+    itemInfo: "\uBB38\uC5B4\uC758 \uB2E4\uB9AC\uB97C \uC798\uB77C \uC0AC\uC6A9\uD55C
+      \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 415b86de75cb70b40bdcadbd3d71997f, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2020
+    typeNum: 0
+    baitNum: 20
+    quantity: 0
+    korName: "\uBBF8\uAFB8\uB77C\uC9C0"
+    itemInfo: "\uBBF8\uAFB8\uB77C\uC9C0\uB97C \uD1B5\uC73C\uB85C \uC0AC\uC6A9\uD55C
+      \uBBF8\uB07C"
+    goldCost: 300
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: ed6c1c1a9d6571e449c668bef40a0454, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2021
+    typeNum: 0
+    baitNum: 21
+    quantity: 0
+    korName: "\uBBFC\uBB3C\uC0C8\uC6B0"
+    itemInfo: "\uC0B4\uC544\uC788\uB294 \uC0C1\uD0DC\uB85C \uAD6C\uD558\uAE30 \uC26C\uC6B4
+      \uC0C8\uC6B0\uB85C \uC544\uAC00\uBBF8 \uBD80\uC704\uC5D0 \uAC00\uC2DC\uAC00
+      \uC788\uB2E4. "
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 8ebf2bc477e6b4547a03f223657e36d0, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2022
+    typeNum: 1
+    baitNum: 22
+    quantity: 0
+    korName: "\uBC14\uC774\uBE0C\uB808\uC774\uC158"
+    itemInfo: "3\uD638 \uBD09\uB3CC\uACFC \uAC19\uC740 \uBD80\uB825\uC73C\uB85C \uD3ED\uC774
+      \uC9E7\uACE0 \uAC15\uD55C \uC9C4\uB3D9\uC744 \uBC1C\uD718\uD558\uB294 \uC778\uC870\uBBF8\uB07C\uC774\uB2E4. "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 766895070eea6724ebf92e9f1c0c4f92, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2023
+    typeNum: 0
+    baitNum: 23
+    quantity: 0
+    korName: "\uBCB5\uC5D0\uB3D4"
+    itemInfo: "\uBCB5\uC5D0\uB3D4\uC744 \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 09cc5ee4bfaabef4787e9cc97f147e48, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2024
+    typeNum: 0
+    baitNum: 24
+    quantity: 0
+    korName: "\uBCF4\uB9AC\uBA78"
+    itemInfo: "\uBCF4\uB9AC\uBA78\uC744 \uD1B5\uC73C\uB85C \uC0AC\uC6A9\uD55C \uBBF8\uB07C "
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: bea903552a4239844a528dfd9ca3ffe4, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2025
+    typeNum: 0
+    baitNum: 25
+    quantity: 0
+    korName: "\uBD95\uC7A5\uC5B4"
+    itemInfo: "\uBD95\uC7A5\uC5B4\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C "
+    goldCost: 500
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 42a827804f5f23a449f3e87209002ece, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2026
+    typeNum: 0
+    baitNum: 26
+    quantity: 0
+    korName: "\uBE14\uB8E8\uB7EC\uB108"
+    itemInfo: "\uBE14\uB8E8\uB7EC\uB108\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C
+      \uBBF8\uB07C "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 59267af6f4718ec4eb5e6b833bf6e8c4, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2027
+    typeNum: 0
+    baitNum: 27
+    quantity: 0
+    korName: "\uBE59\uC5B4"
+    itemInfo: "\uBE59\uC5B4\uB97C \uD1B5\uC73C\uB85C \uC0AC\uC6A9\uD55C \uBBF8\uB07C "
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: f5e734b786a51f444a0264f2e9fec60d, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2028
+    typeNum: 0
+    baitNum: 28
+    quantity: 0
+    korName: "\uC0C8\uC6B0"
+    itemInfo: "\uB2E4\uC591\uD55C \uC885\uB958\uC758 \uC0C8\uC6B0\uB97C \uCD1D\uCE6D\uD558\uB294
+      \uBBF8\uB07C "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 7e4da3d927325354999422ae72102478, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2029
+    typeNum: 0
+    baitNum: 29
+    quantity: 0
+    korName: "\uC131\uAC8C"
+    itemInfo: "\uC131\uAC8C\uB97C \uD1B5\uC73C\uB85C \uC0AC\uC6A9\uD55C \uBBF8\uB07C "
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: f3c49a3f05083654b8eec144661a13ed, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2030
+    typeNum: 0
+    baitNum: 30
+    quantity: 0
+    korName: "\uC18C\uB77C"
+    itemInfo: "\uC18C\uB77C \uC18D\uC0B4\uC744 \uBC1C\uB77C \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 300
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 4da927dddeab27a41a61c2cc2f6cbc36, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2031
+    typeNum: 0
+    baitNum: 31
+    quantity: 0
+    korName: "\uC22D\uC5B4"
+    itemInfo: "\uC22D\uC5B4\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C "
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 56a7dfec25caaac4bae8ac10a08a6f4c, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2032
+    typeNum: 1
+    baitNum: 32
+    quantity: 0
+    korName: "\uC2A4\uD47C"
+    itemInfo: "4\uD638 \uBD09\uB3CC\uACFC \uAC19\uC740 \uBD80\uB825\uC73C\uB85C \uC218\uC800\uB97C
+      \uB2EE\uC558\uC73C\uBA70 \uB2E8\uC21C \uB9B4\uB9C1\uB9CC \uD574\uB3C4 \uC218\uB958
+      \uC800\uD56D\uC73C\uB85C \uC6C0\uC9C1\uC778\uB2E4. "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: cbbf8dabc115f7e458f10f411ccb82e6, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2033
+    typeNum: 1
+    baitNum: 33
+    quantity: 0
+    korName: "\uC2A4\uD540\uD14C\uC77C\uC9C0\uADF8"
+    itemInfo: "2\uD638 \uBD09\uB3CC\uACFC \uAC19\uC740 \uBD80\uB825\uC73C\uB85C \uAF2C\uB9AC\uC5D0
+      \uBE14\uB808\uC774\uB4DC\uAC00 \uD68C\uC804\uD558\uBA70 \uBB3C\uACE0\uAE30\uC758
+      \uC785\uC9C8\uC744 \uC720\uD639\uD55C\uB2E4. "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 236f23bb07ef6764eadcc2f998aee45d, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2034
+    typeNum: 1
+    baitNum: 34
+    quantity: 0
+    korName: "\uC2F1\uD0B9\uBBF8\uB178\uC6B0"
+    itemInfo: "1\uD638 \uBD09\uB3CC\uACFC \uAC19\uC740 \uBD80\uB825\uC73C\uB85C \uAC00\uB77C\uC549\uB294
+      \uD50C\uB7EC\uADF8\uB958 \uC778\uC870\uBBF8\uB07C "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 9c9af5fdbfc2c424ea178626461cd6c5, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2035
+    typeNum: 0
+    baitNum: 35
+    quantity: 0
+    korName: "\uC3D9"
+    itemInfo: "\uC57D 10cm \uD06C\uAE30\uC758 \uAC11\uAC01\uB958\uB85C \uD1B5\uC73C\uB85C
+      \uC0AC\uC6A9\uD55C\uB2E4. "
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: ba774b670e5121b4a9a014f4e6b80819, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2036
+    typeNum: 1
+    baitNum: 36
+    quantity: 0
+    korName: "\uC5D0\uAE30"
+    itemInfo: "5\uD638 \uBD09\uB3CC\uACFC \uAC19\uC740 \uBD80\uB825\uC73C\uB85C \uD770\uC624\uC9D5\uC5B4\uB97C
+      \uB09A\uB294 \uC77C\uBCF8\uC758 \uC804\uD1B5 \uC5B4\uB85C\uB3C4\uAD6C "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: a840895d6884e144eb1d34e8b0f9fbb1, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2037
+    typeNum: 0
+    baitNum: 37
+    quantity: 0
+    korName: "\uC5F0\uC5B4"
+    itemInfo: "\uC5F0\uC5B4\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: d6434d0c1fabe8e40bfbc88c6df3f2c5, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2038
+    typeNum: 0
+    baitNum: 38
+    quantity: 0
+    korName: "\uC5F4\uBE59\uC5B4"
+    itemInfo: "\uC5F4\uBE59\uC5B4\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 300
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: e55689df4a884894eb81753e623464aa, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2039
+    typeNum: 0
+    baitNum: 39
+    quantity: 0
+    korName: "\uC624\uC9D5\uC5B4"
+    itemInfo: "\uD06C\uAC8C \uC798\uB77C \uBBF8\uB07C\uB85C \uC0AC\uC6A9\uD558\uB294
+      \uC624\uC9D5\uC5B4\uB294 \uD558\uC597\uAE30 \uB54C\uBB38\uC5D0 \uC2DC\uAC01\uC801
+      \uD6A8\uACFC\uAC00 \uC88B\uB2E4 "
+    goldCost: 300
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 21b8cda978470a14f926b2a411881054, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2040
+    typeNum: 0
+    baitNum: 40
+    quantity: 0
+    korName: "\uC804\uAC31\uC774"
+    itemInfo: "\uC4F0\uAE30 \uC88B\uAC8C \uC798\uB77C \uC5FC\uC7A5\uC744 \uD55C \uC804\uAC31\uC774
+      \uBBF8\uB07C "
+    goldCost: 400
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: bb632f80f5e9ffe45bf9935f554531dd, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2041
+    typeNum: 0
+    baitNum: 41
+    quantity: 0
+    korName: "\uC804\uBCF5"
+    itemInfo: "\uC0B4\uC9DD \uC0B6\uC544 \uBC14\uB298\uC5D0\uC11C \uC798 \uB5A8\uC5B4\uC9C0\uC9C0
+      \uC54A\uB294 \uC804\uBCF5 \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 4b69503ff9fb6104ebaefb03db816ce8, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2042
+    typeNum: 0
+    baitNum: 42
+    quantity: 0
+    korName: "\uC804\uC5B4"
+    itemInfo: "\uC804\uC5B4\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 300
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 880a80fea4c9e7c41a8bed5c8a8de752, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2043
+    typeNum: 0
+    baitNum: 43
+    quantity: 0
+    korName: "\uC815\uC5B4\uB9AC"
+    itemInfo: "\uC815\uC5B4\uB9AC\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 56a7dfec25caaac4bae8ac10a08a6f4c, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2044
+    typeNum: 0
+    baitNum: 44
+    quantity: 0
+    korName: "\uC870\uAC1C"
+    itemInfo: "\uC0B4\uC9DD \uC0B6\uC544 \uBC14\uB298\uC5D0\uC11C \uC798 \uB5A8\uC5B4\uC9C0\uC9C0
+      \uC54A\uB294 \uC870\uAC1C \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 4165d819cfa304540bf27b4413c6c008, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2045
+    typeNum: 0
+    baitNum: 45
+    quantity: 0
+    korName: "\uCC38\uAC2F\uC9C0\uB801\uC774"
+    itemInfo: "\uCC38\uAC2F\uC9C0\uB801\uC774\uB77C \uBD88\uB9AC\uB294 \uBC14\uC704\uD138\uAC2F\uC9C0\uB801\uC774\uB294
+      \uACE0\uAE09 \uB09A\uC2DC \uB300\uC0C1\uC5B4\uB4E4\uC774 \uC88B\uC544\uD558\uB294
+      \uBBF8\uB07C\uC774\uB2E4."
+    goldCost: 500
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: dbaeae9682ff11b4592ab559c61dc008, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2046
+    typeNum: 0
+    baitNum: 46
+    quantity: 0
+    korName: "\uCCAD\uAC2F\uC9C0\uB801\uC774"
+    itemInfo: "\uCCAD\uAC2F\uC9C0\uB801\uC774\uB77C \uBD88\uB9AC\uB294 \uB450\uD1A0\uB9C9\uB208\uC379\uCC38\uAC2F\uC9C0\uB801\uC774\uB294
+      \uAC00\uC7A5 \uB300\uC911\uC801\uC73C\uB85C \uB110\uB9AC \uC0AC\uC6A9\uB418\uB294
+      \uAC2F\uC9C0\uB801\uC774\uB2E4."
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: cae0f6977aab354428968febeb34864b, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2047
+    typeNum: 0
+    baitNum: 47
+    quantity: 0
+    korName: "\uCCAD\uC5B4"
+    itemInfo: "\uC4F0\uAE30 \uC88B\uAC8C \uC798\uB77C \uC5FC\uC7A5\uC744 \uD55C \uCCAD\uC5B4
+      \uBBF8\uB07C"
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 56a7dfec25caaac4bae8ac10a08a6f4c, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2048
+    typeNum: 0
+    baitNum: 48
+    quantity: 0
+    korName: "\uD06C\uB9B4"
+    itemInfo: "\uC791\uC740 \uC0C8\uC6B0\uB97C \uB2EE\uC740 \uAC11\uAC01\uB958\uB85C
+      \uACE0\uB798\uBC25 \uD639\uC740 \uC791\uC740 \uCE58\uC5B4\uB77C\uB294 \uB73B\uC744
+      \uAC16\uACE0 \uC788\uB2E4."
+    goldCost: 300
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 7c1e6da4f5ad319479f4f70908d67006, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2049
+    typeNum: 0
+    baitNum: 49
+    quantity: 0
+    korName: "\uD070\uAF2C\uCE58\uACE0\uAE30"
+    itemInfo: "\uD070\uAF2C\uCE58\uACE0\uAE30\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C
+      \uBBF8\uB07C"
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 8a20ca1b594a55c4c88ea65b5dc81ccd, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2050
+    typeNum: 1
+    baitNum: 50
+    quantity: 0
+    korName: "\uD0C0\uC774\uB77C\uBC14"
+    itemInfo: "3\uD638 \uBD09\uB3CC\uACFC \uAC19\uC740 \uBD80\uB825\uC73C\uB85C \uBBF8\uB7EC\uBE44\uC9C0\uADF8\uC758
+      \uC904\uC784\uB9D0\uB85C \uB3D4 \uC885\uB958\uB97C \uC7A1\uAE30 \uC704\uD55C
+      \uC778\uC870 \uBBF8\uB07C\uC774\uB2E4."
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: caa1350ab2587bf41a5dcf4de77686cf, type: 3}
+    _sinkerWeight: 160
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2051
+    typeNum: 0
+    baitNum: 51
+    quantity: 0
+    korName: "\uD30C\uB798\uC0C8\uC6B0"
+    itemInfo: "\uC218\uC2EC\uC774 \uC595\uC740 \uD574\uC870\uB958\uC5D0 \uC0AC\uB294
+      \uB2E8\uAC01\uB958"
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: c6d6c9e7dab64ce409e25359c985b354, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2052
+    typeNum: 1
+    baitNum: 52
+    quantity: 0
+    korName: "\uD39C\uC2AC\uBCA0\uC774\uD2B8"
+    itemInfo: "\uAE30\uBCF8 \uBC14\uB298\uACFC \uAC19\uC740 \uBD80\uB825\uC73C\uB85C
+      \uB2E8\uC21C\uD55C \uB9C9\uB300 \uBAA8\uC591\uC774\uAC70\uB098 \uBA78\uCE58\uC640
+      \uBE44\uC2B7\uD55C \uAE38\uCB49\uD55C \uD615\uD0DC\uB97C \uAC16\uB294 \uC778\uC870\uBBF8\uB07C\uB85C
+      \uC801\uADF9\uC801\uC73C\uB85C \uC6C0\uC9C1\uC5EC\uC8FC\uC5B4\uC57C \uD55C\uB2E4."
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 235cdfeb1ae96944eb62d2297733eefa, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2053
+    typeNum: 1
+    baitNum: 53
+    quantity: 0
+    korName: "\uD3FD\uD37C"
+    itemInfo: "\uBB3C\uC5D0 \uB728\uB294 \uC778\uC870\uBBF8\uB07C\uB85C \uC804\uBC29\uC5D0
+      \uBB3C\uC758 \uC800\uD56D\uC744 \uBC1B\uB294 \uC785\uC774 \uC788\uC5B4 \uB9B4\uB9C1
+      \uC2DC \uC74C\uD30C\uC640 \uAE30\uD3EC\uAC00 \uBC1C\uC0DD\uD55C\uB2E4. "
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: c14ed1c7a525df1409124f55a51ba469, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2054
+    typeNum: 1
+    baitNum: 54
+    quantity: 0
+    korName: "\uD50C\uB85C\uD305\uBBF8\uB178\uC6B0"
+    itemInfo: "\uBB3C\uC5D0 \uB728\uB294 \uC778\uC870\uBBF8\uB07C\uB85C \uC791\uC740
+      \uBB3C\uACE0\uAE30\uB97C \uBCF8\uB5A0 \uB9CC\uB4E4\uC5C8\uB2E4."
+    goldCost: 1000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: d420e78f7fdeada4ea78a5856a3bd901, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2055
+    typeNum: 0
+    baitNum: 55
+    quantity: 0
+    korName: "\uD559\uACF5\uCE58"
+    itemInfo: "\uD559\uACF5\uCE58\uB97C \uD1A0\uB9C9 \uB0B4 \uC0AC\uC6A9\uD55C \uBBF8\uB07C"
+    goldCost: 400
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 6865d3b7a85b29b4aba030ef7173d74e, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2056
+    typeNum: 0
+    baitNum: 56
+    quantity: 0
+    korName: "\uD64D\uAC2F\uC9C0\uB801\uC774"
+    itemInfo: "\uD64D\uAC2F\uC9C0\uB801\uC774\uB77C \uBD88\uB9AC\uB294 \uB208\uC379\uCC38\uAC2F\uC9C0\uB801\uC774\uB294
+      \uB300\uD55C\uBBFC\uAD6D \uB3D9\uD574\uB0A8\uBD80\uC640 \uB0A8\uD574\uB3D9\uBD80
+      \uC9C0\uC5ED\uC5D0\uC11C \uC990\uACA8 \uC0AC\uC6A9\uD558\uB294 \uBBF8\uB07C\uC774\uB2E4."
+    goldCost: 200
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 862c4c19ea5acdb4eba7ac98f7e6b72d, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 2
+    serialNumber: 2057
+    typeNum: 0
+    baitNum: 57
+    quantity: 0
+    korName: "\uD64D\uD569"
+    itemInfo: "\uC0B4\uC9DD \uC0B6\uC544 \uBC14\uB298\uC5D0\uC11C \uC798 \uB5A8\uC5B4\uC9C0\uC9C0
+      \uC54A\uB294 \uD64D\uD569 \uBBF8\uB07C"
+    goldCost: 100
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: a0cc40752523cd943b649d12758d7c5e, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  pasetbaitItemDB:
+  - Type: 3
+    serialNumber: 3000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uACE4\uC7C1\uC774\uBC11\uBC25"
+    itemInfo: "\uACE4\uC7C1\uC774\uC640 \uBD84\uB9D0 \uBC11\uBC25\uC744 \uBC30\uD569\uD558\uC5EC
+      \uB9CC\uB4E0 \uBC11\uBC25\uC73C\uB85C \uD22C\uCC99 \uC704\uCE58 \uC8FC\uBCC0\uC758
+      \uBB3C\uACE0\uAE30\uC758 \uD65C\uC131\uB3C4\uB97C \uC62C\uB824\uC900\uB2E4."
+    goldCost: 500
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 93227db1063c52a4bb89d09131a94536, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 3
+    serialNumber: 3001
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uD06C\uB9B4\uBC11\uBC25"
+    itemInfo: "\uD06C\uB9B4\uACFC \uBD84\uB9D0 \uBC11\uBC25\uC744 \uBC30\uD569\uD558\uC5EC
+      \uB9CC\uB4E0 \uBC11\uBC25\uC73C\uB85C \uD22C\uCC99 \uC704\uCE58 \uC8FC\uBCC0\uC758
+      \uBB3C\uACE0\uAE30\uC758 \uD65C\uC131\uB3C4\uB97C \uC62C\uB824\uC900\uB2E4."
+    goldCost: 700
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 3c1dbf481b67b7b4bbbc9a6387deadb4, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 3
+    serialNumber: 3002
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uC870\uAC1C\uBD80\uC2A4\uB7EC\uAE30"
+    itemInfo: "\uC870\uAC1C \uBD80\uC2A4\uB7EC\uAE30\uC640 \uBD84\uB9D0 \uBC11\uBC25\uC744
+      \uBC30\uD569\uD558\uC5EC \uB9CC\uB4E0 \uBC11\uBC25\uC73C\uB85C \uD22C\uCC99
+      \uC704\uCE58 \uC8FC\uBCC0\uC758 \uBB3C\uACE0\uAE30\uC758 \uD65C\uC131\uB3C4\uB97C
+      \uC62C\uB824\uC900\uB2E4."
+    goldCost: 600
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 1cf2b9d881edf4f4f9296af33caa2362, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  floatItemDB:
+  - Type: 4
+    serialNumber: 4000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uAE30\uBCF8 \uCC0C"
+    itemInfo: "\uBD80\uB825\uC5D0 \uC758\uD574 \uC218\uD45C\uBA74\uC5D0 \uB5A0\uC788\uB294
+      \uCC0C"
+    goldCost: 10000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 353622edf1abe20438cfc5556e1fda59, type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  sinkerItemDB:
+  - Type: 5
+    serialNumber: 5000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "1\uD638 \uBD09\uB3CC"
+    itemInfo: "\uB9CE\uC774 \uAC00\uBCBC\uC6CC \uCC9C\uCC9C\uD788 \uB0B4\uB824\uAC00\uB294
+      \uBD09\uB3CC"
+    goldCost: 10000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: de6996aee59ccaf48a56df33f4ee16f8, type: 3}
+    _sinkerWeight: 120
+    rodMaterial: {fileID: 0}
+  - Type: 5
+    serialNumber: 5001
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "2\uD638 \uBD09\uB3CC"
+    itemInfo: "\uAC00\uBCBC\uC6CC \uCC9C\uCC9C\uD788 \uB0B4\uB824\uAC00\uB294 \uBD09\uB3CC"
+    goldCost: 10000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 1047d796c99055d41adb7868f3300ef7, type: 3}
+    _sinkerWeight: 140
+    rodMaterial: {fileID: 0}
+  - Type: 5
+    serialNumber: 5002
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "3\uD638 \uBD09\uB3CC"
+    itemInfo: "\uC801\uB2F9\uD55C \uBB34\uAC8C\uC758 \uBD09\uB3CC"
+    goldCost: 10000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 64cae5a8a5fd6a94baf5296b38ff4d7c, type: 3}
+    _sinkerWeight: 160
+    rodMaterial: {fileID: 0}
+  - Type: 5
+    serialNumber: 5003
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "4\uD638 \uBD09\uB3CC"
+    itemInfo: "\uBB34\uAC70\uC6CC \uBE60\uB974\uAC8C \uB0B4\uB824\uAC00\uB294 \uBD09\uB3CC"
+    goldCost: 10000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 52401f15d0b6e5d4f8faec1da54770db, type: 3}
+    _sinkerWeight: 180
+    rodMaterial: {fileID: 0}
+  - Type: 5
+    serialNumber: 5004
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "5\uD638 \uBD09\uB3CC"
+    itemInfo: "\uB9CE\uC774 \uBB34\uAC70\uC6CC \uBE60\uB974\uAC8C \uB0B4\uB824\uAC00\uB294
+      \uBD09\uB3CC"
+    goldCost: 10000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 21300000, guid: 0e95dfd9c06ff7a43adb2a997907b8f3, type: 3}
+    _sinkerWeight: 200
+    rodMaterial: {fileID: 0}
+  _jeongdongjinBaitSerialNumberList: 00080000f7070000fe070000e507000003080000fd07000008080000d4070000d3070000e7070000f8070000d2070000d6070000da070000f3070000e4070000e807000007080000eb070000f0070000df070000f4070000f2070000e6070000f1070000060800000408000005080000b80b0000b90b0000ba0b0000
+  _skywayBaitSerialNumberList: 00080000dc07000009080000f7070000e8070000d8070000e4070000e5070000fe070000d3070000fb070000ff070000d9070000dd070000ec070000fc070000d5070000ed070000de070000db070000da07000001080000e0070000d1070000fd070000ef070000e9070000fa07000007080000e6070000f2070000df070000f007000006080000f107000002080000b90b0000
+  _homerspitBaitSerialNumberList: fe070000e507000000080000d4070000d8070000dc070000f8070000f7070000e107000009080000e2070000ed070000d0070000d2070000da070000fd070000e9070000ff070000ea070000ef070000e0070000d3070000dd070000f6070000e3070000ee070000f9070000fb070000d6070000d7070000d9070000f5070000f2070000e60700000608000005080000df070000f1070000f0070000b90b0000
+  _baitBoxItemDB:
+  - Type: 7
+    serialNumber: 7000
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uC815\uB3D9\uC9C4 \uBBF8\uB07C\uD329"
+    itemInfo: "\uC815\uB3D9\uC9C4\uC5D0\uC11C \uC0AC\uC6A9\uB418\uB294 \uBBF8\uB07C
+      10\uAC1C\uAC00 \uB4E4\uC5B4\uC788\uB294 \uD329"
+    goldCost: 2000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: -7805678604500482651, guid: ca911cd18a50e1c41832ae86ce84523e,
+      type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 7
+    serialNumber: 7001
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uC2A4\uCE74\uC774\uC6E8\uC774 \uBBF8\uB07C\uD329"
+    itemInfo: "\uC2A4\uCE74\uC774\uC6E8\uC774 \uD53C\uC2F1\uD53C\uC5B4\uC5D0\uC11C
+      \uC0AC\uC6A9\uB418\uB294 \uBBF8\uB07C 10\uAC1C\uAC00 \uB4E4\uC5B4\uC788\uB294
+      \uD329"
+    goldCost: 2000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 8986165624608130369, guid: ca911cd18a50e1c41832ae86ce84523e,
+      type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}
+  - Type: 7
+    serialNumber: 7002
+    typeNum: 0
+    baitNum: 0
+    quantity: 0
+    korName: "\uD638\uBA38\uC2A4\uD54F \uBBF8\uB07C\uD329"
+    itemInfo: "\uD638\uBA38\uC2A4\uD54F\uC5D0\uC11C \uC0AC\uC6A9\uB418\uB294 \uBBF8\uB07C
+      10\uAC1C\uAC00 \uB4E4\uC5B4\uC788\uB294 \uD329"
+    goldCost: 2000
+    pearlCost: 0
+    cashCost: 0
+    intensive: 0
+    costImg: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
+    itemImage: {fileID: 2043126928413805207, guid: ca911cd18a50e1c41832ae86ce84523e,
+      type: 3}
+    _sinkerWeight: 0
+    rodMaterial: {fileID: 0}

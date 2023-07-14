@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "968488399804",
+    "firebase_url": "https://realisticfishinggamecasting-default-rtdb.firebaseio.com",
+    "project_id": "realisticfishinggamecasting",
+    "storage_bucket": "realisticfishinggamecasting.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968488399804:android:7b445e1823d1f918f071b9",
+        "android_client_info": {
+          "package_name": "com.mobilemovement.realisticfishinggamecasting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968488399804-0c5hq4415cufnrid4l3a5inr43o0f8mi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobilemovement.realisticfishinggamecasting",
+            "certificate_hash": "d18afe684a2bf3911c6f216a10600b4a9f72b2cd"
+          }
+        },
+        {
+          "client_id": "968488399804-nhpt436sp6grgkf6h41s2ktn79fpn3l6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobilemovement.realisticfishinggamecasting",
+            "certificate_hash": "10beb92858598360eb2933c239b33366cfd6497f"
+          }
+        },
+        {
+          "client_id": "968488399804-le5vugrufikaqvd6r6ve9nfa8dvfe629.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI6jybnpzoaCTjrluvRyJXnoKyernzimM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968488399804-le5vugrufikaqvd6r6ve9nfa8dvfe629.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "968488399804-7uek30r4i1bm527unt3dbmcgpivqrmeb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mobilemovement.realisticfishinggamecasting"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

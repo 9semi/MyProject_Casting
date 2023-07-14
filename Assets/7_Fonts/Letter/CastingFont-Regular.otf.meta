@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 1da5fbcd5eec7464d901ce8b354b7d4f
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Casting Font
+  fontNames:
+  - Casting Font
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0726444ab137f7d438ae93edf1d9c819, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

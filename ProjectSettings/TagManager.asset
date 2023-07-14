@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bluetooth
+  - Fish
+  - Spawn
+  - Water
+  - UI
+  - Bobber
+  - FishRod
+  - Reel
+  - Needle
+  - Gage
+  - Base
+  - Pod
+  - FishHP
+  - Object
+  - Pet
+  - FxTemporaire
+  - Beach
+  - Ship
+  - Shop
+  - Aquarium
+  - Rock
+  - End
+  - Seaweed
+  - Steepzone
+  - FishControl
+  - Option
+  - Though
+  - Database
+  - UserData
+  - AquariumManager
+  - WorldManager
+  - QuestManager
+  - Sand
+  - GameManager
+  - PostCameraManager
+  - Sepialycidas
+  - Pastebait
+  - FishingBot
+  - AdMob
+  - Tension
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Obstacle
+  - FishIcon
+  - Option
+  - Character
+  - Pet
+  - Bobber
+  - Needle
+  - Fish
+  - PostProcessing
+  - AquariumWall
+  - AquariumDeco
+  - DepthDistance
+  - GageEffect
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: UIPaticle
+    uniqueID: 2822318577
+    locked: 0

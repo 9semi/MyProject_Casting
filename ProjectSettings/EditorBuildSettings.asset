@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/01.Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 0
+    path: Assets/01.Scenes/TestStartScene.unity
+    guid: bd02314372127e44a90f057dbfd513d7
+  - enabled: 1
+    path: Assets/1_Scenes/StartScene.unity
+    guid: 5a435a15d0de0a74a857fcfb1023564a
+  - enabled: 1
+    path: Assets/1_Scenes/LoginScene.unity
+    guid: 083d518e36738ea4099fcdfe0ea6523f
+  - enabled: 1
+    path: Assets/1_Scenes/LobbyScene.unity
+    guid: fa43b0b88ac6a5c42bac0176c5f2100d
+  - enabled: 1
+    path: Assets/1_Scenes/MapSelectScene.unity
+    guid: 69419e16c65d03547806e551d71269f2
+  - enabled: 1
+    path: Assets/1_Scenes/LoadingScene.unity
+    guid: 278f5ace2ca503c4390cd04323f68f97
+  - enabled: 1
+    path: Assets/1_Scenes/1_Jeongdongjin/EastSea_Jeongdongjin.unity
+    guid: ac6f6b462ac0c374fa6c52d63a4773fc
+  - enabled: 1
+    path: Assets/1_Scenes/3_Skyway/SkyWayFishingPier.unity
+    guid: 4eb3a03417df1894bbeb4f0f198235cc
+  - enabled: 1
+    path: Assets/1_Scenes/2_Homerspit/Homerspit.unity
+    guid: 49c198e02f6e09c47ad9b84625015491
+  - enabled: 1
+    path: Assets/1_Scenes/AquariumScene.unity
+    guid: 2508b9a53c9b2074a84f3032884bb829
+  - enabled: 1
+    path: Assets/1_Scenes/Tutorial_Jeongdongjin.unity
+    guid: 6ef67e565162aaf47bb5d37435928711
+  - enabled: 1
+    path: Assets/1_Scenes/1_Jeongdongjin/Match_EastSea.unity
+    guid: 4c359514669df9d4aa9b35c24673020a
+  - enabled: 1
+    path: Assets/1_Scenes/2_Homerspit/Match_Homerspit.unity
+    guid: 797a1c1090e612a479c7789344f8dda0
+  - enabled: 1
+    path: Assets/1_Scenes/3_Skyway/Match_Skyway.unity
+    guid: e8c64ec95228ab94484c5a0c510aec18
+  m_configObjects: {}

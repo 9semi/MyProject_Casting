@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &150227726517133402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 150227726517133479}
+  - component: {fileID: 150227726517133476}
+  m_Layer: 0
+  m_Name: LobbyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &150227726517133479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150227726517133402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &150227726517133476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150227726517133402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a868b4bcc4fbf5408aee9ab5b112566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mailCountObject: {fileID: 0}
+  _mailCountText: {fileID: 0}
+  _mailUI: {fileID: 0}
+  _tutorialUI: {fileID: 0}
+  _nameText: {fileID: 0}
+  _gradeText: {fileID: 0}
+  _starObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _1_3_starImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _4_6_starImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _7_9_starImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _myinfoUI: {fileID: 0}
+  _nameText2: {fileID: 0}
+  _gradeText2: {fileID: 0}
+  _starObject2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _1_3_starImages2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _4_6_starImages2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _7_9_starImages2:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  _playSprite: {fileID: 21300000, guid: 4fd979f51c57d214794c508191de55ca, type: 3}
+  _pauseSprite: {fileID: 21300000, guid: ac46d0dc83747744388558ba5505b941, type: 3}
+  _ostStateImage: {fileID: 0}
+  _ostOn: 0
+  _lobby_getPackageRewardUI: {fileID: 0}
+  _packageOverUI: {fileID: 0}

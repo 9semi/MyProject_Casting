@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_android_client_id,@string/default_web_client_id">
+  <string name="firebase_database_url" translatable="false">https://realisticfishinggamecasting-default-rtdb.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">968488399804</string>
+  <string name="google_storage_bucket" translatable="false">realisticfishinggamecasting.appspot.com</string>
+  <string name="project_id" translatable="false">realisticfishinggamecasting</string>
+  <string name="google_api_key" translatable="false">AIzaSyCI6jybnpzoaCTjrluvRyJXnoKyernzimM</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCI6jybnpzoaCTjrluvRyJXnoKyernzimM</string>
+  <string name="google_app_id" translatable="false">1:968488399804:android:7b445e1823d1f918f071b9</string>
+  <string name="default_android_client_id" translatable="false">968488399804-0c5hq4415cufnrid4l3a5inr43o0f8mi.apps.googleusercontent.com</string>
+  <string name="default_web_client_id" translatable="false">968488399804-le5vugrufikaqvd6r6ve9nfa8dvfe629.apps.googleusercontent.com</string>
+</resources>
