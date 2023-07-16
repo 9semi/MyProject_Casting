@@ -46,13 +46,13 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
 
         _ingameUIManager._Reeling = this;
-        _needleCollider = _gameManager.reelPoint3.GetComponent<BoxCollider>();
+        _needleCollider = _gameManager.ReelPoint3.GetComponent<BoxCollider>();
     }
 
     // Screen Canvas -> Reel_Metal
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (_gameManager._needleInWater)
+        if (_gameManager.NeedleInWater)
         {
             _isReeling = true;
             myAnim.SetFloat("Speed", 1);
@@ -80,7 +80,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             _reelingCoroutine = StartCoroutine(KeepReeling());
 
-            if (!_gameManager.isNeedleMoving && _gameManager._needleInWater)
+            if (!_gameManager.IsNeedleMoving && _gameManager.NeedleInWater)
                 _gameManager.NeedleStartMoving();
         }
         else
@@ -117,7 +117,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public void BluetoothReelOn()
     {
-        if (_gameManager._needleInWater)
+        if (_gameManager.NeedleInWater)
         {
             _isReeling = true;
             //_needleCollider.isTrigger = true;

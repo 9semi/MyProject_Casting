@@ -267,10 +267,10 @@ public class PetManager : MonoBehaviour
     // 떡밥 이미지 클릭
     public void ClickBaitThrow()
     {
-        if (gameMgr._currentState.Equals(PublicDefined.IngameState.fighting) || _radarInUse || fishControl.isFind || gameMgr.isFly)
+        if (gameMgr._currentState.Equals(PublicDefined.IngameState.fighting) || _radarInUse || fishControl.isFind || gameMgr.IsFly)
             return;
 
-        if (gameMgr._baitThrowMode)
+        if (gameMgr.BaitThrowMode)
         {
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
 
@@ -281,14 +281,14 @@ public class PetManager : MonoBehaviour
             // 떡밥 주걱 off
             baitSpatulaula.SetActive(false);
 
-            gameMgr._baitThrowMode = false;
+            gameMgr.BaitThrowMode = false;
 
             _ingameUI._Reeling.enabled = true;
 
             // 게이지 바꾸고 초기화
             _ingameUI.SetPetGage(false);
             _ingameUI.ResetCharacterGage();
-            gameMgr.progress = 0;
+            gameMgr.Progress = 0;
             return;
         }
 
@@ -306,7 +306,7 @@ public class PetManager : MonoBehaviour
         {
             _ingameUI._Reeling.enabled = false;
             // bool형 변수 변경(사람 캐릭터가 못던지게 하기 위함)
-            gameMgr._baitThrowMode = true;
+            gameMgr.BaitThrowMode = true;
 
             // 떡밥 주걱 회전 코루틴 시작
             _baitspatulaControl.StartRotateCoroutine();
@@ -322,7 +322,7 @@ public class PetManager : MonoBehaviour
             _ingameUI.SetCharacterGage(false);
             progress = 0;
         }
-        //Debug.LogError(gameMgr._baitThrowMode);
+        //Debug.LogError(gameMgr.BaitThrowMode);
     }
 
     IEnumerator MakeDelay(int delayNumber, Action action)
@@ -359,7 +359,7 @@ public class PetManager : MonoBehaviour
         _ingameUI.ResetCharacterGage();
         _ingameUI.SetPetGage(false);
 
-        gameMgr.progress = 0;
+        gameMgr.Progress = 0;
         petAnimator.SetBool(_throwHash, true);
 
         if(!DataManager.INSTANCE._tutorialIsInProgress)
@@ -370,7 +370,7 @@ public class PetManager : MonoBehaviour
         
         StartCoroutine(MakeDelay(3, () =>
         {
-            gameMgr._baitThrowMode = false;
+            gameMgr.BaitThrowMode = false;
             baitSpatulaula.SetActive(false);
             petAnimator.SetBool(_throwHash, false);
         }));
@@ -444,7 +444,7 @@ public class PetManager : MonoBehaviour
     {
         float powerSpeed = 0.5f;
 
-        while (gameMgr._baitThrowMode && !_isPause)
+        while (gameMgr.BaitThrowMode && !_isPause)
         {
             // 안드로이드
             #region 
@@ -460,7 +460,7 @@ public class PetManager : MonoBehaviour
                             _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
 
                             _angleGyro = _gyroscope.rotationRate;
-                            if (gameMgr._baitThrowMode && gameMgr._reelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
+                            if (gameMgr.BaitThrowMode && gameMgr._reelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
                             {
                                 BaitThrow();
                             }
@@ -474,7 +474,7 @@ public class PetManager : MonoBehaviour
                             _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
 
                             _angleGyro = _gyroscope.rotationRate;
-                            if (gameMgr._baitThrowMode && gameMgr._reelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
+                            if (gameMgr.BaitThrowMode && gameMgr._reelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
                             {
                                 BaitThrow();
                             }
@@ -490,7 +490,7 @@ public class PetManager : MonoBehaviour
                         _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
 
                         _angleGyro = _gyroscope.rotationRate;
-                        if (gameMgr._baitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
+                        if (gameMgr.BaitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
                         {
                             BaitThrow();
                         }
@@ -504,7 +504,7 @@ public class PetManager : MonoBehaviour
                         _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
 
                         _angleGyro = _gyroscope.rotationRate;
-                        if (gameMgr._baitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
+                        if (gameMgr.BaitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
                         {
                             BaitThrow();
                         }
@@ -523,7 +523,7 @@ public class PetManager : MonoBehaviour
                     progress += powerSpeed * Time.deltaTime;
                     _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
 
-                    if (Input.GetButtonDown("Jump") && gameMgr._baitThrowMode && !_tutorialThrowStop)
+                    if (Input.GetButtonDown("Jump") && gameMgr.BaitThrowMode && !_tutorialThrowStop)
                     {
                         BaitThrow();
                     }
@@ -535,7 +535,7 @@ public class PetManager : MonoBehaviour
                     progress -= powerSpeed * Time.deltaTime;
                     _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
 
-                    if (Input.GetButtonDown("Jump") && gameMgr._baitThrowMode && !_tutorialThrowStop)
+                    if (Input.GetButtonDown("Jump") && gameMgr.BaitThrowMode && !_tutorialThrowStop)
                     {
                         BaitThrow();
                     }

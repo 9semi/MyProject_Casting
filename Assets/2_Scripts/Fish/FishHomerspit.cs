@@ -1265,22 +1265,12 @@ public class FishHomerspit : FishBase
         {
             if (!fishControl.isFind && gameMgr.GetNeedleControlTransform().position.z > 5.5f)
             {
-                // 범위 = 평균크기 * 10 -> 기본 포착범위 2m
-                //if (target.position.x <= myTr.position.x + searchRange &&
-                //    target.position.x >= myTr.position.x - searchRange &&
-                //    target.position.y <= myTr.position.y + searchRange &&
-                //    target.position.y >= myTr.position.y - searchRange &&
-                //    target.position.z <= myTr.position.z + searchRange &&
-                //    target.position.z >= myTr.position.z - searchRange)
-                //Debug.LogError(Vector3.Magnitude(target.position - myTr.position) + " , 서치 범위 : " + searchRange);
-
                 if (Vector3.Magnitude(target.position - myTr.position) < searchRange)
                 {
-                    //Debug.LogError(gameObject.name);
                     randChance = Random.Range(0.0f, 100.0f);
-                    //Debug.LogError("랜덤확률 : " + randChance + " , 내 확률 : " + biteBait);
+
                     // 바늘을 물었을 때
-                    if (randChance <= biteBait && !fishControl.isFind && gameMgr._needleInWater && !gameMgr._baitThrowMode)
+                    if (randChance <= biteBait && !fishControl.isFind && gameMgr.NeedleInWater && !gameMgr.BaitThrowMode)
                     {
                         isFind = true;
                         fishControl.isFind = true;

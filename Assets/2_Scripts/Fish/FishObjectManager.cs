@@ -55,42 +55,42 @@ public class FishObjectManager : MonoBehaviour
     #region 물고기 마리수 지정 
     // 비회유어종 - 잡어(7)
     GameObject[] finespottedflounder = new GameObject[18]; // 도다리
-     GameObject[] brownsole = new GameObject[18];  // 참가자미 
-     GameObject[] fatgreenling = new GameObject[26]; // 쥐노래미
-     GameObject[] spottybellygreenling = new GameObject[18];// 노래미
-     GameObject[] surfperch = new GameObject[18];// 망상어
-     GameObject[] sandsmelt = new GameObject[18]; // 보리멸
-     GameObject[] pacificherring = new GameObject[18]; // 청어
+    GameObject[] brownsole = new GameObject[18];  // 참가자미 
+    GameObject[] fatgreenling = new GameObject[26]; // 쥐노래미
+    GameObject[] spottybellygreenling = new GameObject[18];// 노래미
+    GameObject[] surfperch = new GameObject[18];// 망상어
+    GameObject[] sandsmelt = new GameObject[18]; // 보리멸
+    GameObject[] pacificherring = new GameObject[18]; // 청어
     // 비회유어종 - 일반(11)
-     GameObject[] bigfinsquid = new GameObject[18]; // 무늬오징어
-     GameObject[] commonoctopus = new GameObject[12]; // 참문어
-     GameObject[] oliveflounder = new GameObject[12]; // 넙치
-     GameObject[] darkbandedrockfish = new GameObject[18]; // 볼락
-     GameObject[] koreanrockfish = new GameObject[18]; // 조피볼락
-     GameObject[] goldeyerockfish = new GameObject[12]; // 불볼락
-     GameObject[] spotbellyrockfish = new GameObject[12]; // 개볼락
-     GameObject[] whitespottedconger = new GameObject[18]; // 붕장어
-     GameObject[] indianflathead = new GameObject[12]; // 양태
-     GameObject[] bluefingurnard = new GameObject[12]; // 성대
-     GameObject[] sandfish = new GameObject[18]; // 도루묵
+    GameObject[] bigfinsquid = new GameObject[18]; // 무늬오징어
+    GameObject[] commonoctopus = new GameObject[12]; // 참문어
+    GameObject[] oliveflounder = new GameObject[12]; // 넙치
+    GameObject[] darkbandedrockfish = new GameObject[18]; // 볼락
+    GameObject[] koreanrockfish = new GameObject[18]; // 조피볼락
+    GameObject[] goldeyerockfish = new GameObject[12]; // 불볼락
+    GameObject[] spotbellyrockfish = new GameObject[12]; // 개볼락
+    GameObject[] whitespottedconger = new GameObject[18]; // 붕장어
+    GameObject[] indianflathead = new GameObject[12]; // 양태
+    GameObject[] bluefingurnard = new GameObject[12]; // 성대
+    GameObject[] sandfish = new GameObject[18]; // 도루묵
     // 비회유어종 - 희귀(2)
-     GameObject[] blackporgy = new GameObject[5]; // 감성돔
-     GameObject[] largescaleblackfish = new GameObject[5]; // 벵에돔
+    GameObject[] blackporgy = new GameObject[5]; // 감성돔
+    GameObject[] largescaleblackfish = new GameObject[5]; // 벵에돔
     // 회유어종 - 잡어(5)
-     GameObject[] babyseabass = new GameObject[30]; // 새끼농어
-     GameObject[] mackerel = new GameObject[30]; // 고등어
-     GameObject[] horsemackerel = new GameObject[30]; // 전갱이
-     GameObject[] konosiruspunctatus = new GameObject[30]; // 전어
-     GameObject[] halfbeak = new GameObject[30]; // 학공치
+    GameObject[] babyseabass = new GameObject[30]; // 새끼농어
+    GameObject[] mackerel = new GameObject[30]; // 고등어
+    GameObject[] horsemackerel = new GameObject[30]; // 전갱이
+    GameObject[] konosiruspunctatus = new GameObject[30]; // 전어
+    GameObject[] halfbeak = new GameObject[30]; // 학공치
     // 회유어종 - 일반(3)
     GameObject[] okhotskatkamackerel = new GameObject[30]; // 임연수어 
     GameObject[] bigscaledredfin = new GameObject[30]; // 황어
     GameObject[] flatheadgreymullet = new GameObject[30]; // 숭어
     // 회유어종 - 희귀(4)    
-     GameObject[] japaneseamberjack = new GameObject[10]; // 방어
-     GameObject[] japanesespanishmackerel = new GameObject[10]; // 삼치
-     GameObject[] seabass = new GameObject[5]; // 농어
-     GameObject[] spottedseabass = new GameObject[5]; // 점농어
+    GameObject[] japaneseamberjack = new GameObject[10]; // 방어
+    GameObject[] japanesespanishmackerel = new GameObject[10]; // 삼치
+    GameObject[] seabass = new GameObject[5]; // 농어
+    GameObject[] spottedseabass = new GameObject[5]; // 점농어
     #endregion
     
     bool _isIncreaseWhenNeedleStay = false;
@@ -8897,7 +8897,7 @@ public class FishObjectManager : MonoBehaviour
             if (_gameManager == null)
                 _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
-            _gameManager.isNeedleMoving = false;
+            _gameManager.IsNeedleMoving = false;
             _isIncreaseWhenNeedleMove = false;
             _isIncreaseWhenNeedleStay = false;
 

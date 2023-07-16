@@ -118,7 +118,7 @@ public class FishPopUp : MonoBehaviour
         }
 
         _gameManager.HideBait();
-        _gameManager._isPause = true;
+        _gameManager.IsPause = true;
         _fishInfo = fishInfo;
         fishAni.SetBool(_flopHash, true);
         
@@ -167,7 +167,7 @@ public class FishPopUp : MonoBehaviour
         gameObject.SetActive(true);
         StartCoroutine(FishPopupCoroutine());
 
-        _gameManager._isPause = true;
+        _gameManager.IsPause = true;
 
         _gameManager.BluetoothReset();
 
@@ -183,7 +183,7 @@ public class FishPopUp : MonoBehaviour
             fishControl._fishResisteAudioObject = AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishFlap, true);
 
         _gameManager.HideBait();
-        _gameManager._isPause = true;
+        _gameManager.IsPause = true;
         _fishInfo = fishInfo;
         fishAni.SetBool(_flopHash, true);
 
@@ -232,9 +232,8 @@ public class FishPopUp : MonoBehaviour
 
         // 팝업 키기
         gameObject.SetActive(true);
-        //StartCoroutine(FishPopupCoroutine());
 
-        _gameManager._isPause = true;
+        _gameManager.IsPause = true;
 
         _gameManager.BluetoothReset();
 
@@ -243,7 +242,6 @@ public class FishPopUp : MonoBehaviour
         _ingameUIManager.PassQuestOff();
 
         _matchManager.UpdateMyScore(_length, _weight, 1, _price);
-        //Debug.Log(_length);
         _matchModeButton.SetActive(true);
     }
 
@@ -268,7 +266,7 @@ public class FishPopUp : MonoBehaviour
             fishControl._fishResisteAudioObject = null;
         }
         
-        _gameManager._isPause = false;
+        _gameManager.IsPause = false;
 
     }
     IEnumerator FishPopupCoroutine()
@@ -424,19 +422,15 @@ public class FishPopUp : MonoBehaviour
         VacataInfo();
         
         // 파닥거리는 소리 반복 끔
-        //SoundManager.instance.effectPlayer[25].loop = false;
         if (fishControl._fishResisteAudioObject != null)
         {
             fishControl._fishResisteAudioObject.GetComponent<AudioSource>().loop = false;
             fishControl._fishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
             fishControl._fishResisteAudioObject = null;
         }
-        //userDataHandler.gold += fishControl.fishData.price;
-        //databaseMgr.SaveGold(userDataHandler.gold);
         sellPopup.SetActive(false);
-        _gameManager._isPause = false;
+        _gameManager.IsPause = false;
         _ingameUIManager.ShowButtons();
-        //SoundManager.instance.EffectPlay("CashRegister");
     }
     public void UpdateAquariumState()
     {
@@ -566,7 +560,7 @@ public class FishPopUp : MonoBehaviour
 
         _ingameUIManager.ResetCharacterGage();
         _gameManager.ShowBait();
-        _gameManager._isPause = false;
+        _gameManager.IsPause = false;
         PlayBGM();
         _aquariumUI.SetActive(false);
     }
@@ -600,7 +594,7 @@ public class FishPopUp : MonoBehaviour
         }
         
         sellPopup.SetActive(false);
-        _gameManager._isPause = false;
+        _gameManager.IsPause = false;
         _ingameUIManager.ShowButtons();
         _gameManager.cameraMgr.ResetCamera();
 
@@ -671,7 +665,7 @@ public class FishPopUp : MonoBehaviour
 
     public void PlayBGM()
     {
-        _gameManager._bgm = true;
+        _gameManager.IsPlayingBGM = true;
         switch (DataManager.INSTANCE._mapType)
         {
             case PublicDefined.eMapType.jeongdongjin:

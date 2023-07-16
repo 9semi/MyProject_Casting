@@ -40,7 +40,7 @@ public class CameraManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (gameMgr.isFly && !gameMgr._isPause)
+        if (gameMgr.IsFly && !gameMgr.IsPause)
         {
             //transform.position = new Vector3(transform.position.x, target.position.y + 1f, target.position.z - 1.5f);
             transform.position = new Vector3(_needleTransform.position.x - 2f, _needleTransform.position.y + 1f, _needleTransform.position.z - 1.5f);
@@ -58,8 +58,8 @@ public class CameraManager : MonoBehaviour
     {
         transform.position = _resetPos;
         transform.rotation = _resetRot;
-        gameMgr.isReset = true;
-        gameMgr._rotateStop = false;
+        gameMgr.IsReset = true;
+        gameMgr.RotateStop = false;
         
     }
 

@@ -34,7 +34,7 @@ public class BobberControl : MonoBehaviour
     {
         if(collider.gameObject.CompareTag("Water"))
         {
-            gameMgr._needleInWater = true;
+            gameMgr.NeedleInWater = true;
             // 물과 접촉시 포지션 정지
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             //SoundManager.instance.EffectPlay("Sinker_Hits_The_Surface");

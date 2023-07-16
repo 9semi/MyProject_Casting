@@ -35,7 +35,7 @@ public class BaitSpatulaControl : MonoBehaviour
 
     IEnumerator RotateCoroutine()
     {
-        while(_gameManager._baitThrowMode)
+        while(_gameManager.BaitThrowMode)
         {
             if(!_tutorialStop)
             {

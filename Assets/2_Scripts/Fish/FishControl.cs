@@ -302,7 +302,7 @@ public class FishControl :  FishBase
                 break;
         }
         gameMgr._currentState = PublicDefined.IngameState.fighting;
-        gameMgr.isNobite = true; // 물고기가 물었다.
+        gameMgr.IsNoBite = true; // 물고기가 물었다.
         petMgr.isCatch = true;
 
         if (petMgr._itemUIState.Equals(PetManager.eItemUIState._on))
@@ -312,7 +312,7 @@ public class FishControl :  FishBase
         isDeath = false;
         _isFighting = true;
         fishSkin.SetActive(true);   // 물고기 그래픽 On
-        gameMgr.fishObj = fishTr.GetChild(0).GetChild(0).transform;   // 낚시대 휘어지게 만들어줄려고
+        gameMgr.FishCaught = fishTr.GetChild(0).GetChild(0).transform;   // 낚시대 휘어지게 만들어줄려고
         //needleControl.myRd.constraints = RigidbodyConstraints.None;
         needleControl.StopCoroutine(needleControl.needleCor); // 바늘 가라앉기 중지
         needleControl.needleCor = null;
@@ -747,7 +747,7 @@ public class FishControl :  FishBase
                             if (_reelData.Za < -500 && !_isPause)
                             {
                                 //Debug.Log("600보다 커야한다. " + bleTotal._reelData.Za);
-                                gameMgr._isPause = true;
+                                gameMgr.IsPause = true;
 
                                 successCount += Time.deltaTime;
 
@@ -766,7 +766,7 @@ public class FishControl :  FishBase
                             }
                             else
                             {
-                                gameMgr._isPause = false;
+                                gameMgr.IsPause = false;
                             }
                         }
                     }
@@ -774,7 +774,7 @@ public class FishControl :  FishBase
                     {
                         if ((Input.acceleration.x > successStandard || Input.GetKey(KeyCode.D)) && !_isPause)
                         {
-                            gameMgr._isPause = true;
+                            gameMgr.IsPause = true;
 
                             if (successCount.Equals(0))
                             {
@@ -826,7 +826,7 @@ public class FishControl :  FishBase
                         }
                         else
                         {
-                            gameMgr._isPause = false;
+                            gameMgr.IsPause = false;
                         }
                     }
                     time += Time.deltaTime;
@@ -840,7 +840,7 @@ public class FishControl :  FishBase
                     yield return null;
                 }
 
-                gameMgr._isPause = false;
+                gameMgr.IsPause = false;
                 break;
             case 2: // 왼쪽
                 successStandard = -0.2f;
@@ -860,7 +860,7 @@ public class FishControl :  FishBase
                             if (_reelData.Za > 500 && !_isPause)
                             {
                                 //Debug.Log("-650보다 작아야한다. " + bleTotal._reelData.Za);
-                                gameMgr._isPause = true;
+                                gameMgr.IsPause = true;
                                 if (successCount.Equals(0))
                                 {
                                     gameMgr.SettingCharacterAnimator(_rightHash, true);
@@ -878,7 +878,7 @@ public class FishControl :  FishBase
                             }
                             else
                             {
-                                gameMgr._isPause = false;
+                                gameMgr.IsPause = false;
                             }
                         }
                     }
@@ -886,7 +886,7 @@ public class FishControl :  FishBase
                     {
                         if ((Input.acceleration.x < successStandard || Input.GetKey(KeyCode.A)) && !_isPause)
                         {
-                            gameMgr._isPause = true;
+                            gameMgr.IsPause = true;
 
                             if (successCount.Equals(0))
                             {
@@ -941,7 +941,7 @@ public class FishControl :  FishBase
                         }
                         else
                         {
-                            gameMgr._isPause = false;
+                            gameMgr.IsPause = false;
                         }
                     }
                     time += Time.deltaTime;
@@ -955,11 +955,11 @@ public class FishControl :  FishBase
                     yield return null;
                 }
 
-                gameMgr._isPause = false;
+                gameMgr.IsPause = false;
                 break;
         }
 
-        gameMgr._isPause = false;
+        gameMgr.IsPause = false;
 
         _tensionUI.GetSpecialAttackImageObject(1).SetActive(false);
         _tensionUI.GetSpecialAttackImageObject(2).SetActive(false);
@@ -1152,7 +1152,7 @@ public class FishControl :  FishBase
             // 블루투스 X
             else
             {
-                if ((gameMgr.angleGyro.x > 7 || (bleTotal != null && gameMgr.angleGyro.x > 4) || Input.GetButtonDown("Jump")) && !_tutorialBittingStop)
+                if ((gameMgr.AngleGyro.x > 7 || (bleTotal != null && gameMgr.AngleGyro.x > 4) || Input.GetButtonDown("Jump")) && !_tutorialBittingStop)
                 {
                     gameMgr.SettingCharacterAnimator(_hooksetHash);
                     randChance = UnityEngine.Random.Range(0, 10);
@@ -1306,7 +1306,7 @@ public class FishControl :  FishBase
                 //Debug.Log("FishControl/Dying/isDeath : " + isDeath);
                 gameMgr._currentState = PublicDefined.IngameState.idle;
                 gameMgr.HideBait();
-                gameMgr._isPause = true;
+                gameMgr.IsPause = true;
 
                 // #블루투스
                 if (bleTotal != null && bleTotal.ConnectedMain)
@@ -1328,10 +1328,10 @@ public class FishControl :  FishBase
                     _fishObject.transform.eulerAngles = _diedFishRotate_octopus;
                 else
                     _fishObject.transform.eulerAngles = _diedFishRotate;
-                gameMgr._bgm = false;
+                gameMgr.IsPlayingBGM = false;
 
                 // 게이지는 안 켠다.
-                gameMgr.isReset = true;
+                gameMgr.IsReset = true;
                 gameMgr.ResetAction();
             }
             //잡기 실패했을 때(파이팅 중이 아니라면)
@@ -1365,7 +1365,7 @@ public class FishControl :  FishBase
                     inGameUIMgr.ShowPassContent();
 
                 inGameUIMgr.FishingState(1);   // 낚시실패 UI 활성화
-                gameMgr._isPause = false;
+                gameMgr.IsPause = false;
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
                 isBite = false;
                 isStart = false;
@@ -1396,7 +1396,7 @@ public class FishControl :  FishBase
                 }
 
                 fishSkin.SetActive(false);  // 물고기 비활성화
-                gameMgr._bgm = false;
+                gameMgr.IsPlayingBGM = false;
                 PlayBGMWhenBittingFail();  // 게임 재시작 할 수 있도록 리셋
             }
             yield return null;
@@ -1598,7 +1598,7 @@ public class FishControl :  FishBase
     #endregion
     public void PlayBGMWhenBittingFail()
     {
-        gameMgr._bgm = true;
+        gameMgr.IsPlayingBGM = true;
         switch (DataManager.INSTANCE._mapType)
         {
             case PublicDefined.eMapType.jeongdongjin:

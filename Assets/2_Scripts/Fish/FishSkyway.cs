@@ -1207,7 +1207,7 @@ public class FishSkyway : FishBase
                     //Debug.LogError(gameObject.name);
                     randChance = Random.Range(0.0f, 100.0f);
                     // 바늘을 물었을 때
-                    if (randChance <= biteBait && !fishControl.isFind && gameMgr._needleInWater && !gameMgr._baitThrowMode)
+                    if (randChance <= biteBait && !fishControl.isFind && gameMgr.NeedleInWater && !gameMgr.BaitThrowMode)
                     {
                         isFind = true;
                         fishControl.isFind = true;

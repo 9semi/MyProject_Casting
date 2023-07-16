@@ -223,7 +223,7 @@ public class TensionUI : MonoBehaviour
         
         if (!_gameManager._userData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
         {
-            _gameManager._sinkerObject.SetActive(true);
+            _gameManager.SetSinkerObjectActive(true);
         }
         
         _gageEffect.SetActive(false);
@@ -235,7 +235,7 @@ public class TensionUI : MonoBehaviour
         // #블루투스
         if (bleTotal != null && bleTotal.ConnectedMain)
         {
-            if (_gameManager._needleInWater)
+            if (_gameManager.NeedleInWater)
             {
                 if (_fishControl._dcCoroutine != null)
                 {
@@ -400,7 +400,7 @@ public class TensionUI : MonoBehaviour
                     {
                         _fishControl.isDeath = true; // 여기까지 실행됐는데 다음줄부터 실행이 안된거다.
                         _ingameUIManager.DistanceDepthTextOff();
-                        _gameManager._needleInWater = false;
+                        _gameManager.NeedleInWater = false;
                         ReelExit();
 
                         if (_fishControl.fishTr != null && _fishControl.isCatch)
@@ -544,7 +544,7 @@ public class TensionUI : MonoBehaviour
                     {
                         _fishControl.isDeath = true;
                         _ingameUIManager.DistanceDepthTextOff();
-                        _gameManager._needleInWater = false;
+                        _gameManager.NeedleInWater = false;
                         ReelExit();
 
                         if (_fishControl.fishTr != null && _fishControl.isCatch)

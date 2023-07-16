@@ -11516,15 +11516,10 @@ public class FishObjectManagerHomerspit : MonoBehaviour
         CheckFishAccordingToMovement();
         RareFishCheck();
         DataManager.INSTANCE.CheckBaitProbability();
-
-        //if(_petManager.isLightOn)
-        //    UpdateProbilityWhenLampOn();
-        //else
-        //    UpdateProbilityWhenLampOff();
-
+        
         InitializeFishSearchRange();
 
-        _gameManager.isNeedleMoving = false;
+        _gameManager.IsNeedleMoving = false;
         _isIncreaseWhenMove = false;
         _isIncreaseWhenStill = false;
 

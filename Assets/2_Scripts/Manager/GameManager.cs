@@ -41,32 +41,36 @@ public class GameManager : MonoBehaviour
     bool _isTutorial;
 
     // HideInInspector
-    [HideInInspector] public bool _isPause;
-    [HideInInspector] public Spline spline;   // 낚시대 메쉬
-    [HideInInspector] public Transform reelMiddleObj;   // 낚시대 중간
-    [HideInInspector] public Transform reelEndObj;   // 낚시대 끝
-    [HideInInspector] public Transform reelPoint0, reelPoint1, reelPoint2, reelPoint3;    // 낚시대 바늘 쪽 릴 포인트
-    [HideInInspector] public Transform bobberPos;    // 찌가 붙을 위치
-    [HideInInspector] public Transform needlePos;    // 바늘이 붙을 위치
-    [HideInInspector] public GameObject _fakeNeedle;
-    [HideInInspector] public GameObject _sinkerObject;
-    [HideInInspector] public Vector3 _sinkerOriginPos;
-    [HideInInspector] public float progress;  // 낚시대 파워 게이지 조절
-    [HideInInspector] public bool isFly, isReset, _needleInWater;  // 찌 날라가는 중?, 리셋?, 물 속?
-    [HideInInspector] public Vector3 angleGyro;   // 자이로 센서 각도
-    [HideInInspector] public bool _baitThrowMode; // 떡밥 던지기 모드
-    [HideInInspector] public float x, y, z;// 낚시대 꺽는 고정변수
-    [HideInInspector] public float rod1X, rod1Y, rod1Z;// 낚시대 포인트1의 위치(지금은 사용X)
-    [HideInInspector] public float rod2X, rod2Y, rod2Z;// 낚시대 포인트2의 위치
-    [HideInInspector] public Transform fishObj;   // 잡힌 물고기 트랜스폼
-    [HideInInspector] public Vector3 fish;    // 잡힌 물고기 포지션
-    [HideInInspector] public bool isNobite = false;  // 물고기가 물었나?
-    [HideInInspector] public bool isTurn;
-    [HideInInspector] public bool isHook;    // 물 속, 물고기 bitting 전?
-    [HideInInspector] public bool isNeedleMoving;
-    [HideInInspector] public bool isEging;
-    [HideInInspector] public bool _rotateStop;
-    [HideInInspector] public bool _bgm;    // BGM 제어
+    bool _isPause; public bool IsPause { get { return _isPause; } set { _isPause = value;} } 
+    Spline spline;
+    Transform reelMiddleObj;
+    Transform reelEndObj;
+    Transform _reelPoint1;
+    Transform _reelPoint2; public Transform ReelPoint2 { get { return _reelPoint2; } }
+    Transform _reelPoint3; public Transform ReelPoint3 { get { return _reelPoint3; } }
+    Transform bobberPos;    // 찌가 붙을 위치
+    Transform needlePos;    // 바늘이 붙을 위치
+    GameObject _fakeNeedle;
+    GameObject _sinkerObject; public void SetSinkerObjectActive(bool active) { _sinkerObject.gameObject.SetActive(active); }
+    Vector3 _sinkerOriginPos;
+    float _progress; public float Progress { set { _progress = value; } }
+    bool _isFly; public bool IsFly { get { return _isFly; } set { _isFly = value; } }
+    bool _isReset; public bool IsReset { get { return _isReset; } set { _isReset = value; } }
+    bool _needleInWater; public bool NeedleInWater { get { return _needleInWater; } set { _needleInWater = value; } }
+    Vector3 _angleGyro;  public Vector3 AngleGyro { get { return _angleGyro; } }
+    bool _baitThrowMode; public bool BaitThrowMode { get { return _baitThrowMode; } set { _baitThrowMode = value; } }
+    float x, y, z;// 낚시대 꺽는 고정변수
+    float rod1X, rod1Y, rod1Z;// 낚시대 포인트1의 위치(지금은 사용X)
+    float rod2X, rod2Y, rod2Z;// 낚시대 포인트2의 위치
+    Transform _fishCaught;   public Transform FishCaught { set { _fishCaught = value; } }
+    Vector3 fish;    // 잡힌 물고기 포지션
+    bool _isNoBite; public bool IsNoBite { get { return _isNoBite; } set { _isNoBite = value; } }
+    bool isTurn;
+    bool isHook;
+    bool _isNeedleMoving; public bool IsNeedleMoving { get { return _isNeedleMoving; } set { _isNeedleMoving = value; } }
+    bool _isEging; public bool IsEging { get { return _isEging; } set { _isEging = value; } }
+    bool _rotateStop; public bool RotateStop { get { return _rotateStop; } set { _rotateStop = value; } }
+    bool _isPlayingBGM; public bool IsPlayingBGM { set { _isPlayingBGM = value; } }
 
     // Public
     public PublicDefined.IngameState _currentState = PublicDefined.IngameState.idle;
@@ -139,7 +143,7 @@ public class GameManager : MonoBehaviour
         _tutorialThrowStop = false;
         _tutorialGageStop = false;
         _baitThrowMode = false;
-        //isNeedleMoving = true;
+        //_isNeedleMoving = true;
 
         // 블루투스 오브젝트 연결
         if (GameObject.FindGameObjectWithTag("Bluetooth"))
@@ -217,7 +221,7 @@ public class GameManager : MonoBehaviour
                 _ingameUIManager.Pause();
             }
 
-            angleGyro = gyroscope.rotationRate; // 회전율 받아온다.
+            _angleGyro = gyroscope.rotationRate; // 회전율 받아온다.
         }
         
         // 낚시대 휨
@@ -233,10 +237,10 @@ public class GameManager : MonoBehaviour
         //// 물고기 뭄? 낚시대 휨(많이) : 낚시대 휨(약간) 
         if (fishControl.isBite)
         {
-            fish = fishObj.position;
+            fish = _fishCaught.position;
             Point2();
         }
-        else if(isNobite)
+        else if(_isNoBite)
         {
             NoBiteRod();
         }
@@ -378,16 +382,16 @@ public class GameManager : MonoBehaviour
             line.transform.rotation, _reellinePos);
         reelMiddleObj = line.transform.GetChild(1);
         reelEndObj = line.transform.GetChild(2);
-        reelPoint1 = line.transform.GetChild(0);
-        reelPoint2 = line.transform.GetChild(1);
-        reelPoint3 = line.transform.GetChild(2);
-        _sinkerObject = reelPoint2.transform.GetChild(2).gameObject;
-        _reelPoint3ResetRot = reelPoint3.eulerAngles;
+        _reelPoint1 = line.transform.GetChild(0);
+        _reelPoint2 = line.transform.GetChild(1);
+        _reelPoint3 = line.transform.GetChild(2);
+        _sinkerObject = _reelPoint2.transform.GetChild(2).gameObject;
+        _reelPoint3ResetRot = _reelPoint3.eulerAngles;
 
         lineRenderer2 = line.GetComponent<LineRenderer>();
 
         lineRenderer2.positionCount = reelNumPoints2;
-        bobberPos = reelPoint2.transform.GetChild(0);
+        bobberPos = _reelPoint2.transform.GetChild(0);
 
         // 찌
         //CreateEquipmentSetPos(bobberPos, reelMiddleObj, bobber, true);
@@ -397,10 +401,10 @@ public class GameManager : MonoBehaviour
         bobber.transform.localEulerAngles = Vector3.zero;
         bobber.SetActive(true);
 
-        needlePos = reelPoint3.transform.GetChild(0);
+        needlePos = _reelPoint3.transform.GetChild(0);
        // _needleResetRot = needlePos.localEulerAngles;
         _needleResetPos = needlePos.localPosition;
-        _fakeNeedle = reelPoint3.transform.GetChild(3).gameObject;
+        _fakeNeedle = _reelPoint3.transform.GetChild(3).gameObject;
 
         // 바늘 - 미끼
         CreateEquipmentSetPos(needlePos, reelEndObj, needle, true);
@@ -411,8 +415,8 @@ public class GameManager : MonoBehaviour
         }
         cameraMgr.SettingTarget(GetNeedleControlTransform());
 
-        reelPoint2.GetChild(0).gameObject.SetActive(false);
-        _ingameUIManager._ReelPoint2Pos = reelPoint2;
+        _reelPoint2.GetChild(0).gameObject.SetActive(false);
+        _ingameUIManager._ReelPoint2Pos = _reelPoint2;
     }
 
     private void CheckCurrentEquipment()
@@ -435,7 +439,7 @@ public class GameManager : MonoBehaviour
 
         if (!dic["float"].Equals(-1))
         {
-            reelPoint2.GetChild(0).gameObject.SetActive(true);
+            _reelPoint2.GetChild(0).gameObject.SetActive(true);
             style = GameStyle.Bobber;
         }
 
@@ -459,9 +463,9 @@ public class GameManager : MonoBehaviour
         if (!currentBait.Equals(-1))
         {
             // 해당 미끼 켜기                                
-            reelPoint3.GetChild(0).GetChild(currentBait + 1).gameObject.SetActive(true);
+            _reelPoint3.GetChild(0).GetChild(currentBait + 1).gameObject.SetActive(true);
             // 바늘 오브젝트 끄기
-            reelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            _reelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(false);
 
             CheckLure(currentBait);
 
@@ -472,9 +476,9 @@ public class GameManager : MonoBehaviour
     void CheckLure(int currentBait)
     {
         // 해당 미끼 켜기                                
-        reelPoint3.GetChild(0).GetChild(currentBait + 1).gameObject.SetActive(true);
+        _reelPoint3.GetChild(0).GetChild(currentBait + 1).gameObject.SetActive(true);
         // 바늘 오브젝트 끄기
-        reelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        _reelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(false);
 
         switch (currentBait)
         {
@@ -660,7 +664,7 @@ public class GameManager : MonoBehaviour
     private void NoBiteRod()
     {// Update 안에 있는 함수
 
-        isNobite = false;
+        _isNoBite = false;
         rodPoint0.localPosition = resetPointPos0;
         rodPoint1.localPosition = resetPointPos1;
         rodPoint2.localPosition = resetPointPos2;
@@ -670,22 +674,22 @@ public class GameManager : MonoBehaviour
     public void ResetAction()
     {
         //Debug.Log("리셋액션" + isReset);
-        if (isReset)
+        if (_isReset)
         {
-            if(_bgm)
+            if(_isPlayingBGM)
             {
                 PlayBGM(false);
             }
 
             // 물속 움직임 중지
             _needleInWater = false;
-            isReset = false;
+            _isReset = false;
             // 훅셋 코루틴 중지
             StopHookSet();
             // 낚시대 방향 첫위치로 되돌려 놓기
             rodPos.rotation = new Quaternion(0, 0, 0, 0);
             // 시간 더해졌으니 reset하면 0으로 초기화
-            progress = 0;
+            _progress = 0;
             // 낚시바늘 포지션 초기화
             needleControl.myTr.eulerAngles = _reelPoint3ResetRot;
 
@@ -721,8 +725,8 @@ public class GameManager : MonoBehaviour
             if (style.Equals(GameStyle.Bobber))
             {
                 //Debug.Log(1);
-                reelPoint2.GetChild(0).gameObject.SetActive(true);
-                reelPoint2.transform.GetChild(1).gameObject.SetActive(false);
+                _reelPoint2.GetChild(0).gameObject.SetActive(true);
+                _reelPoint2.transform.GetChild(1).gameObject.SetActive(false);
             }
 
             if (style.Equals(0))
@@ -777,7 +781,7 @@ public class GameManager : MonoBehaviour
         
         while (true)
         {
-            while (progress <= 1f) // 게이지가 1에서 내려갈 때
+            while (_progress <= 1f) // 게이지가 1에서 내려갈 때
             {
                 if (_tutorialGageStop)
                     powerSpeed = 0;
@@ -786,8 +790,8 @@ public class GameManager : MonoBehaviour
                 if (Application.platform.Equals(RuntimePlatform.WindowsEditor))
                 {
                     // 파워 게이지
-                    progress += powerSpeed * Time.deltaTime;
-                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, progress));
+                    _progress += powerSpeed * Time.deltaTime;
+                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, _progress));
                     
                     if (ReadyForCasting())
                     {
@@ -799,10 +803,10 @@ public class GameManager : MonoBehaviour
                             StartCoroutine(MakeDelay(2, () => _ingameUIManager.SetCharacterGage(false)));
                             characterMgr.SettingAnimator(_throwHash, true);
 
-                            if (progress < 0.3f)
-                                progress = 0.35f;
+                            if (_progress < 0.3f)
+                                _progress = 0.35f;
 
-                            needleControl.CastingPowerSetting(characterTr.rotation.y * progress * 1580, progress * 600, progress * 1150);
+                            needleControl.CastingPowerSetting(characterTr.rotation.y * _progress * 1580, _progress * 600, _progress * 1150);
                             StopCoroutine(reelCor);
 
                         }
@@ -813,8 +817,8 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     // 파워 게이지
-                    progress += powerSpeed * Time.deltaTime;
-                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, progress));
+                    _progress += powerSpeed * Time.deltaTime;
+                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, _progress));
 
                     if (ReadyForCasting())
                     {
@@ -829,10 +833,10 @@ public class GameManager : MonoBehaviour
                                 StartCoroutine(MakeDelay(2, () => _ingameUIManager.SetCharacterGage(false)));
                                 characterMgr.SettingAnimator(_throwHash, true);
 
-                                if (progress < 0.3f)
-                                    progress = 0.35f;
+                                if (_progress < 0.3f)
+                                    _progress = 0.35f;
 
-                                needleControl.CastingPowerSetting(characterTr.rotation.y * progress * 1580, progress * 600, progress * 1150);
+                                needleControl.CastingPowerSetting(characterTr.rotation.y * _progress * 1580, _progress * 600, _progress * 1150);
 
                                 if (DataManager.INSTANCE._vibration)
                                     Vibration.Vibrate(2500);
@@ -843,7 +847,7 @@ public class GameManager : MonoBehaviour
                         }
                         else
                         {
-                            if (angleGyro.x < -9) // 블루투스 X
+                            if (_angleGyro.x < -9) // 블루투스 X
                             {
                                 if (!_baitThrowMode && !fishPopUp.activeSelf)
                                 {
@@ -853,10 +857,10 @@ public class GameManager : MonoBehaviour
                                     StartCoroutine(MakeDelay(2, () => _ingameUIManager.SetCharacterGage(false)));
                                     characterMgr.SettingAnimator(_throwHash, true);
 
-                                    if (progress < 0.3f)
-                                        progress = 0.35f;
+                                    if (_progress < 0.3f)
+                                        _progress = 0.35f;
 
-                                    needleControl.CastingPowerSetting(characterTr.rotation.y * progress * 1580, progress * 600, progress * 1150);
+                                    needleControl.CastingPowerSetting(characterTr.rotation.y * _progress * 1580, _progress * 600, _progress * 1150);
 
                                     if (DataManager.INSTANCE._vibration)
                                         Vibration.Vibrate(2500);
@@ -870,7 +874,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             // =================================================================================================
-            while (progress >= 0)   // 게이지가 0에서 올라갈 때
+            while (_progress >= 0)   // 게이지가 0에서 올라갈 때
             {
                 if (_tutorialGageStop)
                     powerSpeed = 0;
@@ -879,8 +883,8 @@ public class GameManager : MonoBehaviour
                 if (Application.platform.Equals(RuntimePlatform.WindowsEditor))
                 {
                     // 파워 게이지
-                    progress -= powerSpeed * Time.deltaTime;
-                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, progress));
+                    _progress -= powerSpeed * Time.deltaTime;
+                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, _progress));
 
                     if (ReadyForCasting())
                     {
@@ -892,10 +896,10 @@ public class GameManager : MonoBehaviour
                             StartCoroutine(MakeDelay(2, () => _ingameUIManager.SetCharacterGage(false)));
                             characterMgr.SettingAnimator(_throwHash, true);
 
-                            if (progress < 0.3f)
-                                progress = 0.35f;
+                            if (_progress < 0.3f)
+                                _progress = 0.35f;
 
-                            needleControl.CastingPowerSetting(characterTr.rotation.y * progress * 1580, progress * 600, progress * 1150);
+                            needleControl.CastingPowerSetting(characterTr.rotation.y * _progress * 1580, _progress * 600, _progress * 1150);
                             StopCoroutine(reelCor);
 
                         }
@@ -906,8 +910,8 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     // 파워 게이지
-                    progress -= powerSpeed * Time.deltaTime;
-                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, progress));
+                    _progress -= powerSpeed * Time.deltaTime;
+                    _ingameUIManager.ResetCharacterGage(Mathf.Lerp(0, 1, _progress));
 
                     if (ReadyForCasting())
                     {
@@ -920,10 +924,10 @@ public class GameManager : MonoBehaviour
                                 _rotateStop = true;
                                 StartCoroutine(MakeDelay(2, () => _ingameUIManager.SetCharacterGage(false)));
                                 characterMgr.SettingAnimator(_throwHash, true);
-                                if (progress < 0.3f)
-                                    progress = 0.35f;
+                                if (_progress < 0.3f)
+                                    _progress = 0.35f;
 
-                                needleControl.CastingPowerSetting(characterTr.rotation.y * progress * 1580, progress * 600, progress * 1150);
+                                needleControl.CastingPowerSetting(characterTr.rotation.y * _progress * 1580, _progress * 600, _progress * 1150);
 
                                 if (DataManager.INSTANCE._vibration)
                                     Vibration.Vibrate(2500);
@@ -934,7 +938,7 @@ public class GameManager : MonoBehaviour
                         }
                         else
                         {
-                            if (angleGyro.x < -9) // 블루투스 X
+                            if (_angleGyro.x < -9) // 블루투스 X
                             {
                                 // 캐스팅 조건2 
                                 if (!_baitThrowMode && !fishPopUp.activeSelf)
@@ -944,10 +948,10 @@ public class GameManager : MonoBehaviour
                                     _rotateStop = true;
                                     StartCoroutine(MakeDelay(2, () => _ingameUIManager.SetCharacterGage(false)));
                                     characterMgr.SettingAnimator(_throwHash, true);
-                                    if (progress < 0.3f)
-                                        progress = 0.35f;
+                                    if (_progress < 0.3f)
+                                        _progress = 0.35f;
 
-                                    needleControl.CastingPowerSetting(characterTr.rotation.y * progress * 1580, progress * 600, progress * 1150);
+                                    needleControl.CastingPowerSetting(characterTr.rotation.y * _progress * 1580, _progress * 600, _progress * 1150);
 
                                     if (DataManager.INSTANCE._vibration)
                                         Vibration.Vibrate(2500);
@@ -975,18 +979,18 @@ public class GameManager : MonoBehaviour
     public void NeedleStopMoving()
     {
         //Debug.Log("바늘이 멈췄다.");
-        isNeedleMoving = false;
+        _isNeedleMoving = false;
 
         switch(DataManager.INSTANCE._mapType)
         {
             case PublicDefined.eMapType.jeongdongjin:
-                _jeongdongjinFishManager.IncreaseProbabilityAccordingToMovement(isNeedleMoving);
+                _jeongdongjinFishManager.IncreaseProbabilityAccordingToMovement(_isNeedleMoving);
                 break;
             case PublicDefined.eMapType.skyway:
-                _skywayFishManager.IncreaseProbabilityAccordingToMovement(isNeedleMoving);
+                _skywayFishManager.IncreaseProbabilityAccordingToMovement(_isNeedleMoving);
                 break;
             case PublicDefined.eMapType.homerspit:
-                _homerspitFishManager.IncreaseProbabilityAccordingToMovement(isNeedleMoving);
+                _homerspitFishManager.IncreaseProbabilityAccordingToMovement(_isNeedleMoving);
                 break;
         }
     }
@@ -994,18 +998,18 @@ public class GameManager : MonoBehaviour
     public void NeedleStartMoving()
     {
         //Debug.Log("바늘이 움직인다.");
-        isNeedleMoving = true;
+        _isNeedleMoving = true;
 
         switch (DataManager.INSTANCE._mapType)
         {
             case PublicDefined.eMapType.jeongdongjin:
-                _jeongdongjinFishManager.IncreaseProbabilityAccordingToMovement(isNeedleMoving);
+                _jeongdongjinFishManager.IncreaseProbabilityAccordingToMovement(_isNeedleMoving);
                 break;
             case PublicDefined.eMapType.skyway:
-                _skywayFishManager.IncreaseProbabilityAccordingToMovement(isNeedleMoving);
+                _skywayFishManager.IncreaseProbabilityAccordingToMovement(_isNeedleMoving);
                 break;
             case PublicDefined.eMapType.homerspit:
-                _homerspitFishManager.IncreaseProbabilityAccordingToMovement(isNeedleMoving);
+                _homerspitFishManager.IncreaseProbabilityAccordingToMovement(_isNeedleMoving);
                 break;
         }
     }
@@ -1041,38 +1045,38 @@ public class GameManager : MonoBehaviour
         for (int i = 1; i < reelNumPoints2; i++)
         {
             float t = i / (float)reelNumPoints2;
-            _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, reelPoint2.position, reelPoint1.position, _lineRendererPositions[9]);
+            _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, _reelPoint2.position, _reelPoint1.position, _lineRendererPositions[9]);
         }
         // 물고기가 물었을 때 or 물지 않았을 때의 릴 포인트 위치설정
         if (fishControl.isBite)
         {            
-            reelPoint2.position = new Vector3(reelPoint3.position.x * 0.8f, -1.5f, reelPoint3.position.z * 0.8f);
-            reelPoint1.position = new Vector3(reelPoint2.position.x, reelPoint2.position.y, reelPoint2.position.z);
-            _lineRendererPositions2[0] = reelPoint2.position;
+            _reelPoint2.position = new Vector3(_reelPoint3.position.x * 0.8f, -1.5f, _reelPoint3.position.z * 0.8f);
+            _reelPoint1.position = new Vector3(_reelPoint2.position.x, _reelPoint2.position.y, _reelPoint2.position.z);
+            _lineRendererPositions2[0] = _reelPoint2.position;
         }
         else
         {
-            float moveX = 0.1f * reelPoint3.position.x * 0.8f / Mathf.Sqrt(Mathf.Pow(reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(reelPoint3.position.z * 0.8f, 2));
-            float moveZ = 0.1f * reelPoint3.position.z * 0.8f / Mathf.Sqrt(Mathf.Pow(reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(reelPoint3.position.z * 0.8f, 2));
-            if (reelPoint2.position.z > reelPoint3.position.z)
+            float moveX = 0.1f * _reelPoint3.position.x * 0.8f / Mathf.Sqrt(Mathf.Pow(_reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(_reelPoint3.position.z * 0.8f, 2));
+            float moveZ = 0.1f * _reelPoint3.position.z * 0.8f / Mathf.Sqrt(Mathf.Pow(_reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(_reelPoint3.position.z * 0.8f, 2));
+            if (_reelPoint2.position.z > _reelPoint3.position.z)
             {
-                reelPoint2.position = new Vector3(reelPoint2.position.x, -1.5f, reelPoint2.position.z - moveZ);
+                _reelPoint2.position = new Vector3(_reelPoint2.position.x, -1.5f, _reelPoint2.position.z - moveZ);
             }
             // 오른쪽
-            if (reelPoint3.position.x > 0 && reelPoint2.position.x > reelPoint3.position.x * 0.9f)
+            if (_reelPoint3.position.x > 0 && _reelPoint2.position.x > _reelPoint3.position.x * 0.9f)
             {
-                reelPoint2.position = new Vector3(reelPoint2.position.x - moveX, -1.5f, reelPoint2.position.z);
+                _reelPoint2.position = new Vector3(_reelPoint2.position.x - moveX, -1.5f, _reelPoint2.position.z);
             }
             //왼쪽
-            else if (reelPoint3.position.x <= 0 && reelPoint2.position.x < reelPoint3.position.x * 0.9f)
+            else if (_reelPoint3.position.x <= 0 && _reelPoint2.position.x < _reelPoint3.position.x * 0.9f)
             {
-                reelPoint2.position = new Vector3(reelPoint2.position.x - moveX, -1.5f, reelPoint2.position.z);
+                _reelPoint2.position = new Vector3(_reelPoint2.position.x - moveX, -1.5f, _reelPoint2.position.z);
             }
-            if (reelPoint1.position.y > -2.5f)
+            if (_reelPoint1.position.y > -2.5f)
             {
-                reelPoint1.position = new Vector3(reelPoint2.position.x * 0.9f, reelPoint2.position.y - 0.07f, reelPoint2.position.z - 1f);
+                _reelPoint1.position = new Vector3(_reelPoint2.position.x * 0.9f, _reelPoint2.position.y - 0.07f, _reelPoint2.position.z - 1f);
             }
-            _lineRendererPositions2[0] = reelPoint3.position;
+            _lineRendererPositions2[0] = _reelPoint3.position;
         }
         // reelPositions2의 마지막과 reelPosition의 마지막은 같은 위치
         _lineRendererPositions2[49] = _lineRendererPositions[9];
@@ -1121,38 +1125,38 @@ public class GameManager : MonoBehaviour
         for (int i = 1; i < reelNumPoints2; i++)
         {
             float t = i / (float)reelNumPoints2;
-            _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, reelPoint2.position, reelPoint1.position, _lineRendererPositions[9]);
+            _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, _reelPoint2.position, _reelPoint1.position, _lineRendererPositions[9]);
         }
 
         if (fishControl.isBite)
         {
-            reelPoint2.position = new Vector3(reelPoint3.position.x * 0.8f, -1.5f, reelPoint3.position.z * 0.8f);
-            reelPoint1.position = new Vector3(reelPoint2.position.x, reelPoint2.position.y, reelPoint2.position.z);
-            _lineRendererPositions2[0] = reelPoint2.position;
+            _reelPoint2.position = new Vector3(_reelPoint3.position.x * 0.8f, -1.5f, _reelPoint3.position.z * 0.8f);
+            _reelPoint1.position = new Vector3(_reelPoint2.position.x, _reelPoint2.position.y, _reelPoint2.position.z);
+            _lineRendererPositions2[0] = _reelPoint2.position;
         }
         else
         {            
-            float moveX = 0.1f * reelPoint3.position.x * 0.8f / Mathf.Sqrt(Mathf.Pow(reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(reelPoint3.position.z * 0.8f, 2));
-            float moveZ = 0.1f * reelPoint3.position.z * 0.8f / Mathf.Sqrt(Mathf.Pow(reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(reelPoint3.position.z * 0.8f, 2));           
-            if (reelPoint2.position.z > reelPoint3.position.z * 0.8f)
+            float moveX = 0.1f * _reelPoint3.position.x * 0.8f / Mathf.Sqrt(Mathf.Pow(_reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(_reelPoint3.position.z * 0.8f, 2));
+            float moveZ = 0.1f * _reelPoint3.position.z * 0.8f / Mathf.Sqrt(Mathf.Pow(_reelPoint3.position.x * 0.8f, 2) + Mathf.Pow(_reelPoint3.position.z * 0.8f, 2));           
+            if (_reelPoint2.position.z > _reelPoint3.position.z * 0.8f)
             {
-                reelPoint2.position = new Vector3(reelPoint2.position.x, -1.5f, reelPoint2.position.z - moveZ);
+                _reelPoint2.position = new Vector3(_reelPoint2.position.x, -1.5f, _reelPoint2.position.z - moveZ);
             }
             // 오른쪽
-            if (reelPoint3.position.x > 0 && reelPoint2.position.x > reelPoint3.position.x * 0.8f)
+            if (_reelPoint3.position.x > 0 && _reelPoint2.position.x > _reelPoint3.position.x * 0.8f)
             {
-                reelPoint2.position = new Vector3(reelPoint2.position.x - moveX, -1.5f, reelPoint2.position.z);
+                _reelPoint2.position = new Vector3(_reelPoint2.position.x - moveX, -1.5f, _reelPoint2.position.z);
             }
             //왼쪽
-            else if (reelPoint3.position.x <= 0 && reelPoint2.position.x < reelPoint3.position.x * 0.8f)
+            else if (_reelPoint3.position.x <= 0 && _reelPoint2.position.x < _reelPoint3.position.x * 0.8f)
             {
-                reelPoint2.position = new Vector3(reelPoint2.position.x - moveX, -1.5f, reelPoint2.position.z);
+                _reelPoint2.position = new Vector3(_reelPoint2.position.x - moveX, -1.5f, _reelPoint2.position.z);
             }
-            if (reelPoint1.position.y > -2.5f)
+            if (_reelPoint1.position.y > -2.5f)
             {
-                reelPoint1.position = new Vector3(reelPoint2.position.x * 0.9f, reelPoint2.position.y - 0.1f, reelPoint2.position.z - 1f);                
+                _reelPoint1.position = new Vector3(_reelPoint2.position.x * 0.9f, _reelPoint2.position.y - 0.1f, _reelPoint2.position.z - 1f);                
             }
-            _lineRendererPositions2[0] = reelPoint3.position;
+            _lineRendererPositions2[0] = _reelPoint3.position;
         }
         // reelPositions2의 마지막과 reelPosition의 마지막은 같은 위치
         _lineRendererPositions2[49] = _lineRendererPositions[9];
@@ -1164,15 +1168,15 @@ public class GameManager : MonoBehaviour
     private void NonWaterLine()
     {
         // 캐스팅 중인가?
-        if (!isFly)
+        if (!_isFly)
         {
-            reelPoint3.position = new Vector3(reelPosition[9].position.x, reelPosition[9].position.y - 0.5f, reelPosition[9].position.z);
-            reelPoint2.position = new Vector3(reelPoint3.position.x, reelPoint3.position.y + 0.2f, reelPoint3.position.z);
-            reelPoint1.localPosition = new Vector3(reelPoint2.localPosition.x, reelPoint2.localPosition.y, reelPoint2.localPosition.z);
+            _reelPoint3.position = new Vector3(reelPosition[9].position.x, reelPosition[9].position.y - 0.5f, reelPosition[9].position.z);
+            _reelPoint2.position = new Vector3(_reelPoint3.position.x, _reelPoint3.position.y + 0.2f, _reelPoint3.position.z);
+            _reelPoint1.localPosition = new Vector3(_reelPoint2.localPosition.x, _reelPoint2.localPosition.y, _reelPoint2.localPosition.z);
         }
-        else if (isFly)
+        else if (_isFly)
         {
-            reelPoint2.position = new Vector3(reelPoint3.position.x, reelPoint3.position.y, reelPoint3.position.z - 0.1f);
+            _reelPoint2.position = new Vector3(_reelPoint3.position.x, _reelPoint3.position.y, _reelPoint3.position.z - 0.1f);
 
         }
 
@@ -1204,11 +1208,11 @@ public class GameManager : MonoBehaviour
         for (int i = 1; i < reelNumPoints2 - 1; i++)
         {
             float t = i / (float)reelNumPoints2;
-            _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, reelPoint2.position, reelPoint1.position, _lineRendererPositions[9]);
+            _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, _reelPoint2.position, _reelPoint1.position, _lineRendererPositions[9]);
         }
 
         // reelPositions2의 첫번째는 낚시대의 릴장비 부분과 같은 위치
-        _lineRendererPositions2[0] = reelPoint3.position;
+        _lineRendererPositions2[0] = _reelPoint3.position;
         _lineRendererPositions2[49] = _lineRendererPositions[9];
         lineRenderer.SetPositions(_lineRendererPositions);
         lineRenderer2.SetPositions(_lineRendererPositions2);
@@ -1334,15 +1338,6 @@ public class GameManager : MonoBehaviour
 
         if (!_isPause && !_tutorialRotateStop && !_rotateStop)
         {
-            //if (bleTotal._reelData.Za < -500)
-            //{
-            //    _rotY -= 0.9f;
-            //}
-            //else if (bleTotal._reelData.Za > 500)
-            //{
-            //    _rotY += 0.9f;
-            //}
-            
             _inputY = _reelData.Za * -0.0007f;
             _rotY += _inputY;
             _rotY = Mathf.Clamp(_rotY, _minRotY, _maxRotY);

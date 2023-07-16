@@ -166,9 +166,9 @@ public class InGameUIManager : MonoBehaviour
 
     public void GageBarSet()
     {
-        if (_gameManager._needleInWater && !_fishPopup.activeSelf)
+        if (_gameManager.NeedleInWater && !_fishPopup.activeSelf)
         {
-            StartCoroutine(MakeDelay(4, () => _characterGage.gameObject.SetActive(!_gameManager._needleInWater))); 
+            StartCoroutine(MakeDelay(4, () => _characterGage.gameObject.SetActive(!_gameManager.NeedleInWater))); 
         }
     }
     IEnumerator MakeDelay(int delayNumber, Action action)
@@ -207,7 +207,7 @@ public class InGameUIManager : MonoBehaviour
         float tempY = _gameManager.GetNeedleControlTransform().position.y + 1.5f;
         float tempZ = _gameManager.GetNeedleControlTransform().position.z;
 
-        if (_gameManager._needleInWater && !_isPause) // 찌가 물 속이라면
+        if (_gameManager.NeedleInWater && !_isPause) // 찌가 물 속이라면
         {
             // reeling 애니메이션을 위해서 추가
             if (distance < 15 && fishControl.isBite)
@@ -272,8 +272,8 @@ public class InGameUIManager : MonoBehaviour
                     //SoundManager.instance.EffectPlay("Reeling");
                     // 물고기 크기 설정
 
-                    _gameManager._bgm = false;
-                    _gameManager.isReset = true;
+                    _gameManager.IsPlayingBGM = false;
+                    _gameManager.IsReset = true;
                     _gameManager.ResetAction();
                     ResetCharacterGage();
                     DistanceDepthTextOff();
@@ -440,7 +440,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void Pause()
     {
-        if( _gameManager._isPause)
+        if( _gameManager.IsPause)
         {
             return;
         }
@@ -450,7 +450,7 @@ public class InGameUIManager : MonoBehaviour
         AudioManager.INSTANCE.StopReelEffect();
 
         menuPanel_Kor.SetActive(true);
-        _gameManager._isPause = true;
+        _gameManager.IsPause = true;
         fishControl._isPause = true;
 
         if (_gameManager._currentState.Equals(PublicDefined.IngameState.idle))
@@ -468,7 +468,7 @@ public class InGameUIManager : MonoBehaviour
                 _characterGageObject.SetActive(false);
         }
 
-        if (bleTotal != null && bleTotal.ConnectedMain && _gameManager._needleInWater)
+        if (bleTotal != null && bleTotal.ConnectedMain && _gameManager.NeedleInWater)
         {
             fishControl.MotorStop();
         }
@@ -478,7 +478,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void ClickGameGuideButton()
     {
-        if (_gameManager._needleInWater || _gameManager._currentState != PublicDefined.IngameState.idle)
+        if (_gameManager.NeedleInWater || _gameManager._currentState != PublicDefined.IngameState.idle)
             return;
 
         if (_gameGuideUI.activeSelf)
@@ -499,7 +499,7 @@ public class InGameUIManager : MonoBehaviour
 
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
         menuPanel_Kor.SetActive(false);
-        _gameManager._isPause = false;
+        _gameManager.IsPause = false;
         fishControl._isPause = false;
 
         if(fishControl._motorStopCoroutine != null)
@@ -537,13 +537,13 @@ public class InGameUIManager : MonoBehaviour
             fishControl.RestartDCCoroutine();
         }
         // 찌가 물 속에 있고 물고기가 문 상태
-        else if (_gameManager._needleInWater && fishControl.isStart)
+        else if (_gameManager.NeedleInWater && fishControl.isStart)
         {
             //Debug.Log("2");
             fishControl.RestartDCCoroutine();
         }
         // 찌가 물 속에 있지만 물고기가 아직 물지 않은 상태
-        else if (_gameManager._needleInWater)
+        else if (_gameManager.NeedleInWater)
         {
             //Debug.Log("3");
 

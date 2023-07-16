@@ -930,15 +930,15 @@ public class DataManager : MonoBehaviour
             }
 
             // 해당 미끼 켜기                                 needle이 0번째에 있어서 +1 해줘야 한다.
-            _gameManager.reelPoint3.GetChild(0).GetChild(baitSerialNumber + 1).gameObject.SetActive(true);
+            _gameManager.ReelPoint3.GetChild(0).GetChild(baitSerialNumber + 1).gameObject.SetActive(true);
 
             // 바늘 오브젝트 끄기
-            _gameManager.reelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            _gameManager.ReelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(false);
 
             // 만약 전에 끼던 미끼가 있다면 그것은 꺼야한다.
             if (!prevBaitSerialNumber.Equals(-1))
             {
-                GameObject prev = _gameManager.reelPoint3.GetChild(0).GetChild(prevBaitSerialNumber + 1).gameObject;
+                GameObject prev = _gameManager.ReelPoint3.GetChild(0).GetChild(prevBaitSerialNumber + 1).gameObject;
 
                 if (prev.activeSelf)
                     prev.SetActive(false);
@@ -1003,10 +1003,10 @@ public class DataManager : MonoBehaviour
             }
 
             // 해당 미끼 끄기
-            _gameManager.reelPoint3.GetChild(0).GetChild(baitSerialNumber - 1999).gameObject.SetActive(false);
+            _gameManager.ReelPoint3.GetChild(0).GetChild(baitSerialNumber - 1999).gameObject.SetActive(false);
 
             // 바늘 오브젝트 켜기
-            _gameManager.reelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            _gameManager.ReelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(true);
             CheckBaitProbability();
 
             switch(_mapType)
@@ -1035,7 +1035,7 @@ public class DataManager : MonoBehaviour
                 _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             }
 
-            _gameManager.reelPoint2.GetChild(0).gameObject.SetActive(true);
+            _gameManager.ReelPoint2.GetChild(0).gameObject.SetActive(true);
             _gameManager.style = GameManager.GameStyle.Bobber;
         }
 
@@ -1056,7 +1056,7 @@ public class DataManager : MonoBehaviour
                 _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
             }
 
-            _gameManager.reelPoint2.GetChild(0).gameObject.SetActive(false);
+            _gameManager.ReelPoint2.GetChild(0).gameObject.SetActive(false);
             _gameManager.style = GameManager.GameStyle.Onetwo;
 
         }
@@ -1074,7 +1074,7 @@ public class DataManager : MonoBehaviour
                 _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
             // 봉돌 위치
-            _gameManager._sinkerObject.SetActive(true);
+            _gameManager.SetSinkerObjectActive(true);
 
         }
         _sinkerWeight = weight;
@@ -1088,7 +1088,7 @@ public class DataManager : MonoBehaviour
             {
                 _objectManager = GameObject.FindGameObjectWithTag("Object").GetComponent<ObjectManager>();
             }
-            _gameManager._sinkerObject.SetActive(false);
+            _gameManager.SetSinkerObjectActive(false);
 
         }
         _sinkerWeight = 0;
@@ -1125,10 +1125,10 @@ public class DataManager : MonoBehaviour
                 }
                 //Debug.LogError("미끼 자식 번호: " + currentBaitNumber + 1);
                 // 해당 미끼 끄기
-                _gameManager.reelPoint3.GetChild(0).GetChild(currentBaitNumber + 1).gameObject.SetActive(false);
+                _gameManager.ReelPoint3.GetChild(0).GetChild(currentBaitNumber + 1).gameObject.SetActive(false);
 
                 // 바늘 오브젝트 켜기
-                _gameManager.reelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                _gameManager.ReelPoint3.GetChild(0).GetChild(0).gameObject.SetActive(true);
 
                 _gameManager.UpdateFishSearchRange(0);
 

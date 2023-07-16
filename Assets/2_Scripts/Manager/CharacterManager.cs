@@ -36,7 +36,7 @@ public class CharacterManager : MonoBehaviour
 
         if (!_gameManager._userData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
         {
-            _gameManager._sinkerObject.SetActive(false);
+            _gameManager.SetSinkerObjectActive(false);
         }
 
         // 릴 줄 풀리는 효과음 재생
@@ -63,13 +63,13 @@ public class CharacterManager : MonoBehaviour
     public void ResetPos()
     {
         transform.position = _myOriginPos;
-        _gameManager._rotateStop = false;
+        _gameManager.RotateStop = false;
     }
 
     IEnumerator ShotCoroutine()
     {
         yield return new WaitForSeconds(0.08f);
-        _gameManager.isFly = true;
+        _gameManager.IsFly = true;
         yield return null;
     }
     public GameObject GetReelAudioObject()

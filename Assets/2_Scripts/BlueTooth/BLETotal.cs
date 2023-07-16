@@ -272,21 +272,21 @@ public class BLETotal : MonoBehaviour
                                 gameMgr._reelData = _reelData;
                                 fishControl._reelData = _reelData;
 
-                                if (!_preH.Equals(_reelData.H) && gameMgr._needleInWater)
+                                if (!_preH.Equals(_reelData.H) && gameMgr.NeedleInWater)
                                 {
-                                    if ( gameMgr._needleInWater)
+                                    if ( gameMgr.NeedleInWater)
                                     {
                                         ReelOn2();
                                     }
 
-                                    if (count < 1 && gameMgr._needleInWater)
+                                    if (count < 1 && gameMgr.NeedleInWater)
                                     {
                                         count += 0.22f;
                                     }
 
                                     first = data;
 
-                                    if (!isAnim && gameMgr._needleInWater)
+                                    if (!isAnim && gameMgr.NeedleInWater)
                                     {
                                         animCor = StartCoroutine(AnimSpeed());
                                     }
@@ -543,7 +543,7 @@ public class BLETotal : MonoBehaviour
 		WaitForSeconds delay = new WaitForSeconds(0.12f);
 
 		isAnim = true;
-		while (count >= 0.2f && gameMgr._needleInWater)
+		while (count >= 0.2f && gameMgr.NeedleInWater)
 		{
 			if (first.Equals(second) && count >= 0.2f)
 			{

@@ -10590,7 +10590,7 @@ public class FishObjectManagerSkyway : MonoBehaviour
 
         InitializeFishSearchRange();
 
-        _gameManager.isNeedleMoving = false;
+        _gameManager.IsNeedleMoving= false;
         _isIncreaseWhenMove = false;
         _isIncreaseWhenStill = false;
 

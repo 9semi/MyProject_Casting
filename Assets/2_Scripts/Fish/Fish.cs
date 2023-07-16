@@ -1371,7 +1371,7 @@ public class Fish : FishBase
                     randChance = Random.Range(0.0f, 100.0f);                
                     
                     // 바늘을 물었을 때
-                    if (randChance <= biteBait && !_fishControl.isFind && _gameManager._needleInWater && !_gameManager._baitThrowMode)
+                    if (randChance <= biteBait && !_fishControl.isFind && _gameManager.NeedleInWater && !_gameManager.BaitThrowMode)
                     {
                         isFind = true;
                         _fishControl.isFind = true;

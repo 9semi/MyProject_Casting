@@ -115,12 +115,12 @@ public class NeedleControl : MonoBehaviour
             _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
 
-            gameMgr.isFly = false;
-            gameMgr._needleInWater = true;
+            gameMgr.IsFly = false;
+            gameMgr.NeedleInWater = true;
 
             if (gameMgr._userData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
             {
-                gameMgr._sinkerObject.SetActive(false);
+                gameMgr.SetSinkerObjectActive(false);
             }
 
             Vibration.Cancel();
@@ -225,7 +225,7 @@ public class NeedleControl : MonoBehaviour
             {
                 _rigidbody.AddForce(new Vector3(0, 3.5f /*+ (DataManager._sinkerWeight * 0.05f)*/, 0));
 
-                if (!_ingameUIManager._Reeling._IsReeling && !gameMgr.isEging && gameMgr.isNeedleMoving)
+                if (!_ingameUIManager._Reeling._IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
                     gameMgr.NeedleStopMoving();
             }
 
@@ -242,7 +242,7 @@ public class NeedleControl : MonoBehaviour
                 {
                     _rigidbody.AddForce(new Vector3(0, 2f, 0));
 
-                    if (!_ingameUIManager._Reeling._IsReeling && !gameMgr.isEging && gameMgr.isNeedleMoving)
+                    if (!_ingameUIManager._Reeling._IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
                         gameMgr.NeedleStopMoving();
                 }
                 else

@@ -142,7 +142,7 @@ public class MatchManager : MonoBehaviour
         if (_exitUI.activeSelf)
             _exitUI.SetActive(false);
 
-        if (bleTotal != null && bleTotal.ConnectedMain && _gameManager._needleInWater)
+        if (bleTotal != null && bleTotal.ConnectedMain && _gameManager.NeedleInWater)
         {
             _fishControl.MotorStop();
             //bleTotal.Motor(0, 0);
@@ -166,9 +166,9 @@ public class MatchManager : MonoBehaviour
         _ingameUIManager._ingameUIManager_isPause = true;
         _fishControl._isPause = true;
         _fishControl.needleControl._isPause = true;
-        _gameManager._isPause = true;
-        _gameManager.isReset = true;
-        _gameManager._bgm = false;
+        _gameManager.IsPause = true;
+        _gameManager.IsReset = true;
+        _gameManager.IsPlayingBGM = false;
         _gameManager.ResetAction();
         _gameManager.StopAllCoroutines();
         _fishControl.StopAllCoroutines();
@@ -530,7 +530,7 @@ public class MatchManager : MonoBehaviour
     
     public void ClickEquipmentButton()
     {
-        if (_gameManager._currentState.Equals(PublicDefined.IngameState.casting) || _gameManager._needleInWater || _fishPopupObject.activeSelf)
+        if (_gameManager._currentState.Equals(PublicDefined.IngameState.casting) || _gameManager.NeedleInWater || _fishPopupObject.activeSelf)
             return;
 
         PlayClickEffectAudio();
