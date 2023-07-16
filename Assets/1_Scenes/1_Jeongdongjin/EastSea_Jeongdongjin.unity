@@ -54141,7 +54141,7 @@ GameObject:
   - component: {fileID: 4948892370984909488}
   m_Layer: 0
   m_Name: 4_FishManager
-  m_TagString: Untagged
+  m_TagString: FishObjectManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -6,47 +6,47 @@ using UnityEngine.UI;
 public class WeatherManager : MonoBehaviour
 {
     // 스크립트 연결
-    private WorldManager worldMgr;
-    public FishControl fishControl;
-    public FishObjectManager fishobjMgrJeong;
-    public FishObjectManagerSkyway fishobjMgrSkyway;
-    public FishObjectManagerHomerspit fishobjMgrHomerspit;
+    WorldManager worldMgr;
+    [SerializeField] FishControl fishControl;
+    [SerializeField]  FishObjectManager fishobjMgrJeong;
+    [SerializeField]  FishObjectManagerSkyway fishobjMgrSkyway;
+    [SerializeField] FishObjectManagerHomerspit fishobjMgrHomerspit;
 
-    public Light light_Sun; // Directional Light의 Light
-    public Material highCloud;  // 큰 구름
-    public Material lowCloud;   // 작은 구름
-    public Material sunCruise;  // jeongdongjin 건물들에 쓰는 매터리얼
-    public Material skywayBridge;   // skyway 다리에 쓰는 매터리얼
-    public Material skywayLight;    // skyway 다리 외 건물에 쓰는 매터리얼
-    public Material[] homerspitMat; // homerspit 매터리얼 3종류
-    public GameObject[] homerspitStreetLamp;    // homerspit 가로등불빛 -> 오브젝트 On, Off용
-    public Material starField;  //  밤 배경 : 별 매터리얼
+    [SerializeField] Light light_Sun; // Directional Light의 Light
+    [SerializeField]  Material highCloud;  // 큰 구름
+    [SerializeField]  Material lowCloud;   // 작은 구름
+    [SerializeField]  Material sunCruise;  // jeongdongjin 건물들에 쓰는 매터리얼
+    [SerializeField]  Material skywayBridge;   // skyway 다리에 쓰는 매터리얼
+    [SerializeField]  Material skywayLight;    // skyway 다리 외 건물에 쓰는 매터리얼
+    [SerializeField]  Material[] homerspitMat; // homerspit 매터리얼 3종류
+    [SerializeField]  GameObject[] homerspitStreetLamp;    // homerspit 가로등불빛 -> 오브젝트 On, Off용
+    [SerializeField]  Material starField;  //  밤 배경 : 별 매터리얼
     //public PostProcessLayer postLayer;  // 각 게임씬별 포스트카메라의 레이어
-    public GameObject starBackground;   // 밤 배경 : 별 오브젝트
-    public GameObject yellowStar;   // 밤 배경 : 유성 오브젝트
-    public GameObject blueStar;     // 밤 배경 : 유성 오브젝트
-    public GameObject pinkStar;     // 밤 배경 : 유성 오브젝트
-    public GameObject moon; // 밤 배경 : 달 오브젝트
+    [SerializeField] GameObject starBackground;   // 밤 배경 : 별 오브젝트
+    [SerializeField] GameObject yellowStar;   // 밤 배경 : 유성 오브젝트
+    [SerializeField] GameObject blueStar;     // 밤 배경 : 유성 오브젝트
+    [SerializeField] GameObject pinkStar;     // 밤 배경 : 유성 오브젝트
+    [SerializeField] GameObject moon; // 밤 배경 : 달 오브젝트
     private Coroutine meteorCor;    // 밤배경 : 유성 떨어지는 코루틴
-    public GameObject houseLight;       // 현 tutorial(전 jeongdongjin)맵의 등대 불빛 관련 오브젝트
-    public GameObject pointLight;       // 현 tutorial(전 jeongdongjin)맵의 등대 불빛 관련 오브젝트
+    [SerializeField] GameObject houseLight;       // 현 tutorial(전 jeongdongjin)맵의 등대 불빛 관련 오브젝트
+    [SerializeField] GameObject pointLight;       // 현 tutorial(전 jeongdongjin)맵의 등대 불빛 관련 오브젝트
     private Coroutine lightHouseCor;    // 현 tutorial(전 jeongdongjin)맵의 등대 불빛 관련 코루틴
     private Coroutine bridgeLightCor;   // skyway 다리 불빛 관련 코루틴
     // Gstar용 구름(빠른거임)
-    public Transform cloud1;    // Gstar영상 촬영용으로 사용함(코루틴과 묶어서 삭제해도 됨)
-    public Transform cloud2;    // Gstar영상 촬영용으로 사용함(코루틴과 묶어서 삭제해도 됨)
+    [SerializeField] Transform cloud1;    // Gstar영상 촬영용으로 사용함(코루틴과 묶어서 삭제해도 됨)
+    [SerializeField] Transform cloud2;    // Gstar영상 촬영용으로 사용함(코루틴과 묶어서 삭제해도 됨)
     // 시간별로 수정
-    public GameObject sun;  // Directional Light의 오브젝트
-    public Material skyMat; // 시간별 하늘효과 매터리얼(Lighting에 있음)
+    [SerializeField] GameObject sun;  // Directional Light의 오브젝트
+    [SerializeField] Material skyMat; // 시간별 하늘효과 매터리얼(Lighting에 있음)
     private int moonSelect = 10;    // 달 선택용(순서대로 총 9종류 들어가있음)
     private Coroutine backgroundCor;    // 전체 배경 코루틴
     private int worldTime = 0;  // MapSelect Scene에서 선택된 월드시간
     private bool isSet = false; // 밤하늘 On, Off 확인용
 
     // 인게임 UI에 시간 관련
-    public Text _hourText;
-    public Text _minuteText;
-    public WeatherNotice _weatherNotice;
+    [SerializeField] Text _hourText;
+    [SerializeField] Text _minuteText;
+    [SerializeField] WeatherNotice _weatherNotice;
 
     void Start()
     {
