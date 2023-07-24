@@ -34,18 +34,17 @@ public class AquariumManager : MonoBehaviour
     int _fovPower = 1;
     Vector2 _firstTouchPos, _secondTouchPos;
     
-
     [Header("물고기는 여기에 버리자")]
     public Transform _garbageObject;
 
-    [HideInInspector] public bool _run = false; // 카메라 조작 
-    [HideInInspector] public List<bool> _checkExistFishs = new List<bool>() { false, false, false, false, false };
-    public FishInfoUI _fishInfoUI;
-    [HideInInspector] public int _finalFov = 90;
-    [HideInInspector] public float _finalPositionY = 0;
-    [HideInInspector] public float _finalPositionX = 0;
-   
-
+    bool _isCameraRunning = false; public bool IsCameraRunning { set { _isCameraRunning = value; } }
+    int _finalFov = 90; public int FinalFov { set { _finalFov = value; } }
+    float _finalPositionY = 0; public float FinalPositionY { get { return _finalPositionY; } set { _finalPositionY = value; } }
+    float _finalPositionX = 0; public float FinalPositionX { get { return _finalPositionX; } set { _finalPositionX = value; } }
+    List<bool> _checkExistFishs = new List<bool>();
+    public List<bool> CheckExistFishs { get { return _checkExistFishs; } set { _checkExistFishs = value; } }
+    [SerializeField] FishInfoUI _fishInfoUI;
+    
     private void Start()
     {
         //AudioManager.INSTANCE.StopBGM();
@@ -57,7 +56,7 @@ public class AquariumManager : MonoBehaviour
 
     private void Update()
     {
-        if (_run && !_fishInfoUI.gameObject.activeSelf)
+        if (_isCameraRunning && !_fishInfoUI.gameObject.activeSelf)
         {
             //_fov = _joystick._getY;
             //CameraMove();
@@ -141,7 +140,7 @@ public class AquariumManager : MonoBehaviour
     }
     public void ExitAquarium(int aquariumNumber)
     {
-        _run = false;
+        _isCameraRunning = false;
         _flock.IsFlocking = false;
         _aquariumDecoObject[aquariumNumber].SetActive(false);
         _fishObjectParentList[aquariumNumber].gameObject.SetActive(false);
@@ -183,7 +182,7 @@ public class AquariumManager : MonoBehaviour
             shiftTransform.SetParent(afterFishParent);
         }
         _flock.Parents[AfterAquariumNumber].gameObject.SetActive(false);
-        // 옮기면 SetActive는 false지만 계속 움직이고 있다. 그래서 Flocking에서 _run을 멈췄다가 다시 실행 시키자.
+        // 옮기면 SetActive는 false지만 계속 움직이고 있다. 그래서 Flocking에서 _isCameraRunning을 멈췄다가 다시 실행 시키자.
         // Flocking의 _allFishObject를 새로 갱신해야 하는 듯
 
         // FishSlot 하고 FishInfoSlot을 업데이트한다.

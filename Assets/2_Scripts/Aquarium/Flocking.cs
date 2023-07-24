@@ -69,7 +69,7 @@ public class Flocking : MonoBehaviour
             flockSize += value.Count;
         }
         // 만약 이미 물고기들이 있다면 활성화 시키고 return
-        if (_aquariumManamger._checkExistFishs[aquariumNumber])
+        if (_aquariumManamger.CheckExistFishs[aquariumNumber])
         {
             _parents[aquariumNumber].gameObject.SetActive(true);
             _allFishObject = new FlockUnit[objectSize];
@@ -146,7 +146,7 @@ public class Flocking : MonoBehaviour
                 }
             }
         }
-        _aquariumManamger._checkExistFishs[aquariumNumber] = true;
+        _aquariumManamger.CheckExistFishs[aquariumNumber] = true;
         _isFlocking = true;
     }
 

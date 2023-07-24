@@ -140,13 +140,13 @@ public class AquariumUI : MonoBehaviour
 
         // 카메라 회전, FOV 초기화
         _mainCamera.fieldOfView = 90;
-        _aquariumManamger._finalFov = 90;
+        _aquariumManamger.FinalFov = 90;
 
-        _aquariumManamger._finalPositionX = 0;
-        _aquariumManamger._finalPositionY = 0;
+        _aquariumManamger.FinalPositionX = 0;
+        _aquariumManamger.FinalPositionY = 0;
 
         _mainCamera.transform.position = new Vector3(0, 0, -12);
-        _aquariumManamger._run = true;
+        _aquariumManamger.IsCameraRunning = true;
 
         // 매니저한테 Dictinary<물고기 번호, 마릿수> 보내서 해당 물고기들을 생성한다.
         //_aquariumMenuUI.SetActive(false); // UI 바꾸기
@@ -181,7 +181,7 @@ public class AquariumUI : MonoBehaviour
         _enterButton.gameObject.SetActive(true);
         _topBarObject.SetActive(true);
         _aquariumButtonsObject.SetActive(true);
-        _aquariumManamger._run = false;
+        _aquariumManamger.IsCameraRunning = false;
     }
     public void ClickUpDownButton() // FishSlot On/Off 버튼
     {
@@ -223,10 +223,10 @@ public class AquariumUI : MonoBehaviour
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.aquariumRenewal).GetComponent<AudioPoolObject>().Init();
         // 카메라 회전, FOV 초기화
         _mainCamera.fieldOfView = 90;
-        _aquariumManamger._finalFov = 90;
+        _aquariumManamger.FinalFov = 90;
 
-        _aquariumManamger._finalPositionX = 0;
-        _aquariumManamger._finalPositionY = 0;
+        _aquariumManamger.FinalPositionX = 0;
+        _aquariumManamger.FinalPositionY = 0;
 
         _mainCamera.transform.position = new Vector3(0, 0, -12);
 
