@@ -6,12 +6,12 @@ using System;
 public class BaitBundle : MonoBehaviour
 {
     [Header("스크립트")]
-    public PetManager _pet;
-    public BaitSpatulaControl _baitspatulaControl;
-    
+    [SerializeField] PetManager _pet;
+    [SerializeField] BaitSpatulaControl _baitspatulaControl;
+
     // 물이 튀는 위치
-    public ParticleSystem _waterEffect;
-    public GameObject _surroundingEffect;
+    [SerializeField] ParticleSystem _waterEffect;
+    [SerializeField] GameObject _surroundingEffect;
 
     // 낙하 됐는지
     bool _baitBundleIsFlying = true;
@@ -38,25 +38,9 @@ public class BaitBundle : MonoBehaviour
         if (_pet.progress < 0.3f)
             _pet.progress = 0.35f;
 
-        //powerX = characterTr.rotation.y * progress * 1580;
-        //powerY = progress * 600;
-        //powerZ = progress * 1150;
-
-        //_forceVector.x = gameMgr.powerX;
-        //_forceVector.y = gameMgr.powerY;
-        //_forceVector.z = gameMgr.powerZ;
-        //needleControl.myRd.AddForce(_forceVector);
-
-        //_pet.progress = 1;
-
-        _forceVector.x = _baitspatulaControl._rotY * _pet.progress * 13.5f;
+        _forceVector.x = _baitspatulaControl.RotY * _pet.progress * 13.5f;
         _forceVector.y = _pet.progress * 600;
         _forceVector.z = _pet.progress * 780;
-
-        //float powerX = _baitspatulaControl._rotY * _pet.progress * 13.5f;
-        //float powerY = _pet.progress * 560;
-        //float powerZ = _pet.progress * 655;
-
         _rgd.AddForce(_forceVector);
     }
 

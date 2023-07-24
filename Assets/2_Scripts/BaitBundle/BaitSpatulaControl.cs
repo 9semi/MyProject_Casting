@@ -7,11 +7,11 @@ public class BaitSpatulaControl : MonoBehaviour
     public GameManager _gameManager;
 
     float _inputY = 0;
-    [HideInInspector] public float _rotY; 
+    float _rotY; public float RotY { get { return _rotY; } }
     float _minRotY = -19f;
     float _maxRotY = 25f;
 
-    [HideInInspector] public bool _tutorialStop;
+    bool _tutorialStop;
     Coroutine _rotateCoroutine;
     bool _isBluetoothReelConnect;
     private void Awake()
