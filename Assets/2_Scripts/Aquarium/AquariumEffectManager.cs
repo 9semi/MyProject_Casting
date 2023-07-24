@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class AquariumEffectManager : MonoBehaviour
 {
-    public Camera _bgCamera;
-    public GameObject _bgEffect;
-    public GameObject _touchEffect;
+    [SerializeField] Camera _bgCamera;
+    [SerializeField] GameObject _bgEffect;
+    [SerializeField] GameObject _touchEffect;
 
     Queue<GameObject> _touchEffectQueue = new Queue<GameObject>();
     private void Awake()
@@ -50,5 +50,10 @@ public class AquariumEffectManager : MonoBehaviour
     {
         go.SetActive(false);
         _touchEffectQueue.Enqueue(go);
+    }
+
+    public void BGEffectSetActive(bool active)
+    {
+        _bgEffect.SetActive(active);
     }
 }

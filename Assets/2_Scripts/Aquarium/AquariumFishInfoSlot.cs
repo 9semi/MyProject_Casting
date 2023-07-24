@@ -11,10 +11,10 @@ public class AquariumFishInfoSlot : MonoBehaviour
     readonly Color _rareColor = new Color(0.4f, 0, 0.5f);
 
     [Header("≈ÿΩ∫∆Æ")]
-    public Text _gradeText;
-    public Text _lengthText;
-    public Text _weightText;
-    public Text _priceText;
+    [SerializeField] Text _gradeText;
+    [SerializeField] Text _lengthText;
+    [SerializeField] Text _weightText;
+    [SerializeField] Text _priceText;
 
     FishInfoUI _fishInfoUI;
 

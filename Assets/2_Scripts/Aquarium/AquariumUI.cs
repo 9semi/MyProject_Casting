@@ -23,48 +23,48 @@ public class AquariumUI : MonoBehaviour
     readonly int _isOnHash = Animator.StringToHash("isOn");
 
     [Header("Aquarium Manager")]
-    public AquariumManager _aquariumManamger;
-    public AquariumEffectManager _aquariumEffectManager;
-
-    //[Header("UI 카메라")]
-    //public Camera _uiCamera;
-
+    [SerializeField] AquariumManager _aquariumManamger;
+    [SerializeField] AquariumEffectManager _aquariumEffectManager;
+    
     [Header("수족관 메뉴 UI")]
-    public Text _goldText;
-    public Text _pearlText;
-    public Image _BG;
-    public Button[] _aquariumButtons;
-    public Text[] _fishCountTexts;
-    public Sprite[] _bgSprites;
-    public Button _enterButton;
-    public GameObject _topBarObject;
-    public GameObject _aquariumButtonsObject;
+    [SerializeField] Text _goldText; public void SetGoldText() { _goldText.text = _userData._gold.ToString(); }
+    [SerializeField] Text _pearlText;
+    [SerializeField] Image _BG;
+    [SerializeField] Button[] _aquariumButtons;
+    [SerializeField] Text[] _fishCountTexts;
+    [SerializeField] Sprite[] _bgSprites; public Sprite GetBackgroundSprite(int aquariumNumber) { return _bgSprites[aquariumNumber]; }
+    [SerializeField] Button _enterButton;
+    [SerializeField] GameObject _topBarObject;
+    [SerializeField] GameObject _aquariumButtonsObject;
 
     [Header("수족관 안쪽 UI")]
-    public Transform _slotParent;
-    public GameObject _fishSlotUIObject;
-    public GameObject _exitButton;
-    public Button _updownButton;
-    public Transform _updownButtonTransform;
-    public Transform _downPos;
-    public Transform _upPos;
-    public GameObject _fishInfoUIObject;
-    public GameObject _positionResetButtonObject;
+    [SerializeField] Transform _slotParent;
+    [SerializeField] GameObject _fishSlotUIObject;
+    [SerializeField] GameObject _exitButton;
+    [SerializeField] Button _updownButton;
+    [SerializeField] Transform _updownButtonTransform;
+    [SerializeField] Transform _downPos;
+    [SerializeField] Transform _upPos;
+    [SerializeField] GameObject _fishInfoUIObject;
+    [SerializeField] GameObject _positionResetButtonObject;
 
     [Header("수족관 구매 UI")]
-    public BuyAquariumUI _buyAquariumUI;
+    [SerializeField] BuyAquariumUI _buyAquariumUI;
 
     Sprite _originBG;
     UserData _userData;
     FishInfoUI _fishInfoUI;
     AquariumFishSlot[] _fishSlot;
+
     List<bool> _aquariumState = new List<bool>();
     int _currentAquariumNumber = -1;
-    [HideInInspector] public eFishSlotType _currentFishSlotState = eFishSlotType.On;
+    Camera _mainCamera;
+    eFishSlotType _currentFishSlotState = eFishSlotType.On; public eFishSlotType CurrentFishSlotState { get { return _currentFishSlotState; } }
 
     private void Start()
     {
         _userData = DBManager.INSTANCE.GetUserData();
+        _mainCamera = _aquariumManamger.Cam;
         _goldText.text = _userData._gold.ToString("#,##0");
         _pearlText.text = _userData._pearl.ToString("#,##0");
         _aquariumState = _userData.GetAquariumPossessState(); // 수족관 사면 bool형으로 만들어진 이 리스트를 업데이트 해줘야 한다.
@@ -129,7 +129,7 @@ public class AquariumUI : MonoBehaviour
         PlayClickEffectAudio();
         PlayBGM();
 
-        _aquariumEffectManager._bgEffect.SetActive(false);
+        _aquariumEffectManager.BGEffectSetActive(false);
 
         if (_userData._currentJeongdongjinPassIndex.Equals((int)PublicDefined.eJeongdongjinPass.tnwhrrhksemfdjrkrl)
             || _userData._currentSkywayPassIndex.Equals((int)PublicDefined.eSkywayPass.tnwhrrhksemfdjrkrl)
@@ -139,13 +139,13 @@ public class AquariumUI : MonoBehaviour
         }
 
         // 카메라 회전, FOV 초기화
-        _aquariumManamger._cam.fieldOfView = 90;
+        _mainCamera.fieldOfView = 90;
         _aquariumManamger._finalFov = 90;
 
         _aquariumManamger._finalPositionX = 0;
         _aquariumManamger._finalPositionY = 0;
 
-        _aquariumManamger._cameraTransform.position = new Vector3(0, 0, -12);
+        _mainCamera.transform.position = new Vector3(0, 0, -12);
         _aquariumManamger._run = true;
 
         // 매니저한테 Dictinary<물고기 번호, 마릿수> 보내서 해당 물고기들을 생성한다.
@@ -171,7 +171,7 @@ public class AquariumUI : MonoBehaviour
     public void ClickExitButton() // 수족관에서 나오는 버튼
     {
         PlayExitEffectAudio();
-        _aquariumEffectManager._bgEffect.SetActive(true);
+        _aquariumEffectManager.BGEffectSetActive(true);
         AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.lobbyscene, true);
         // 해당 수족관 물고기 전부 끄기(o), 해당 수족관 데코 끄기(o), InsideUI 끄기(o), MenuUI 켜기(o)
         _aquariumManamger.ExitAquarium(_currentAquariumNumber);
@@ -222,13 +222,13 @@ public class AquariumUI : MonoBehaviour
     {
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.aquariumRenewal).GetComponent<AudioPoolObject>().Init();
         // 카메라 회전, FOV 초기화
-        _aquariumManamger._cam.fieldOfView = 90;
+        _mainCamera.fieldOfView = 90;
         _aquariumManamger._finalFov = 90;
 
         _aquariumManamger._finalPositionX = 0;
         _aquariumManamger._finalPositionY = 0;
 
-        _aquariumManamger._cameraTransform.position = new Vector3(0, 0, -12);
+        _mainCamera.transform.position = new Vector3(0, 0, -12);
 
         // 물고기 리셋
         _aquariumManamger.ResetFishPosition();

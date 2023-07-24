@@ -7,27 +7,22 @@ using UnityEngine.UI;
 
 public class AquariumManager : MonoBehaviour
 {
-    //static AquariumManager _uniqueInstance;
-    //static public AquariumManager INSTANCE
-    //{
-    //    get { return _uniqueInstance; }
-    //}
-    public AquariumUI _aquariumUI;
+    [SerializeField] AquariumUI _aquariumUI;
 
     List<Transform> _fishObjectParentList = new List<Transform>();
-    public Flocking _flock;
+    [SerializeField] Flocking _flock;
 
     [Header("물고기 정보")]
-    public List<AquariumFishDB> _aquariumFishDB = new List<AquariumFishDB>();
+    [SerializeField] List<AquariumFishDB> _aquariumFishDB = new List<AquariumFishDB>();
+    public List<AquariumFishDB> AquariumFishDB { get { return _aquariumFishDB; } }
 
     [Header("수족관 데코")]
-    public GameObject[] _aquariumDecoObject;
+    [SerializeField] GameObject[] _aquariumDecoObject;
 
     [Header("수족관을 보여줄 카메라")]
-    public Transform _cameraTransform;
-    public Camera _cam;
-
-    [Header("카메라 이동 관련")]
+    [SerializeField] Transform _cameraTransform;
+    [SerializeField] Camera _cam; public Camera Cam { get { return _cam; } } 
+    
     float _rotateY = 0;
     float _rotateX = 0;
     float _moveSpeed = 15f;
@@ -71,7 +66,7 @@ public class AquariumManager : MonoBehaviour
             {
                 Touch touch = Input.GetTouch(0);
 
-                if (_aquariumUI._currentFishSlotState.Equals(AquariumUI.eFishSlotType.On)) // FishSlot이 올라온 상태
+                if (_aquariumUI.CurrentFishSlotState.Equals(AquariumUI.eFishSlotType.On)) // FishSlot이 올라온 상태
                 {
                     if (touch.position.y < 300)
                         return;

@@ -188,16 +188,16 @@ public class FishInfoUI : MonoBehaviour
             switch (aquariumNum)
             {
                 case 1:
-                    _buyUI.Init(false, 80000, aquariumNum, _aquariumUI._bgSprites[aquariumNum], _userData, _aquariumUI);
+                    _buyUI.Init(false, 80000, aquariumNum, _aquariumUI.GetBackgroundSprite(aquariumNum), _userData, _aquariumUI);
                     break;
                 case 2:
-                    _buyUI.Init(false, 150000, aquariumNum, _aquariumUI._bgSprites[aquariumNum], _userData, _aquariumUI);
+                    _buyUI.Init(false, 150000, aquariumNum, _aquariumUI.GetBackgroundSprite(aquariumNum), _userData, _aquariumUI);
                     break;
                 case 3:
-                    _buyUI.Init(true, 7900, aquariumNum, _aquariumUI._bgSprites[aquariumNum], _userData, _aquariumUI);
+                    _buyUI.Init(true, 7900, aquariumNum, _aquariumUI.GetBackgroundSprite(aquariumNum), _userData, _aquariumUI);
                     break;
                 case 4:
-                    _buyUI.Init(true, 14900, aquariumNum, _aquariumUI._bgSprites[aquariumNum], _userData, _aquariumUI);
+                    _buyUI.Init(true, 14900, aquariumNum, _aquariumUI.GetBackgroundSprite(aquariumNum), _userData, _aquariumUI);
                     break;
             }
 
@@ -289,7 +289,7 @@ public class FishInfoUI : MonoBehaviour
         //Debug.Log("현재 골드: " + _userData._gold + "에 " + list[_currentFishListIndex]._price + "을 추가한다.");
 
         _userData._gold += list[_currentFishListIndex]._price;
-        _aquariumUI._goldText.text = _userData._gold.ToString();
+        _aquariumUI.SetGoldText();
         DBManager.INSTANCE.SellFish(_currentAquariumNumber, _stFishInfo);
         list.RemoveAt(_currentFishListIndex);
 

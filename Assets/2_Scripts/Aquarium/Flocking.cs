@@ -101,7 +101,7 @@ public class Flocking : MonoBehaviour
 
             int fishNumber = data[0]._fishNumber;
 
-            Transform p = _parents[aquariumNumber].Find(_aquariumManamger._aquariumFishDB[fishNumber]._engName);
+            Transform p = _parents[aquariumNumber].Find(_aquariumManamger.AquariumFishDB[fishNumber]._engName);
             bool isExist = p == null ? false : true;
 
             // 물고기 부모가 없다면 만든다.
@@ -112,7 +112,7 @@ public class Flocking : MonoBehaviour
                     Vector3 randomVector = UnityEngine.Random.insideUnitSphere;
                     randomVector = new Vector3(randomVector.x * _spawnBounds.x, randomVector.y * _spawnBounds.y, randomVector.z * _spawnBounds.z);
                     Quaternion rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
-                    _allFishObject[cnt] = Instantiate(_aquariumManamger._aquariumFishDB[fishNumber]._prefab.GetComponent<FlockUnit>(), randomVector, rotation, p);
+                    _allFishObject[cnt] = Instantiate(_aquariumManamger.AquariumFishDB[fishNumber]._prefab.GetComponent<FlockUnit>(), randomVector, rotation, p);
                     float scaleValue = data[i]._length * 0.02f;
                     if (scaleValue < 1.2f)
                         scaleValue = 1.2f;
@@ -127,7 +127,7 @@ public class Flocking : MonoBehaviour
             {
                 GameObject parent = new GameObject();
                 parent.transform.SetParent(_parents[aquariumNumber]);
-                parent.name = _aquariumManamger._aquariumFishDB[fishNumber]._engName;
+                parent.name = _aquariumManamger.AquariumFishDB[fishNumber]._engName;
 
                 for (int i = 0; i < data.Count; i++)
                 {
@@ -135,7 +135,7 @@ public class Flocking : MonoBehaviour
                     randomVector = new Vector3(randomVector.x * _spawnBounds.x, randomVector.y * _spawnBounds.y, randomVector.z * _spawnBounds.z);
                     Quaternion rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
 
-                    _allFishObject[cnt] = Instantiate(_aquariumManamger._aquariumFishDB[fishNumber]._prefab.GetComponent<FlockUnit>(), randomVector, rotation, parent.transform);
+                    _allFishObject[cnt] = Instantiate(_aquariumManamger.AquariumFishDB[fishNumber]._prefab.GetComponent<FlockUnit>(), randomVector, rotation, parent.transform);
                     float scaleValue = data[i]._length * 0.02f;
                     if (scaleValue < 1.2f)
                         scaleValue = 1.2f;

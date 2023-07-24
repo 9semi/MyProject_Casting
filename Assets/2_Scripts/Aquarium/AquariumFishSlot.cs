@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class AquariumFishSlot : MonoBehaviour
 {
-    public Text _fishName;
-    public Text _fishCount;
+    [SerializeField] Text _fishName;
+    [SerializeField] Text _fishCount;
 
     AquariumUI _aquariumUI;
     string _name;
