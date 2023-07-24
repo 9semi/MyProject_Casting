@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class FlockUnit : MonoBehaviour
 {
-    [HideInInspector] public Transform _myTransform { get; set; }
-    [HideInInspector] public bool _stop { get; set; }
+    bool _stop;
 
-    public float _fovAngle;
-    public float _smoothDamp;
-    public LayerMask _obstacleMask;
-    public Vector3[] _directionToCheckWhenAvoidingObstacles;
-    public bool _allowRotate = true;
+    [SerializeField] float _fovAngle;
+    [SerializeField] float _smoothDamp;
+    [SerializeField] LayerMask _obstacleMask;
+    [SerializeField] Vector3[] _directionToCheckWhenAvoidingObstacles;
+    [SerializeField] bool _allowRotate = true;
 
     List<FlockUnit> _cohesionNeighbours = new List<FlockUnit>(); // 주변의 화합, 결합, 응집력
     List<FlockUnit> _avoidenceNeighbours = new List<FlockUnit>(); // 
@@ -24,7 +23,6 @@ public class FlockUnit : MonoBehaviour
 
     private void Awake()
     {
-        _myTransform = transform;
         _stop = true;
     }
 
@@ -56,16 +54,16 @@ public class FlockUnit : MonoBehaviour
 
         Vector3 moveVector = cohesionVector + avoidanceVector + aligementVector + boundsVector + obstacleVector;
 
-        moveVector = Vector3.SmoothDamp(_myTransform.forward, moveVector, ref _currentVelocity, _smoothDamp);
+        moveVector = Vector3.SmoothDamp(transform.forward, moveVector, ref _currentVelocity, _smoothDamp);
         moveVector = moveVector.normalized * _speed;
 
         if (moveVector == Vector3.zero)
             moveVector = transform.forward;
 
         if(_allowRotate)
-            _myTransform.forward = moveVector;
+            transform.forward = moveVector;
 
-        _myTransform.position += moveVector * Time.deltaTime;
+        transform.position += moveVector * Time.deltaTime;
     }
 
     private Vector3 CalculateObstacleVector()
@@ -74,7 +72,7 @@ public class FlockUnit : MonoBehaviour
 
         RaycastHit hit;
         // 만약 _assignedFlock._obstacleDistance만큼 내 앞에 장애물이 있다면 최적의 길을 찾는다.
-        if (Physics.Raycast(_myTransform.position, _myTransform.forward, out hit, _assignedFlock._obstacleDistance, _obstacleMask))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, _assignedFlock._obstacleDistance, _obstacleMask))
         {
             obstacleVector = FindBestDircetionToAvoidObstacle();
         }
@@ -90,7 +88,7 @@ public class FlockUnit : MonoBehaviour
         if(_currentObstacleAvoidanceVector != Vector3.zero)
         { 
             RaycastHit hit;
-            if(Physics.Raycast(_myTransform.position, _myTransform.forward, out hit, _assignedFlock._obstacleDistance, _obstacleMask))
+            if(Physics.Raycast(transform.position, transform.forward, out hit, _assignedFlock._obstacleDistance, _obstacleMask))
             {
                 return _currentObstacleAvoidanceVector;
             }
@@ -100,11 +98,11 @@ public class FlockUnit : MonoBehaviour
         for (int i = 0; i < _directionToCheckWhenAvoidingObstacles.Length; i++)
         {
             RaycastHit hit;
-            Vector3 currentDirection = _myTransform.TransformDirection(_directionToCheckWhenAvoidingObstacles[i].normalized);
+            Vector3 currentDirection = transform.TransformDirection(_directionToCheckWhenAvoidingObstacles[i].normalized);
 
-            if(Physics.Raycast(_myTransform.position, currentDirection, out hit, _assignedFlock._obstacleDistance, _obstacleMask))
+            if(Physics.Raycast(transform.position, currentDirection, out hit, _assignedFlock._obstacleDistance, _obstacleMask))
             {
-                float currentDistance = (hit.point - _myTransform.position).sqrMagnitude;
+                float currentDistance = (hit.point - transform.position).sqrMagnitude;
                 if(currentDistance > maxDistance)
                 {
                     maxDistance = currentDistance;
@@ -135,22 +133,22 @@ public class FlockUnit : MonoBehaviour
         for (int i = 0; i < _cohesionNeighbours.Count; i++)
         {
             // 주변에 있는 오브젝트의 각도를 전부 확인해서 내가 정해놓은 각도 안에 있는 오브젝트를 선별한다.
-            if (IsInFOV(_cohesionNeighbours[i]._myTransform.position))
+            if (IsInFOV(_cohesionNeighbours[i].transform.position))
             {
                 neighboursInFov++;
-                cohesionVector += _cohesionNeighbours[i]._myTransform.position;
+                cohesionVector += _cohesionNeighbours[i].transform.position;
             }
         }
 
         cohesionVector /= neighboursInFov; // 평균
-        cohesionVector -= _myTransform.position; // 무리 쪽을 바라보게
+        cohesionVector -= transform.position; // 무리 쪽을 바라보게
         cohesionVector = cohesionVector.normalized;
         return cohesionVector;
     }
 
     private Vector3 CalculateAligementVector()
     {
-        Vector3 aligementVector = _myTransform.forward;
+        Vector3 aligementVector = transform.forward;
         if (_aligementNeighbours.Count.Equals(0))
             return aligementVector;
 
@@ -158,10 +156,10 @@ public class FlockUnit : MonoBehaviour
 
         for (int i = 0; i < _aligementNeighbours.Count; i++) 
         {
-            if(IsInFOV(_aligementNeighbours[i]._myTransform.position))
+            if(IsInFOV(_aligementNeighbours[i].transform.position))
             {
                 neighbourInFov++;
-                aligementVector += _aligementNeighbours[i]._myTransform.forward;
+                aligementVector += _aligementNeighbours[i].transform.forward;
             }
         }
 
@@ -181,10 +179,10 @@ public class FlockUnit : MonoBehaviour
 
         for (int i = 0; i < _avoidenceNeighbours.Count; i++)
         {
-            if (IsInFOV(_avoidenceNeighbours[i]._myTransform.position))
+            if (IsInFOV(_avoidenceNeighbours[i].transform.position))
             {
                 neighbourInFov++;
-                avoidenceVector += (_myTransform.position - _avoidenceNeighbours[i]._myTransform.position);
+                avoidenceVector += (transform.position - _avoidenceNeighbours[i].transform.position);
             }
         }
 
@@ -195,7 +193,7 @@ public class FlockUnit : MonoBehaviour
 
     private Vector3 CalculateBoundsVector()
     {
-        Vector3 offsetToCenter = _assignedFlock.transform.position - _myTransform.position;
+        Vector3 offsetToCenter = _assignedFlock.transform.position - transform.position;
         bool isNearCenter = (offsetToCenter.magnitude >= _assignedFlock._boundsDistance * 0.9f);
         return isNearCenter ? offsetToCenter.normalized : Vector3.zero;
 
@@ -256,6 +254,6 @@ public class FlockUnit : MonoBehaviour
 
     bool IsInFOV(Vector3 neighbourPosition)
     {                                                                                           // 감지 영역
-        return Vector3.Angle(_myTransform.forward, neighbourPosition - _myTransform.position) <= _fovAngle;
+        return Vector3.Angle(transform.forward, neighbourPosition - transform.position) <= _fovAngle;
     }
 }

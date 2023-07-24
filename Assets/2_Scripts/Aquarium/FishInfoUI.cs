@@ -5,25 +5,23 @@ using UnityEngine.UI;
 
 public class FishInfoUI : MonoBehaviour
 {
-    public Transform _slotParent;
-    public Text _nameText;
-    public AquariumManager _aquariumManager;
-    public BuyAquariumUI _buyUI;
+    [SerializeField] Transform _slotParent;
+    [SerializeField] Text _nameText;
+    [SerializeField] AquariumManager _aquariumManager;
+    [SerializeField] BuyAquariumUI _buyUI;
 
     [Header("수족관 관련")]
-    public Sprite _blueButtonSprite;
-    public Sprite _redButtonSprite;
-    public GameObject _selectAquariumUI;
-    public GameObject _sellConfirmUI;
-    public Image[] _aquariumButtonImages;
-    public Text[] _aquariumButtonCountTexts;
-    public Text[] _aquariumButtonPossessTexts;
-
-    //[Header("UI 카메라")]
-    //public Camera _uiCamera;
-
+    [SerializeField] Sprite _blueButtonSprite;
+    [SerializeField] Sprite _redButtonSprite;
+    [SerializeField] GameObject _selectAquariumUI;
+    [SerializeField] GameObject _sellConfirmUI;
+    [SerializeField] Image[] _aquariumButtonImages;
+    [SerializeField] Text[] _aquariumButtonCountTexts;
+    [SerializeField] Text[] _aquariumButtonPossessTexts;
+    
     List<int> _aquariumCountList;
     UserData _userData;
+
     // FishInfoSlot용 정보
     List<PublicDefined.stFishInfo> _fishInfoLIst;
     AquariumFishInfoSlot[] _slots;
@@ -33,8 +31,8 @@ public class FishInfoUI : MonoBehaviour
     int _currentAquariumNumber;
 
     AquariumUI _aquariumUI;
+    int _currentFishListIndex;
 
-    [HideInInspector] public int _currentFishListIndex;
     private void Start()
     {
         _aquariumManager.SetFishInfoUIInstance(this);
