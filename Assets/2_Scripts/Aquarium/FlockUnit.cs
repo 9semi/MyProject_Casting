@@ -35,7 +35,7 @@ public class FlockUnit : MonoBehaviour
 
     public void StopRun()
     {
-        _assignedFlock._run = false;
+        _assignedFlock.IsFlocking = false;
     }
 
     public void InitSpeed(float speed)
@@ -222,7 +222,7 @@ public class FlockUnit : MonoBehaviour
         _avoidenceNeighbours.Clear();
         _aligementNeighbours.Clear();
 
-        FlockUnit[] allUnits = _assignedFlock._allFishObject;
+        FlockUnit[] allUnits = _assignedFlock.AllFishObject;
 
         for(int i = 0; i < allUnits.Length; i++)
         {

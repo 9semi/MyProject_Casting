@@ -142,7 +142,7 @@ public class AquariumManager : MonoBehaviour
     public void ExitAquarium(int aquariumNumber)
     {
         _run = false;
-        _flock._run = false;
+        _flock.IsFlocking = false;
         _aquariumDecoObject[aquariumNumber].SetActive(false);
         _fishObjectParentList[aquariumNumber].gameObject.SetActive(false);
     }
@@ -152,7 +152,7 @@ public class AquariumManager : MonoBehaviour
         int DBNumber = stFishInfo._fishNumber;
         string engName = _aquariumFishDB[DBNumber]._engName;
 
-        Transform shiftTransform = _flock._parents[currentAquariumNumber].Find(engName).GetChild(0);
+        Transform shiftTransform = _flock.Parents[currentAquariumNumber].Find(engName).GetChild(0);
 
         if(!_checkExistFishs[AfterAquariumNumber])
         {
@@ -163,18 +163,18 @@ public class AquariumManager : MonoBehaviour
             return;
         }
 
-        Transform afterFishParent = _flock._parents[AfterAquariumNumber].Find(engName);
-        _flock._parents[AfterAquariumNumber].gameObject.SetActive(true);
+        Transform afterFishParent = _flock.Parents[AfterAquariumNumber].Find(engName);
+        _flock.Parents[AfterAquariumNumber].gameObject.SetActive(true);
         // 해당 수족관에 물고기가 없다면.. 수족관 버튼을 누른 적이 없다면 굳이 옮기지 않아도 나중에 그 버튼을 누를 때 생성될 것이다.
         // 왜냐하면 데이터는 이미 옮겨져있기 때문에.
-        _flock._run = false;
+        _flock.IsFlocking = false;
 
         if (afterFishParent == null)
         {
             // 동일한 물고기가 없어서 부모 자체가 없다. 옮길 수족관에 부모를 만든다.
             GameObject go = new GameObject();
             go.name = engName;
-            go.transform.SetParent(_flock._parents[AfterAquariumNumber]);
+            go.transform.SetParent(_flock.Parents[AfterAquariumNumber]);
             shiftTransform.SetParent(go.transform);
         }
         else
@@ -182,7 +182,7 @@ public class AquariumManager : MonoBehaviour
             // 동일한 물고기가 있어서 부모가 존재한다.
             shiftTransform.SetParent(afterFishParent);
         }
-        _flock._parents[AfterAquariumNumber].gameObject.SetActive(false);
+        _flock.Parents[AfterAquariumNumber].gameObject.SetActive(false);
         // 옮기면 SetActive는 false지만 계속 움직이고 있다. 그래서 Flocking에서 _run을 멈췄다가 다시 실행 시키자.
         // Flocking의 _allFishObject를 새로 갱신해야 하는 듯
 
@@ -197,9 +197,9 @@ public class AquariumManager : MonoBehaviour
     {
         int DBNumber = stFishInfo._fishNumber;
         string engName = _aquariumFishDB[DBNumber]._engName;
-        _flock._run = false;
+        _flock.IsFlocking = false;
 
-        Transform shiftTransform = _flock._parents[currentAquariumNumber].Find(engName).GetChild(0);
+        Transform shiftTransform = _flock.Parents[currentAquariumNumber].Find(engName).GetChild(0);
 
         _fishInfoUI.UpdateInfoSlot(stFishInfo);
         _aquariumUI.FishSlotUpdate();

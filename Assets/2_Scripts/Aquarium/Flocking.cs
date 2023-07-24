@@ -6,11 +6,11 @@ using UnityEngine;
 public class Flocking : MonoBehaviour
 {
     [Header("Aquarium Manager")]
-    public AquariumManager _aquariumManamger;
+    [SerializeField] AquariumManager _aquariumManamger;
 
     [Header("스폰 설정")]
-    [HideInInspector] public FlockUnit _fishObject;
-    public Vector3 _spawnBounds;
+    [SerializeField] FlockUnit _fishObject;
+    [SerializeField] Vector3 _spawnBounds;
 
     [Header("속도 설정")]
     [Range(0, 10)] public float _minSpeed;
@@ -30,16 +30,16 @@ public class Flocking : MonoBehaviour
     [Range(0, 10)] public float _boundsWeight;
     [Range(0, 100)] public float _obstacleWeight;
 
-    public List<Transform> _parents;
+    [SerializeField] List<Transform> _parents; public List<Transform> Parents { get { return _parents; } }
 
 
-    [HideInInspector] public FlockUnit[] _allFishObject { set; get; }
+    FlockUnit[] _allFishObject; public FlockUnit[] AllFishObject{ get { return _allFishObject; } set { _allFishObject = value; } }
 
-    [HideInInspector] public bool _run = false;
+    bool _isFlocking = false; public bool IsFlocking { get { return _isFlocking; }  set { _isFlocking = value; } }
 
     private void Update()
     {
-        if (_run)
+        if (_isFlocking)
         {
             for (int i = 0; i < _allFishObject.Length; i++)
             {
@@ -84,7 +84,7 @@ public class Flocking : MonoBehaviour
                 }
             }
 
-            _run = true;
+            _isFlocking = true;
             return;
         }
 
@@ -147,7 +147,7 @@ public class Flocking : MonoBehaviour
             }
         }
         _aquariumManamger._checkExistFishs[aquariumNumber] = true;
-        _run = true;
+        _isFlocking = true;
     }
 
     public void UpdateAllFishObject(int aquariumNumber)
@@ -175,12 +175,12 @@ public class Flocking : MonoBehaviour
                 fishCnt++;
             }
         }
-        _run = true;
+        _isFlocking = true;
     }
 
     public void ResetPosition()
     {
-        _run = false;
+        _isFlocking = false;
 
         for (int i = 0; i < _allFishObject.Length; i++)
         {
@@ -190,7 +190,7 @@ public class Flocking : MonoBehaviour
             _allFishObject[i].transform.localPosition = randomVector;
         }
 
-        _run = true;
+        _isFlocking = true;
     }
 
     public List<Transform> GetParents()
