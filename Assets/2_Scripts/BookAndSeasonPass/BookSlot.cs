@@ -4,15 +4,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-//[System.Serializable]
-//public class FishBookInfoDB
-//{
-//    public string Name { get; set; }
-//    public string CatchInfo { get; set; }
-//    public string SizeInfo { get; set; }
-//    public string BaitInfo { get; set; }
-//    public string MoveInfo { get; set; }
-//}
 public class BookSlot : MonoBehaviour /*,IPointerDownHandler,IPointerUpHandler*/
 {
     // 물고기 등급에 따른 이름 색상
@@ -21,14 +12,16 @@ public class BookSlot : MonoBehaviour /*,IPointerDownHandler,IPointerUpHandler*/
     readonly Color _rareColor = new Color(0.4f, 0, 0.5f);
 
     // 0번 : 서식지 정보, 1번 : 크기 정보, 2번: 미끼,루어정보, 3번: 움직임 정보 
-    public string[] info;
-    public Text nameTxt;
-    public Image fishImage;    
-    public BookInfo bookInfo;
-    public GameObject _starObject;
+    [SerializeField] string[] info;
+    public void SetInfoArray(string[] info) { this.info = info; }
+    public string[] GetInfoArray() { return info; }
+    [SerializeField] Text nameTxt; public Text GetNameText() { return nameTxt; }
+    [SerializeField] Image fishImage; public Image GetFishImage() { return fishImage;  }
+    [SerializeField] BookInfo bookInfo; 
+    [SerializeField] GameObject _starObject; public GameObject GetStarObject() { return _starObject; }
 
-    [HideInInspector]
-    public PublicDefined.eFishType _type;
+    PublicDefined.eFishType _type; public PublicDefined.eFishType Type { set { _type = value; } }
+
     private void Start()
     {
         GetComponent<Button>().onClick.AddListener(() => OpenFishInfo(true));

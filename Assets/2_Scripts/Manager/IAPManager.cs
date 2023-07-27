@@ -260,7 +260,7 @@ public class IAPManager : MonoBehaviour
             DBManager.INSTANCE.UpdateFirebase(updateDic);
         }
 
-        _passBuyUI._seasonPass.InitPassButtons();
+        _passBuyUI.SeasonPass.InitPassButtons();
     }
 
     void UpdateAquarium(int number)

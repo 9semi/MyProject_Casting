@@ -387,7 +387,7 @@ public class FishObjectManager : MonoBehaviour
         {
             for(int i = 0; i < _caughtFishs.Count; i++)
             {
-                _caughtFishs[i].transform.SetParent(_caughtFishs[i]._originParent);
+                _caughtFishs[i].transform.SetParent(_caughtFishs[i].GetOriginParent());
                 _caughtFishs[i].transform.GetChild(1).gameObject.SetActive(false);
             }
 
@@ -9999,7 +9999,7 @@ public class FishObjectManager : MonoBehaviour
             {
                 for (int i = 0; i < _fishListIncreaseProbabilityWhenMove.Count; i++)
                 {
-                    _fishListIncreaseProbabilityWhenMove[i].biteBait += 10f;
+                    _fishListIncreaseProbabilityWhenMove[i].BiteBait += 10f;
                 }
                 _isIncreaseWhenNeedleMove = true;
             }
@@ -10008,7 +10008,7 @@ public class FishObjectManager : MonoBehaviour
             {
                 for (int i = 0; i < _fishListIncreaseProbabilityWhenStill.Count; i++)
                 {
-                    _fishListIncreaseProbabilityWhenStill[i].biteBait -= 10f; 
+                    _fishListIncreaseProbabilityWhenStill[i].BiteBait -= 10f; 
                 }
                 _isIncreaseWhenNeedleStay = false;
             }
@@ -10021,7 +10021,7 @@ public class FishObjectManager : MonoBehaviour
             {
                 for (int i = 0; i < _fishListIncreaseProbabilityWhenMove.Count; i++)
                 {
-                    _fishListIncreaseProbabilityWhenMove[i].biteBait -= 10f;
+                    _fishListIncreaseProbabilityWhenMove[i].BiteBait -= 10f;
                 }
                 _isIncreaseWhenNeedleMove = false;
             }
@@ -10030,7 +10030,7 @@ public class FishObjectManager : MonoBehaviour
             {
                 for (int i = 0; i < _fishListIncreaseProbabilityWhenStill.Count; i++)
                 {
-                    _fishListIncreaseProbabilityWhenStill[i].biteBait += 10f;
+                    _fishListIncreaseProbabilityWhenStill[i].BiteBait += 10f;
                 }
 
                 _isIncreaseWhenNeedleStay = true;

@@ -27,47 +27,47 @@ public class BookAndSeasonPass : MonoBehaviour
 
     [Header("도감 관련")]
     [Header("도감과 패스 오브젝트")]
-    public GameObject _bookObject, _passObject;
+    [SerializeField] GameObject _bookObject, _passObject;
     [Header("도감과 패스 버튼")]
-    public Image _bookButtonImage;
-    public Image _passButtonImage;
+    [SerializeField] Image _bookButtonImage;
+    [SerializeField] Image _passButtonImage;
     [Header("물고기 오브젝트")]
-    public GameObject[] fishes;
-    public Sprite[] fishSprite;
+    [SerializeField] GameObject[] fishes;
+    [SerializeField] Sprite[] fishSprite;
     [Header("물고기 이미지 버튼")]
-    public Transform _bookSlotContent;
-    [HideInInspector]public BookSlot[] bookSlots;
+    [SerializeField] Transform _bookSlotContent;
+    BookSlot[] _bookSlots; public BookSlot[] BookSlots { get { return _bookSlots; } }
 
     [Header("패스 관련")]
-    public Transform[] _questButtons;
-    public Button[] _freeButtons;
-    public Button[] _premiumButtons;
-    public Image[] _panels;
-    public PassGetRewardUI _getRewardUI;
-    public GameObject _getAllRewardUI;
-    public PassBuyUI _buyPassUI;
+    [SerializeField] Transform[] _questButtons;
+    [SerializeField] Button[] _freeButtons;
+    [SerializeField] Button[] _premiumButtons;
+    [SerializeField] Image[] _panels;
+    [SerializeField] PassGetRewardUI _getRewardUI;
+    [SerializeField] GameObject _getAllRewardUI;
+    [SerializeField] PassBuyUI _buyPassUI;
 
     [Header("패스 버튼 스프라이트")]
-    public Sprite _grayButtonSprite;
-    public Sprite _greenButtonSprite;
-    public Sprite _blueButtonSprite;
+    [SerializeField] Sprite _grayButtonSprite;
+    [SerializeField] Sprite _greenButtonSprite;
+    [SerializeField] Sprite _blueButtonSprite;
 
     [Header("체크 이미지")]
-    public GameObject[] _check_green;
-    public GameObject[] _check_yellow;
+    [SerializeField] GameObject[] _check_green;
+    [SerializeField] GameObject[] _check_yellow;
 
     [Header("미니맵")]
-    public MiniMap _minimap;
+    [SerializeField] MiniMap _minimap;
 
     // 패스 미션 정보들을 가지고 있다.
-    [HideInInspector] public Pass _pass;
+    Pass _pass;
     // 미끼 정보 가지고 오자.
-    [HideInInspector] public List<Item> _baitList;
+    List<Item> _baitList;
     // 유저 정보 가지고 있어야 편할 듯
     UserData _userData;
 
-    public GameObject _plzCheckInGameUI;
-    public int _mapType_Lobby;
+    GameObject _plzCheckInGameUI;
+    int _mapType_Lobby; public int MapType_Lobby { set { _mapType_Lobby = value; } }
 
     private void Awake()
     {
@@ -76,11 +76,11 @@ public class BookAndSeasonPass : MonoBehaviour
         _userData = DBManager.INSTANCE.GetUserData();
         _pass = _passObject.GetComponent<Pass>();
         _baitList = ItemData.Instance.baitItemDB;
-        bookSlots = new BookSlot[_bookSlotContent.childCount];
+        _bookSlots = new BookSlot[_bookSlotContent.childCount];
 
-        for(int i = 0; i < bookSlots.Length; i++)
+        for(int i = 0; i < _bookSlots.Length; i++)
         {
-            bookSlots[i] = _bookSlotContent.GetChild(i).GetComponent<BookSlot>();
+            _bookSlots[i] = _bookSlotContent.GetChild(i).GetComponent<BookSlot>();
         }
     }
     
@@ -88,18 +88,18 @@ public class BookAndSeasonPass : MonoBehaviour
     {
         if(DataManager.INSTANCE._mapType.Equals(PublicDefined.eMapType.lobby))
         {
-            _minimap._currentNumber = -1;
-            _minimap._currentFilterNumber = -1;
-            _minimap._isFiltering = false;
+            _minimap.CurrentNumber = -1;
+            _minimap.CurrentFilterNumber = -1;
+            _minimap.IsFiltering = false;
             InitBook_Lobby();
             InitPassButtons_Lobby();
             ClickBookSeasonPassButton(0);
         }
         else
         {
-            _minimap._currentNumber = -1;
-            _minimap._currentFilterNumber = -1;
-            _minimap._isFiltering = false;
+            _minimap.CurrentNumber = -1;
+            _minimap.CurrentFilterNumber = -1;
+            _minimap.IsFiltering = false;
             InitBook();
             InitPassButtons();
             ClickBookSeasonPassButton(0);
@@ -148,82 +148,82 @@ public class BookAndSeasonPass : MonoBehaviour
                 Dictionary<int, PublicDefined.stRankFishInfo> jeongdongjinDic = _userData.GetJeongdongjinRankDictionary();
 
                 // 도감 슬롯 갯수만큼 반복 
-                for (int i = 0; i < bookSlots.Length; i++)
+                for (int i = 0; i < _bookSlots.Length; i++)
                 {
                     // 전역변수로 저장한 해당 맵 물고기 이미지들 삽입
-                    bookSlots[i].fishImage.sprite = fishSprite[i];
+                    _bookSlots[i].GetFishImage().sprite = fishSprite[i];
                     // 슬롯 jeongdongjin 물고기 이름을 프리펩에 있는 순서대로 가져옴 - 프리펩 순서대로 놔야함 가나다순
                     Fish fish = fishes[i].GetComponent<Fish>();
 
-                    if (jeongdongjinDic.ContainsKey(fish.fishDBNum))
-                        bookSlots[i]._starObject.SetActive(true);
+                    if (jeongdongjinDic.ContainsKey(fish.GetFishDBNum()))
+                        _bookSlots[i].GetStarObject().SetActive(true);
                     else
-                        bookSlots[i]._starObject.SetActive(false);
+                        _bookSlots[i].GetStarObject().SetActive(false);
 
-                    bookSlots[i].nameTxt.text = fish.fishKoreanName;
-                    bookSlots[i]._type = fish.GetStructFishData()._gradeType;
-                    bookSlots[i].nameTxt.color = GetColorAccordingToType(fish.GetStructFishData()._gradeType);
-                    bookSlots[i].gameObject.SetActive(true);
+                    _bookSlots[i].GetNameText().text = fish.GetFishKoreanName();
+                    _bookSlots[i].Type = fish.GetStructFishData()._gradeType;
+                    _bookSlots[i].GetNameText().color = GetColorAccordingToType(fish.GetStructFishData()._gradeType);
+                    _bookSlots[i].gameObject.SetActive(true);
 
-                    bookSlots[i].info = new string[fish.info.Length];
+                    _bookSlots[i].SetInfoArray(new string[fish.GetFishInfoArray().Length]);
                     // 물고기 정보 갯수(4줄)만큼 반복
-                    for (int j = 0; j < fish.info.Length; j++)
+                    for (int j = 0; j < fish.GetFishInfoArray().Length; j++)
                     {
                         // 슬롯에 저장될 jeongdongjin 물고기 정보를 프리펩에 있는 정보로 가져옴
-                        bookSlots[i].info[j] = fish.info[j];
+                        _bookSlots[i].GetInfoArray()[j] = fish.GetFishInfoArray()[j];
                     }
                 }
                 break;
             case PublicDefined.eMapType.skyway:
                 Dictionary<int, PublicDefined.stRankFishInfo> skywayDic = _userData.GetSkywayRankDictionary();
 
-                for (int i = 0; i < bookSlots.Length; i++)
+                for (int i = 0; i < _bookSlots.Length; i++)
                 {
-                    bookSlots[i].fishImage.sprite = fishSprite[i];
+                    _bookSlots[i].GetFishImage().sprite = fishSprite[i];
                     FishSkyway fish = fishes[i].GetComponent<FishSkyway>();
 
                     if (skywayDic.ContainsKey(fish.fishDBNum))
-                        bookSlots[i]._starObject.SetActive(true);
+                        _bookSlots[i].GetStarObject().SetActive(true);
                     else
-                        bookSlots[i]._starObject.SetActive(false);
+                        _bookSlots[i].GetStarObject().SetActive(false);
 
-                    bookSlots[i].nameTxt.text = fish.fishKoreanName;
-                    bookSlots[i]._type = fish.fishType;
-                    bookSlots[i].nameTxt.color = GetColorAccordingToType(fish.fishType);
-                    bookSlots[i].gameObject.SetActive(true);
-                    bookSlots[i].info = new string[fish.info.Length];
+                    _bookSlots[i].GetNameText().text = fish.fishKoreanName;
+                    _bookSlots[i].Type = fish.fishType;
+                    _bookSlots[i].GetNameText().color = GetColorAccordingToType(fish.fishType);
+                    _bookSlots[i].gameObject.SetActive(true);
+                    _bookSlots[i].SetInfoArray(new string[fish.info.Length]);
                     // 물고기 정보 갯수(4줄)만큼 반복
                     for (int j = 0; j < fish.info.Length; j++)
                     {
                         // 슬롯에 저장될 jeongdongjin 물고기 정보를 프리펩에 있는 정보로 가져옴
-                        bookSlots[i].info[j] = fish.info[j];
+                        _bookSlots[i].GetInfoArray()[j] = fish.info[j];
                     }
                 }
                 break;
             case PublicDefined.eMapType.homerspit:
                 Dictionary<int, PublicDefined.stRankFishInfo> homerspitDic = _userData.GetHomerspitRankDictionary();
 
-                for (int i = 0; i < bookSlots.Length; i++)
+                for (int i = 0; i < _bookSlots.Length; i++)
                 {
-                    bookSlots[i].fishImage.sprite = fishSprite[i];
+                    _bookSlots[i].GetFishImage().sprite = fishSprite[i];
                     FishHomerspit fish = fishes[i].GetComponent<FishHomerspit>();
 
                     if (homerspitDic.ContainsKey(fish.fishDBNum))
-                        bookSlots[i]._starObject.SetActive(true);
+                        _bookSlots[i].GetStarObject().SetActive(true);
                     else
-                        bookSlots[i]._starObject.SetActive(false);
+                        _bookSlots[i].GetStarObject().SetActive(false);
 
-                    bookSlots[i].nameTxt.text = fish.fishKoreanName;
-                    bookSlots[i]._type = fish.fishType;
-                    bookSlots[i].nameTxt.color = GetColorAccordingToType(fish.fishType);
-                    bookSlots[i].gameObject.SetActive(true);
+                    _bookSlots[i].GetNameText().text = fish.fishKoreanName;
+                    _bookSlots[i].Type = fish.fishType;
+                    _bookSlots[i].GetNameText().color = GetColorAccordingToType(fish.fishType);
+                    _bookSlots[i].gameObject.SetActive(true);
 
-                    bookSlots[i].info = new string[fish.info.Length];
+                    _bookSlots[i].SetInfoArray(new string[fish.info.Length]);
                     // 물고기 정보 갯수(4줄)만큼 반복
                     for (int j = 0; j < fish.info.Length; j++)
                     {
                         // 슬롯에 저장될 jeongdongjin 물고기 정보를 프리펩에 있는 정보로 가져옴
-                        bookSlots[i].info[j] = fish.info[j];
+                        _bookSlots[i].GetInfoArray()[j] = fish.info[j];
                     }
                 }
                 break;
@@ -237,82 +237,82 @@ public class BookAndSeasonPass : MonoBehaviour
                 Dictionary<int, PublicDefined.stRankFishInfo> jeongdongjinDic = _userData.GetJeongdongjinRankDictionary();
 
                 // 도감 슬롯 갯수만큼 반복 
-                for (int i = 0; i < bookSlots.Length; i++)
+                for (int i = 0; i < _bookSlots.Length; i++)
                 {
                     // 전역변수로 저장한 해당 맵 물고기 이미지들 삽입
-                    bookSlots[i].fishImage.sprite = fishSprite[i];
+                    _bookSlots[i].GetFishImage().sprite = fishSprite[i];
                     // 슬롯 jeongdongjin 물고기 이름을 프리펩에 있는 순서대로 가져옴 - 프리펩 순서대로 놔야함 가나다순
                     Fish fish = fishes[i].GetComponent<Fish>();
 
-                    if (jeongdongjinDic.ContainsKey(fish.fishDBNum))
-                        bookSlots[i]._starObject.SetActive(true);
+                    if (jeongdongjinDic.ContainsKey(fish.GetFishDBNum()))
+                        _bookSlots[i].GetStarObject().SetActive(true);
                     else
-                        bookSlots[i]._starObject.SetActive(false);
+                        _bookSlots[i].GetStarObject().SetActive(false);
 
-                    bookSlots[i].nameTxt.text = fish.fishKoreanName;
-                    bookSlots[i]._type = fish.GetStructFishData()._gradeType;
-                    bookSlots[i].nameTxt.color = GetColorAccordingToType(fish.GetStructFishData()._gradeType);
-                    bookSlots[i].gameObject.SetActive(true);
+                    _bookSlots[i].GetNameText().text = fish.GetFishKoreanName();
+                    _bookSlots[i].Type = fish.GetStructFishData()._gradeType;
+                    _bookSlots[i].GetNameText().color = GetColorAccordingToType(fish.GetStructFishData()._gradeType);
+                    _bookSlots[i].gameObject.SetActive(true);
 
-                    bookSlots[i].info = new string[fish.info.Length];
+                    _bookSlots[i].SetInfoArray(new string[fish.GetFishInfoArray().Length]);
                     // 물고기 정보 갯수(4줄)만큼 반복
-                    for (int j = 0; j < fish.info.Length; j++)
+                    for (int j = 0; j < fish.GetFishInfoArray().Length; j++)
                     {
                         // 슬롯에 저장될 jeongdongjin 물고기 정보를 프리펩에 있는 정보로 가져옴
-                        bookSlots[i].info[j] = fish.info[j];
+                        _bookSlots[i].GetInfoArray()[j] = fish.GetFishInfoArray()[j];
                     }
                 }
                 break;
             case 2:
                 Dictionary<int, PublicDefined.stRankFishInfo> skywayDic = _userData.GetSkywayRankDictionary();
 
-                for (int i = 0; i < bookSlots.Length; i++)
+                for (int i = 0; i < _bookSlots.Length; i++)
                 {
-                    bookSlots[i].fishImage.sprite = fishSprite[i];
+                    _bookSlots[i].GetFishImage().sprite = fishSprite[i];
                     FishSkyway fish = fishes[i].GetComponent<FishSkyway>();
 
                     if (skywayDic.ContainsKey(fish.fishDBNum))
-                        bookSlots[i]._starObject.SetActive(true);
+                        _bookSlots[i].GetStarObject().SetActive(true);
                     else
-                        bookSlots[i]._starObject.SetActive(false);
+                        _bookSlots[i].GetStarObject().SetActive(false);
 
-                    bookSlots[i].nameTxt.text = fish.fishKoreanName;
-                    bookSlots[i]._type = fish.fishType;
-                    bookSlots[i].nameTxt.color = GetColorAccordingToType(fish.fishType);
-                    bookSlots[i].gameObject.SetActive(true);
-                    bookSlots[i].info = new string[fish.info.Length];
+                    _bookSlots[i].GetNameText().text = fish.fishKoreanName;
+                    _bookSlots[i].Type = fish.fishType;
+                    _bookSlots[i].GetNameText().color = GetColorAccordingToType(fish.fishType);
+                    _bookSlots[i].gameObject.SetActive(true);
+                    _bookSlots[i].SetInfoArray(new string[fish.info.Length]);
                     // 물고기 정보 갯수(4줄)만큼 반복
                     for (int j = 0; j < fish.info.Length; j++)
                     {
                         // 슬롯에 저장될 jeongdongjin 물고기 정보를 프리펩에 있는 정보로 가져옴
-                        bookSlots[i].info[j] = fish.info[j];
+                        _bookSlots[i].GetInfoArray()[j] = fish.info[j];
                     }
                 }
                 break;
             case 1:
                 Dictionary<int, PublicDefined.stRankFishInfo> homerspitDic = _userData.GetHomerspitRankDictionary();
 
-                for (int i = 0; i < bookSlots.Length; i++)
+                for (int i = 0; i < _bookSlots.Length; i++)
                 {
-                    bookSlots[i].fishImage.sprite = fishSprite[i];
+                    _bookSlots[i].GetFishImage().sprite = fishSprite[i];
                     FishHomerspit fish = fishes[i].GetComponent<FishHomerspit>();
 
                     if (homerspitDic.ContainsKey(fish.fishDBNum))
-                        bookSlots[i]._starObject.SetActive(true);
+                        _bookSlots[i].GetStarObject().SetActive(true);
                     else
-                        bookSlots[i]._starObject.SetActive(false);
+                        _bookSlots[i].GetStarObject().SetActive(false);
 
-                    bookSlots[i].nameTxt.text = fish.fishKoreanName;
-                    bookSlots[i]._type = fish.fishType;
-                    bookSlots[i].nameTxt.color = GetColorAccordingToType(fish.fishType);
-                    bookSlots[i].gameObject.SetActive(true);
+                    _bookSlots[i].GetNameText().text = fish.fishKoreanName;
+                    _bookSlots[i].Type = fish.fishType;
+                    _bookSlots[i].GetNameText().color = GetColorAccordingToType(fish.fishType);
+                    _bookSlots[i].gameObject.SetActive(true);
 
-                    bookSlots[i].info = new string[fish.info.Length];
+                    _bookSlots[i].SetInfoArray(new string[fish.info.Length]);
                     // 물고기 정보 갯수(4줄)만큼 반복
                     for (int j = 0; j < fish.info.Length; j++)
                     {
                         // 슬롯에 저장될 jeongdongjin 물고기 정보를 프리펩에 있는 정보로 가져옴
-                        bookSlots[i].info[j] = fish.info[j];
+                        _bookSlots[i].GetInfoArray()[j] = fish.info[j];
                     }
                 }
                 break;

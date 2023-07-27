@@ -12,66 +12,41 @@ public class Fish : FishBase
     GameManager _gameManager;
     NeedleControl _needle;
 
-    [SerializeField] PublicDefined.eFishType fishType;
-
-    int randSpawn;
-    float realSize;
-    float weight;
-    [HideInInspector] public float backBiteBait;
-
-    public int fishDBNum;   // 데이터 번호
-    // 물고기 엑셀 시트에 따르면 총 게이지는 6초에 걸쳐 채워지고      
-    // second1 ~ second2 초내에 챔질을 하면 
-    // chance1 * 10% 확률로 성공하고
-    // second1 ~ second2 초내에 챔질을 못하면
-    // chance2 * 10% 확률로 성공한다.    Ex) second1: 2 second2: 5 -> 2초와 5초 사이에 챔질을 해야 확률이 늘어난다.
-    public int second1; // bitting -> 챔질 -> 확률 처음시간
-    public int second2; // bitting -> 챔질 -> 확률 마지막시간
-    public int chance1; // bitting -> 챔질 -> 확률 처음시간 마지막시간 사이
-    public int chance2; // bitting -> 챔질 -> 확률 그 외 시간
-    public int activityType;    // 활성도
-    public int motorType;   // 모터 활성도
-    int price;   // 가격
-
-    public int lookTargetTime;    // 바늘 찾는 시간
-    public bool _isSurface;
-    public float minY, maxY; // Y축 최소, 최대치 제어 변수
-
-
-    float backSearchRange;
-    public float biteBait; // bitting 확률
-    [SerializeField] float searchRange;  // 바늘 찾는 범위
-    bool isFind = false; // 타겟에 대한 bool형 변수
-
-    public string fishKoreanName;   // 물고기 한글명
-    public string fishEnglishName;  // 물고기 영어명
-    public string[] info;   // 물고기 정보
-
-    public GameObject mySkin;   // 물고기 그래픽(skin mesh renderer)
-    public Sprite myImg;    // 레어물고기 아이콘
-    public Sprite _mySprite;
-
+    int _randSpawn;
+    float _realSize;
+    float _weight;
+    float _backBiteBait; public float GetBackBiteBait() { return _backBiteBait; }
+    int _price;   // 가격
+    float _backSearchRange;
+    bool _isFind = false; // 타겟에 대한 bool형 변수
     Transform target;   // 내가 바라봐야 하는 타겟(바늘)
-    
     Coroutine moveCor; // 움직임 코루틴
     Coroutine lookCor; // 타겟(바늘)확인하는 코루틴 
     Coroutine _increaseSearchRangeCoroutine;
     int _increaseValue = 0;
-
     WaitForSeconds _lookDelay;
+    Transform _originParent; public Transform GetOriginParent() { return _originParent; }
 
-    public Transform _originParent;
-    public float BiteBait 
-    {
-        get { return biteBait; }
-        set { biteBait = value; } 
-    }
-    public float SearchRange 
-    {
-        get => searchRange; 
-        set => searchRange = value; 
-    }
-
+    [SerializeField] PublicDefined.eFishType fishType;
+    [SerializeField] int fishDBNum; public int GetFishDBNum() { return fishDBNum; }
+    [SerializeField] int second1;
+    [SerializeField] int second2;
+    [SerializeField] int chance1;
+    [SerializeField] int chance2;
+    [SerializeField] int activityType;  
+    [SerializeField] int motorType;
+    [SerializeField] int lookTargetTime;
+    [SerializeField] bool _isSurface;
+    [SerializeField] float minY, maxY;
+    [SerializeField] float biteBait; public float BiteBait { get { return biteBait; } set { biteBait = value; }}
+    [SerializeField] float searchRange; public float SearchRange{ get { return searchRange; } set { searchRange = value; } }
+    [SerializeField] string fishKoreanName; public string GetFishKoreanName() { return fishKoreanName; }
+    [SerializeField] string fishEnglishName;
+    [SerializeField] string[] info; public string[] GetFishInfoArray() { return info; }
+    [SerializeField] GameObject mySkin;
+    [SerializeField] Sprite myImg;    
+    [SerializeField] Sprite _mySprite; public Sprite GetFishSprite() { return _mySprite; }
+    
     private void Awake()
     {
         int d = Random.Range(1, 5);
@@ -79,8 +54,8 @@ public class Fish : FishBase
 
         searchRange = 0;
 
-        backBiteBait = biteBait;
-        backSearchRange = searchRange;
+        _backBiteBait = biteBait;
+        _backSearchRange = searchRange;
 
         _lookDelay = new WaitForSeconds(d);
     }
@@ -95,7 +70,7 @@ public class Fish : FishBase
         {
             searchRange = range;
         }
-        backSearchRange = range;
+        _backSearchRange = range;
     }
 
     public void Restart()
@@ -134,21 +109,21 @@ public class Fish : FishBase
         float devR = (max - ave) / 3;
 
         if (percentage < 3)
-            realSize = Random.Range(min, ave + (devL * 2));
+            _realSize = Random.Range(min, ave + (devL * 2));
         else if (percentage < 26)
-            realSize = Random.Range(ave + (devL * 2), ave + devL);
+            _realSize = Random.Range(ave + (devL * 2), ave + devL);
         else if (percentage < 50)
-            realSize = Random.Range(ave + devL, ave);
+            _realSize = Random.Range(ave + devL, ave);
         else if (percentage < 84)
-            realSize = Random.Range(ave, ave + devR);
+            _realSize = Random.Range(ave, ave + devR);
         else if (percentage < 97)
-            realSize = Random.Range(ave + devR, ave + (devR * 2));
+            _realSize = Random.Range(ave + devR, ave + (devR * 2));
         else
-            realSize = Random.Range(ave + (devR * 2), max);
+            _realSize = Random.Range(ave + (devR * 2), max);
     }
 
     // 물고기 무게 함수
-    private void FishWeight(int type)
+    private void Fish_weight(int type)
     {
         // 0: a
         // 1: b
@@ -160,23 +135,23 @@ public class Fish : FishBase
         switch (type)
         {
             case 0:
-                weight = 0.000011f * (Mathf.Pow(realSize * 100, 2.9f));
+                _weight = 0.000011f * (Mathf.Pow(_realSize * 100, 2.9f));
                 break;
             case 1:
-                weight = 0.00001f * (Mathf.Pow(realSize * 100, 3));
+                _weight = 0.00001f * (Mathf.Pow(_realSize * 100, 3));
                 break;
             case 2:
-                weight = 0.0000045f * (Mathf.Pow(realSize * 100, 3.2f));
+                _weight = 0.0000045f * (Mathf.Pow(_realSize * 100, 3.2f));
                 break;
             case 3:
-                weight = 0.00065f * (Mathf.Pow(realSize * 100, 2));
+                _weight = 0.00065f * (Mathf.Pow(_realSize * 100, 2));
                 break;
         }
         // 오차 +-
         if (choice == 0)
-            weight -= weight * addRange;
+            _weight -= _weight * addRange;
         else
-            weight += weight * addRange;
+            _weight += _weight * addRange;
     }
 
     // 물고기 데이터 삽입
@@ -188,8 +163,8 @@ public class Fish : FishBase
         // 테스트
         //mySkin.SetActive(true);
 
-        searchRange = backSearchRange;
-        biteBait = backBiteBait;
+        searchRange = _backSearchRange;
+        biteBait = _backBiteBait;
 
         _originParent = transform.parent;
 
@@ -228,11 +203,11 @@ public class Fish : FishBase
             case 7:
                 // 16(13 ~ 25), a
                 FishLenth(0.16f, 0.13f, 0.25f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (해조류, 물골) 
                 * 바닥에서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Seaweed(transform, 0, 7, minY, maxY, 14, _isSurface); // 해초
                 }
@@ -246,7 +221,7 @@ public class Fish : FishBase
             #region 감성돔
             case 99:
                 FishLenth(0.30f, 0.25f, 0.70f);
-                FishWeight(1);
+                Fish_weight(1);
                 //Debug.LogError(DataManager.INSTANCE._tutorialIsInProgress);
                 if (DataManager.INSTANCE._tutorialIsInProgress)
                 {
@@ -262,8 +237,8 @@ public class Fish : FishBase
 
                     /* 스폰위치 선정 (끝포인트, 암초, 해조류, 물골) 
                      * 바닥에서 5 ~ 15m에 서식 */
-                    randSpawn = Random.Range(0, 4);
-                    switch (randSpawn)
+                    _randSpawn = Random.Range(0, 4);
+                    switch (_randSpawn)
                     {
                         case 0:
                             _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
@@ -289,11 +264,11 @@ public class Fish : FishBase
             case 17:
                 // 20(15 ~ 30), b
                 FishLenth(0.20f, 0.15f, 0.30f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (암초, 사나질, 해조류, 물골) 
                  * 표면에서 0 ~ 5m에 서식 */
-                randSpawn = Random.Range(0, 4);
-                switch(randSpawn)
+                _randSpawn = Random.Range(0, 4);
+                switch(_randSpawn)
                 {
                     case 0:
                         _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
@@ -315,7 +290,7 @@ public class Fish : FishBase
             case 18:
                 // 27(22 ~ 40), a
                 FishLenth(0.27f, 0.22f, 0.40f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (사나질) 
                  * 바닥에 서식 */
                 _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
@@ -326,11 +301,11 @@ public class Fish : FishBase
             case 15:
                 // 50(15 ~ 90), a
                 FishLenth(0.50f, 0.15f, 0.90f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (암초, 사나질) 
                  * 바닥에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -345,11 +320,11 @@ public class Fish : FishBase
             case 8:
                 // 20(15 ~ 35), b
                 FishLenth(0.20f, 0.15f, 0.35f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (끝포인트, 암초, 해조류, 사나질) 
                 * 바닥에서 3 ~ 표층에서 5m에 서식 */
-                randSpawn = Random.Range(0, 4);
-                switch(randSpawn)
+                _randSpawn = Random.Range(0, 4);
+                switch(_randSpawn)
                 {
                     case 0:
                         _spawnControl.End(transform, 0, 10, minY, maxY - 0.5f, 2, _isSurface);
@@ -371,15 +346,15 @@ public class Fish : FishBase
             case 3:
                 // 45(40 ~ 80), c
                 FishLenth(0.45f, 0.40f, 0.80f);
-                FishWeight(2);
+                Fish_weight(2);
                 /* 스폰위치 선정 (급심지대, 사나질, 물골) 
                  * 바닥에 서식 */
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Steepzone(transform, 0, 25, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
                 }
@@ -394,11 +369,11 @@ public class Fish : FishBase
             case 11:
                 // 35(30 ~ 60), b
                 FishLenth(0.35f, 0.30f, 0.60f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (끝포인트, 암초) 
                  * 바닥에서 5 ~ 15m에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
                 }
@@ -416,15 +391,15 @@ public class Fish : FishBase
             case 29:
                 // 35(30 ~ 40), b
                 FishLenth(0.35f, 0.30f, 0.40f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (끝포인트, 암초, 해조류) 
                  * 바닥에서 2 ~ 5m에 서식*/
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -439,15 +414,15 @@ public class Fish : FishBase
             case 4:
                 // 17(12 ~ 35), b
                 FishLenth(0.17f, 0.12f, 0.35f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (끝포인트, 암초, 해조류) 
                  * 바닥에서 2 ~ 8m에 서식*/
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -462,15 +437,15 @@ public class Fish : FishBase
             case 26:
                 // 25(20 ~ 60), b
                 FishLenth(0.25f, 0.20f, 0.60f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (끝포인트, 암초, 해조류) 
                  * 바닥에서 2 ~ 8m에 서식*/
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -485,11 +460,11 @@ public class Fish : FishBase
             case 30:
                 // 25(20 ~ 40), a
                 FishLenth(0.25f, 0.20f, 0.40f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (암초, 물골) 
                  * 표면에서 0 ~ 3m에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -504,11 +479,11 @@ public class Fish : FishBase
             case 23:
                 // 20(15 ~ 31), b
                 FishLenth(0.20f, 0.15f, 0.31f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (끝포인트, 해조류) 
                  * 표면에서 5 ~ 20m에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
                 }
@@ -523,7 +498,7 @@ public class Fish : FishBase
             case 5:
                 // 83(60 ~ 100), b
                 FishLenth(0.83f, 0.60f, 1.00f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (물골) 
                  * 표면에서 0 ~ 5m에 서식 */
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
@@ -537,7 +512,7 @@ public class Fish : FishBase
             case 24:
                 // 83(60 ~ 100), b
                 FishLenth(0.83f, 0.60f, 1.00f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (물골) 
                  * 표면에서 0 ~ 5m에 서식 */
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
@@ -551,11 +526,11 @@ public class Fish : FishBase
             case 2:
                 // 27(20 ~ 40), a
                 FishLenth(0.27f, 0.20f, 0.40f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (사나질, 물골) 
                  * 표면에서 0 ~ 1m에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
                 }
@@ -570,11 +545,11 @@ public class Fish : FishBase
             case 19:
                 // 50(45 ~ 80), b
                 FishLenth(0.50f, 0.45f, 0.80f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (암초, 물골) 
                  * 표면에서 0 ~ 5m에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -589,7 +564,7 @@ public class Fish : FishBase
             case 28:
                 // 60(50 ~ 100), d
                 FishLenth(0.60f, 0.50f, 1.00f);
-                FishWeight(3);
+                Fish_weight(3);
                 /* 스폰위치 선정 (끝포인트) 
                  * 바닥에 서식 */
                 _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
@@ -600,15 +575,15 @@ public class Fish : FishBase
             case 21:
                 // 47(27 ~ 60), b
                 FishLenth(0.47f, 0.27f, 0.60f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (급심지대, 암초, 물골) 
                  * 표면에서 10 ~ 40m에 서식 */
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Steepzone(transform, 0, 25, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -623,15 +598,15 @@ public class Fish : FishBase
             case 27:
                 // 25(20 ~ 50), c
                 FishLenth(0.25f, 0.20f, 0.50f);
-                FishWeight(2);
+                Fish_weight(2);
                 /* 스폰위치 선정 (급심지대, 사나질, 물골) 
                  * 바닥에 서식 */
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Steepzone(transform, 0, 25, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
                 }
@@ -646,15 +621,15 @@ public class Fish : FishBase
             case 6:
                 // 35(25 ~ 80), c
                 FishLenth(0.35f, 0.25f, 0.80f);
-                FishWeight(2);
+                Fish_weight(2);
                 /* 스폰위치 선정 (급심지대, 사나질, 물골) 
                  * 바닥에 서식 */
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Steepzone(transform, 0, 25, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
                 }
@@ -669,15 +644,15 @@ public class Fish : FishBase
             case 20:
                 // 50(40 ~ 100), b
                 FishLenth(0.50f, 0.40f, 1.00f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (급심지대, 사나질, 물골) 
                  * 바닥에 서식 */
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Steepzone(transform, 0, 25, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
                 }
@@ -692,11 +667,11 @@ public class Fish : FishBase
             case 22:
                 // 20(15 ~ 35), a
                 FishLenth(0.20f, 0.15f, 0.35f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (사나질, 물골) 
                  * 표면에서 0 ~ 1m에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
                 }
@@ -711,7 +686,7 @@ public class Fish : FishBase
             case 16:
                 // 80(60 ~ 100), a
                 FishLenth(0.80f, 0.60f, 1.00f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (물골) 
                  * 표면에서 0 ~ 5m에 서식 */
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
@@ -725,11 +700,11 @@ public class Fish : FishBase
             case 13:
                 // 20(15 ~ 35), c
                 FishLenth(0.20f, 0.15f, 0.35f);
-                FishWeight(2);
+                Fish_weight(2);
                 /* 스폰위치 선정 (암초, 해조류) 
                  * 표면에서 5 ~ 15m에 서식*/
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -744,15 +719,15 @@ public class Fish : FishBase
             case 1:
                 // 22(20 ~ 35), c
                 FishLenth(0.22f, 0.20f, 0.35f);
-                FishWeight(2);
+                Fish_weight(2);
                 /* 스폰위치 선정 (끝포인트, 암초, 해조류) 
                  * 바닥에 서식*/
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -767,15 +742,15 @@ public class Fish : FishBase
             case 25:
                 // 40(35 ~ 80), c
                 FishLenth(0.40f, 0.35f, 0.80f);
-                FishWeight(2);
+                Fish_weight(2);
                 /* 스폰위치 선정 (끝포인트, 암초, 해조류) 
                  * 바닥에 서식*/
-                randSpawn = Random.Range(0, 3);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 3);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
                 }
-                else if (randSpawn.Equals(1))
+                else if (_randSpawn.Equals(1))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -790,11 +765,11 @@ public class Fish : FishBase
             case 14:
                 // 20(15 ~ 30), c
                 FishLenth(0.20f, 0.15f, 0.30f);
-                FishWeight(2);
+                Fish_weight(2);
                 /* 스폰위치 선정 (암초, 해조류) 
                  * 표면에서 5 ~ 15m에 서식*/
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Rock(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -809,7 +784,7 @@ public class Fish : FishBase
             case 9:
                 // 40(30 ~ 50), d
                 FishLenth(0.40f, 0.30f, 0.50f);
-                FishWeight(3);
+                Fish_weight(3);
                 /* 스폰위치 선정 (끝포인트) 
                  * 바닥에서 0 ~ 15m에 서식 */
                 _spawnControl.End(transform, 0, 10, minY, maxY, 2, _isSurface);
@@ -820,7 +795,7 @@ public class Fish : FishBase
             case 10:
                 // 105(60 ~ 130), b
                 FishLenth(1.05f, 0.60f, 1.30f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (물골) 
                  * 표면에서 0 ~ 5m에 서식 */
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
@@ -834,7 +809,7 @@ public class Fish : FishBase
             case 12:
                 // 20(15 ~ 30), a
                 FishLenth(0.20f, 0.15f, 0.30f);
-                FishWeight(0);
+                Fish_weight(0);
                 /* 스폰위치 선정 (사나질) 
                  * 바닥에 서식 */
                 _spawnControl.Sand(transform, 0, 8, minY, maxY, 14, _isSurface);
@@ -845,11 +820,11 @@ public class Fish : FishBase
             case 31:
                 // 30(25 ~ 40), b
                 FishLenth(0.30f, 0.25f, 0.40f);
-                FishWeight(1);
+                Fish_weight(1);
                 /* 스폰위치 선정 (해조류, 물골) 
                  * 표면에서 2 ~ 5m에 서식 */
-                randSpawn = Random.Range(0, 2);
-                if (randSpawn.Equals(0))
+                _randSpawn = Random.Range(0, 2);
+                if (_randSpawn.Equals(0))
                 {
                     _spawnControl.Seaweed(transform, 0, 7, minY, maxY, 14, _isSurface);
                 }
@@ -865,13 +840,13 @@ public class Fish : FishBase
 
         /* 세팅된 데이터를 구조체에 삽입 */
         _fishData = new stFishData(gameObject, transform, activityType, motorType, 
-            (float)System.Math.Round(realSize, 2), (float)System.Math.Round(weight, 2), price, fishKoreanName, info, fishType, fishDBNum);
+            (float)System.Math.Round(_realSize, 2), (float)System.Math.Round(_weight, 2), _price, fishKoreanName, info, fishType, fishDBNum);
 
         // 게임내 물고기 크기 = 실제 사이즈
         if (DBNum.Equals(28))
-            transform.localScale = new Vector3(realSize * 0.3f, realSize * 0.3f, realSize * 0.3f);
+            transform.localScale = new Vector3(_realSize * 0.3f, _realSize * 0.3f, _realSize * 0.3f);
         else
-            transform.localScale = new Vector3(realSize * 1.05f, realSize * 1.05f, realSize * 1.05f);
+            transform.localScale = new Vector3(_realSize * 1.05f, _realSize * 1.05f, _realSize * 1.05f);
     }
 
     // 물고기 가격
@@ -880,16 +855,16 @@ public class Fish : FishBase
         switch (grade)
         {
             case 0:
-                price = 200 + (int)(weight * 20);
+                _price = 200 + (int)(_weight * 20);
                 break;
             case 1:
-                price = 500 + (int)(weight * 20);
+                _price = 500 + (int)(_weight * 20);
                 break;
             case 2:
-                price = 3000 + (int)(weight * 20);
+                _price = 3000 + (int)(_weight * 20);
                 break;
             default:
-                price = 200 + (int)(weight * 20);
+                _price = 200 + (int)(_weight * 20);
                 break;
         }
     }
@@ -917,7 +892,7 @@ public class Fish : FishBase
             {
                 #region 도루묵
                 case 7:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SeaweedMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -930,7 +905,7 @@ public class Fish : FishBase
 
                 #region 감성돔
                 case 99:
-                    switch (randSpawn)
+                    switch (_randSpawn)
                     {
                         case 0:
                             _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY - 1, maxY - 5, 4);
@@ -950,7 +925,7 @@ public class Fish : FishBase
 
                 #region 새끼농어
                 case 17:
-                    switch (randSpawn)
+                    switch (_randSpawn)
                     {
                         case 0:
                             _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
@@ -976,7 +951,7 @@ public class Fish : FishBase
 
                 #region 붕장어
                 case 15:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -989,7 +964,7 @@ public class Fish : FishBase
 
                 #region 망상어
                 case 8:
-                    switch (randSpawn)
+                    switch (_randSpawn)
                     {
                         case 0:
                             _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY, maxY - 11.5f, 4);
@@ -1009,11 +984,11 @@ public class Fish : FishBase
 
                 #region 넙치
                 case 3:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SteepzoneMove(transform, 0, dirX, dirY, dirZ, 26, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.SandMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1026,7 +1001,7 @@ public class Fish : FishBase
 
                 #region 벵에돔
                 case 11:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY, maxY, 4);
                     }
@@ -1039,11 +1014,11 @@ public class Fish : FishBase
 
                 #region 청어
                 case 29:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1056,11 +1031,11 @@ public class Fish : FishBase
 
                 #region 노래미
                 case 4:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1073,11 +1048,11 @@ public class Fish : FishBase
 
                 #region 쥐노래미
                 case 26:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1090,7 +1065,7 @@ public class Fish : FishBase
 
                 #region 학공치
                 case 30:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1103,7 +1078,7 @@ public class Fish : FishBase
 
                 #region 전어
                 case 23:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY-9.5f, maxY - 11.5f, 4);
                     }
@@ -1128,7 +1103,7 @@ public class Fish : FishBase
 
                 #region 고등어
                 case 2:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SandMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1141,7 +1116,7 @@ public class Fish : FishBase
 
                 #region 숭어
                 case 19:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1160,11 +1135,11 @@ public class Fish : FishBase
 
                 #region 임연수어
                 case 21:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SteepzoneMove(transform, 0, dirX, dirY, dirZ, 26, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1177,11 +1152,11 @@ public class Fish : FishBase
 
                 #region 참가자미
                 case 27:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SteepzoneMove(transform, 0, dirX, dirY, dirZ, 26, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.SandMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1194,11 +1169,11 @@ public class Fish : FishBase
 
                 #region 도다리
                 case 6:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SteepzoneMove(transform, 0, dirX, dirY, dirZ, 26, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.SandMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1211,11 +1186,11 @@ public class Fish : FishBase
 
                 #region 양태
                 case 20:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SteepzoneMove(transform, 0, dirX, dirY, dirZ, 26, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.SandMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1228,7 +1203,7 @@ public class Fish : FishBase
 
                 #region 전갱이
                 case 22:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SandMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1247,7 +1222,7 @@ public class Fish : FishBase
 
                 #region 볼락
                 case 13:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1260,11 +1235,11 @@ public class Fish : FishBase
 
                 #region 개볼락
                 case 1:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1277,11 +1252,11 @@ public class Fish : FishBase
 
                 #region 조피볼락
                 case 25:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.EndMove(transform, 0, dirX, dirY, dirZ, 12, minY, maxY, 4);
                     }
-                    else if (randSpawn.Equals(1))
+                    else if (_randSpawn.Equals(1))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1294,7 +1269,7 @@ public class Fish : FishBase
 
                 #region 불볼락
                 case 14:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.RockMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1325,7 +1300,7 @@ public class Fish : FishBase
 
                 #region 황어
                 case 31:
-                    if (randSpawn.Equals(0))
+                    if (_randSpawn.Equals(0))
                     {
                         _spawnControl.SeaweedMove(transform, 0, dirX, dirY, dirZ, 8, minY, maxY, 16);
                     }
@@ -1358,9 +1333,9 @@ public class Fish : FishBase
         }
 
         float randChance;
-        isFind = false;
+        _isFind = false;
 
-        while (!isFind)
+        while (!_isFind)
         {
             if (!_fishControl.isFind && _gameManager.GetNeedleControlTransform().position.z > 5.5f)
             {
@@ -1373,7 +1348,7 @@ public class Fish : FishBase
                     // 바늘을 물었을 때
                     if (randChance <= biteBait && !_fishControl.isFind && _gameManager.NeedleInWater && !_gameManager.BaitThrowMode)
                     {
-                        isFind = true;
+                        _isFind = true;
                         _fishControl.isFind = true;
 
                         if(DataManager.INSTANCE._vibration)
@@ -1407,7 +1382,7 @@ public class Fish : FishBase
         _increaseValue += plusRate;
         if (_increaseSearchRangeCoroutine != null)
         {
-            SearchRange = backSearchRange + _increaseValue;
+            SearchRange = _backSearchRange + _increaseValue;
 
             StopCoroutine(_increaseSearchRangeCoroutine);
             _increaseSearchRangeCoroutine = null;
@@ -1416,7 +1391,7 @@ public class Fish : FishBase
         }
         else
         {
-            SearchRange = backSearchRange + _increaseValue;
+            SearchRange = _backSearchRange + _increaseValue;
             _increaseSearchRangeCoroutine = StartCoroutine(SearchRangeIncreasedByPastebait());
         }
     }
@@ -1435,22 +1410,22 @@ public class Fish : FishBase
         {
             if (fishDBNum.Equals(9) || fishDBNum.Equals(13))
             {
-                searchRange = backSearchRange + 1;
+                searchRange = _backSearchRange + 1;
             }
             else
             {
-                searchRange = backSearchRange - 1;
+                searchRange = _backSearchRange - 1;
             }
         }
         else
         {
             if (fishDBNum.Equals(9) || fishDBNum.Equals(13))
             {
-                searchRange = backSearchRange - 1;
+                searchRange = _backSearchRange - 1;
             }
             else
             {
-                searchRange = backSearchRange + 1;
+                searchRange = _backSearchRange + 1;
             }
         }
 

@@ -6957,7 +6957,6 @@ MonoBehaviour:
   - {fileID: 205254928}
   - {fileID: 26187449}
   - {fileID: 707347413}
-  _currentFishListIndex: 0
 --- !u!1 &184894011
 GameObject:
   m_ObjectHideFlags: 0
@@ -8775,12 +8774,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 1644472890}
   _cam: {fileID: 1644472889}
   _garbageObject: {fileID: 1714704215}
-  _run: 0
-  _checkExistFishs: 0000000000
   _fishInfoUI: {fileID: 184767205}
-  _finalFov: 100
-  _finalPositionY: 0
-  _finalPositionX: 0
 --- !u!4 &213472311
 Transform:
   m_ObjectHideFlags: 0
@@ -16733,7 +16727,6 @@ MonoBehaviour:
   _fishInfoUIObject: {fileID: 184767201}
   _positionResetButtonObject: {fileID: 972619212}
   _buyAquariumUI: {fileID: 1931210325}
-  _currentFishSlotState: 0
 --- !u!222 &283973267
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -113010,7 +113003,7 @@ MonoBehaviour:
   _aquariumNameText: {fileID: 1326057746}
   _cashCostText: {fileID: 211870382}
   _goldSprite: {fileID: 21300000, guid: 1d90bb3a091c7b04aac0ec05bcb94329, type: 3}
-  _cashSprite: {fileID: 21300000, guid: ce6f3004cae7ba34e97b35a717317a54, type: 3}
+  _cashSprite: {fileID: 21300000, guid: 98726ac1f0684e341b08ef70f03acdda, type: 3}
   _moneyImage: {fileID: 1914115801}
   _aquariumImage: {fileID: 1502350871}
   _buyButton: {fileID: 844931788}
@@ -116744,7 +116737,6 @@ MonoBehaviour:
   - {fileID: 1510663714}
   - {fileID: 908576902}
   - {fileID: 809280230}
-  _run: 0
 --- !u!1 &2016210920
 GameObject:
   m_ObjectHideFlags: 0

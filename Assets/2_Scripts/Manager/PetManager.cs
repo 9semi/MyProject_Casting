@@ -171,7 +171,7 @@ public class PetManager : MonoBehaviour
 
                     Vector3 iconPos = Camera.main.ViewportToWorldPoint(fishPos);
 
-                    _fishIcon[cnt].GetComponent<Image>().sprite = GetJeongdongjinRareFishImage(_jeongdongjinFishManager._RareFishList[i].GetComponent<Fish>().fishDBNum);
+                    _fishIcon[cnt].GetComponent<Image>().sprite = GetJeongdongjinRareFishImage(_jeongdongjinFishManager._RareFishList[i].GetComponent<Fish>().GetFishDBNum());
                     _fishIcon[cnt].transform.position = iconPos;
                     _fishIcon[cnt].gameObject.SetActive(true);
 

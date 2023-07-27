@@ -7,13 +7,13 @@ public class PassBuyUI : MonoBehaviour
 {
     readonly int _cost = 7900;
 
-    public GameObject _moneyObject;
-    public GameObject _alreadyHaveObject;
-    public GameObject _buyButtonObject;
-    public GameObject _checkUI;
+    [SerializeField] GameObject _moneyObject;
+    [SerializeField] GameObject _alreadyHaveObject;
+    [SerializeField] GameObject _buyButtonObject;
+    [SerializeField] GameObject _checkUI;
 
     int _currentPearl;
-    [HideInInspector] public BookAndSeasonPass _seasonPass;
+    BookAndSeasonPass _seasonPass; public BookAndSeasonPass SeasonPass { get { return _seasonPass; } }
 
     public void Init(bool isHave, int currentPearl, BookAndSeasonPass seasonPass)
     {

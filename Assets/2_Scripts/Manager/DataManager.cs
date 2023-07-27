@@ -148,7 +148,7 @@ public class DataManager : MonoBehaviour
         {
             for (int i = 0; i < _prevFishObject_Jeongdongjin.Count; i++)
             {
-                _prevFishObject_Jeongdongjin[i].BiteBait = _prevFishObject_Jeongdongjin[i].backBiteBait;
+                _prevFishObject_Jeongdongjin[i].BiteBait = _prevFishObject_Jeongdongjin[i].GetBackBiteBait();
                 //Debug.Log(_prevFishObject_Jeongdongjin[i].backBiteBait);
             }
 

@@ -38,15 +38,15 @@ public class MapSelectScene_RankUI : MonoBehaviour
                 {
                     Fish fish = _jeongdongjinFishObjects[i].GetComponent<Fish>();
 
-                    if (dic.ContainsKey(fish.fishDBNum))
+                    if (dic.ContainsKey(fish.GetFishDBNum()))
                     {
                         _content.GetChild(i).transform.GetComponent<FishRankSlot>().InitTrue(GetColorAccordingToType(fish.GetStructFishData()._gradeType), _jeongdongjinFishSprites[i],
-                            fish.fishKoreanName, dic[fish.fishDBNum]._length, dic[fish.fishDBNum]._weight);
+                            fish.GetFishKoreanName(), dic[fish.GetFishDBNum()]._length, dic[fish.GetFishDBNum()]._weight);
                         count++;
                     }
                     else
                     {
-                        _content.GetChild(i).transform.GetComponent<FishRankSlot>().InitFalse(_jeongdongjinFishSprites[i], fish.fishKoreanName);
+                        _content.GetChild(i).transform.GetComponent<FishRankSlot>().InitFalse(_jeongdongjinFishSprites[i], fish.GetFishKoreanName());
                     }
                 }
                 _jeongdongjinCountText.text = count.ToString();

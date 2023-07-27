@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PassGetRewardUI : MonoBehaviour
 {
-    public Image _itemImage;
-    public Text _itemText;
+    [SerializeField] Image _itemImage;
+    [SerializeField] Text _itemText;
 
     public void Init(Sprite itemSprite, string text)
     {
