@@ -109,7 +109,7 @@ public class FishPopUp : MonoBehaviour
     public void SetUpInfo(PublicDefined.stFishInfo fishInfo, int DBNumber, string name, float size, float weight, int price, string[] info, PublicDefined.eFishType fishType, Animator fishAni) 
     {
         if(!DBNumber.Equals(28) && !DBNumber.Equals(9))
-            fishControl._fishResisteAudioObject = AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishFlap, true);
+            fishControl.FishResisteAudioObject = AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishFlap, true);
 
         if(_gameManager == null)
         {
@@ -180,7 +180,7 @@ public class FishPopUp : MonoBehaviour
     public void SetUpInfo_Match(PublicDefined.stFishInfo fishInfo, int DBNumber, string name, float size, float weight, int price, string[] info, PublicDefined.eFishType fishType, Animator fishAni)
     {
         if (!DBNumber.Equals(28) && !DBNumber.Equals(9))
-            fishControl._fishResisteAudioObject = AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishFlap, true);
+            fishControl.FishResisteAudioObject = AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishFlap, true);
 
         _gameManager.HideBait();
         _gameManager.IsPause = true;
@@ -259,11 +259,11 @@ public class FishPopUp : MonoBehaviour
         _ingameUIManager.ResetCharacterGage();
         _gameManager.ShowBait();
 
-        if (fishControl._fishResisteAudioObject != null)
+        if (fishControl.FishResisteAudioObject != null)
         {
-            fishControl._fishResisteAudioObject.GetComponent<AudioSource>().loop = false;
-            fishControl._fishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
-            fishControl._fishResisteAudioObject = null;
+            fishControl.FishResisteAudioObject.GetComponent<AudioSource>().loop = false;
+            fishControl.FishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
+            fishControl.FishResisteAudioObject = null;
         }
         
         _gameManager.IsPause = false;
@@ -422,11 +422,11 @@ public class FishPopUp : MonoBehaviour
         VacataInfo();
         
         // 파닥거리는 소리 반복 끔
-        if (fishControl._fishResisteAudioObject != null)
+        if (fishControl.FishResisteAudioObject != null)
         {
-            fishControl._fishResisteAudioObject.GetComponent<AudioSource>().loop = false;
-            fishControl._fishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
-            fishControl._fishResisteAudioObject = null;
+            fishControl.FishResisteAudioObject.GetComponent<AudioSource>().loop = false;
+            fishControl.FishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
+            fishControl.FishResisteAudioObject = null;
         }
         sellPopup.SetActive(false);
         _gameManager.IsPause = false;
@@ -586,11 +586,11 @@ public class FishPopUp : MonoBehaviour
         
         _gameManager.ShowBait();
 
-        if (fishControl._fishResisteAudioObject != null)
+        if (fishControl.FishResisteAudioObject != null)
         {
-            fishControl._fishResisteAudioObject.GetComponent<AudioSource>().loop = false;
-            fishControl._fishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
-            fishControl._fishResisteAudioObject = null;
+            fishControl.FishResisteAudioObject.GetComponent<AudioSource>().loop = false;
+            fishControl.FishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
+            fishControl.FishResisteAudioObject = null;
         }
         
         sellPopup.SetActive(false);
@@ -604,10 +604,10 @@ public class FishPopUp : MonoBehaviour
 
     public void VacataInfo()
     {
-        if(fishControl._fishMoveToNeedleCoroutine != null)
+        if(fishControl.FishMoveToNeedleCoroutine != null)
         {
-            fishControl.StopCoroutine(fishControl._fishMoveToNeedleCoroutine);
-            fishControl._fishMoveToNeedleCoroutine = null;
+            fishControl.StopCoroutine(fishControl.FishMoveToNeedleCoroutine);
+            fishControl.FishMoveToNeedleCoroutine = null;
         }
 
         fishName.text = null;
@@ -634,7 +634,7 @@ public class FishPopUp : MonoBehaviour
         fishControl.GetStructFishData()._fishTransform.SetParent(_gameManager._catchPos);
         fishControl.GetStructFishData()._fishTransform.localPosition = Vector3.zero;
         fishControl.GetStructFishData()._fishObject.SetActive(false);
-        fishControl.fishTr = null;
+        fishControl.FishTransform = null;
         fishControl.IsFind = false;
         characterMgr.ResetPos();
         gameObject.SetActive(false);
@@ -653,11 +653,11 @@ public class FishPopUp : MonoBehaviour
     public void CloseBtn()
     {
         //SoundManager.instance.EffectPlay("CashRegister");
-        if (fishControl._fishResisteAudioObject != null)
+        if (fishControl.FishResisteAudioObject != null)
         {
-            fishControl._fishResisteAudioObject.GetComponent<AudioSource>().loop = false;
-            fishControl._fishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
-            fishControl._fishResisteAudioObject = null;
+            fishControl.FishResisteAudioObject.GetComponent<AudioSource>().loop = false;
+            fishControl.FishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
+            fishControl.FishResisteAudioObject = null;
         }
         fishInfoPanel[1].SetActive(false);
         fishInfoPanel[0].SetActive(true);

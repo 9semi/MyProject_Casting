@@ -59,10 +59,7 @@ public class InGameUIManager : MonoBehaviour
 
     [Header("물고기 잡았을 때 숨기려는 버튼들")]
     [SerializeField] GameObject[] _buttonObjects;
-
-
-
-    // Private
+    
     GameObject _characterGageObject; public GameObject _CharacterGageObject { set { _characterGageObject = value; } }
     Text _depthText_distanceText; public void GetDepthDistanceText(Text text) { _depthText_distanceText = text; }
     RectTransform _depthText_distanceText_RectTransform;
@@ -284,10 +281,10 @@ public class InGameUIManager : MonoBehaviour
                         fishControl.MotorStop();
                     }
 
-                    if (fishControl._fishMoveToNeedleCoroutine != null)
+                    if (fishControl.FishMoveToNeedleCoroutine != null)
                     {
-                        fishControl.StopCoroutine(fishControl._fishMoveToNeedleCoroutine);
-                        fishControl._fishMoveToNeedleCoroutine = null;
+                        fishControl.StopCoroutine(fishControl.FishMoveToNeedleCoroutine);
+                        fishControl.FishMoveToNeedleCoroutine = null;
                     }
                 }
             }
@@ -425,10 +422,10 @@ public class InGameUIManager : MonoBehaviour
     {
         yield return PublicDefined._05secDelay;
 
-        if (fishControl._motorStopCoroutine != null)
+        if (fishControl._MotorStopCoroutine != null)
         {
-            fishControl.StopCoroutine(fishControl._motorStopCoroutine);
-            fishControl._motorStopCoroutine = null;
+            fishControl.StopCoroutine(fishControl._MotorStopCoroutine);
+            fishControl._MotorStopCoroutine = null;
         }
 
         yield return PublicDefined._05secDelay;
@@ -451,7 +448,7 @@ public class InGameUIManager : MonoBehaviour
 
         menuPanel_Kor.SetActive(true);
         _gameManager.IsPause = true;
-        fishControl._isPause = true;
+        fishControl.IsPause = true;
 
         if (_gameManager._currentState.Equals(PublicDefined.IngameState.idle))
         {
@@ -500,12 +497,12 @@ public class InGameUIManager : MonoBehaviour
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
         menuPanel_Kor.SetActive(false);
         _gameManager.IsPause = false;
-        fishControl._isPause = false;
+        fishControl.IsPause = false;
 
-        if(fishControl._motorStopCoroutine != null)
+        if(fishControl._MotorStopCoroutine != null)
         {
-            fishControl.StopCoroutine(fishControl._motorStopCoroutine);
-            fishControl._motorStopCoroutine = null;
+            fishControl.StopCoroutine(fishControl._MotorStopCoroutine);
+            fishControl._MotorStopCoroutine = null;
         }
 
         if (_gameManager._currentState.Equals(PublicDefined.IngameState.fighting))
@@ -524,10 +521,10 @@ public class InGameUIManager : MonoBehaviour
     {
         yield return PublicDefined._05secDelay;
 
-        if(fishControl._motorStopCoroutine != null)
+        if(fishControl._MotorStopCoroutine != null)
         {
-            fishControl.StopCoroutine(fishControl._motorStopCoroutine);
-            fishControl._motorStopCoroutine = null;
+            fishControl.StopCoroutine(fishControl._MotorStopCoroutine);
+            fishControl._MotorStopCoroutine = null;
         }
 
         // 파이팅 상태
@@ -550,9 +547,9 @@ public class InGameUIManager : MonoBehaviour
             // #블루투스
             if (!DataManager.INSTANCE._tutorialIsInProgress)
             {
-                fishControl.dc = 0;
-                Debug.Log(fishControl._normalBLDC);
-                bleTotal.Motor(fishControl._normalBLDC, fishControl.dc);
+                fishControl.DcValue = 0;
+                Debug.Log(fishControl.NormalBLDC);
+                bleTotal.Motor(fishControl.NormalBLDC, fishControl.DcValue);
             }
         }
         // 캐스팅 전 상태는 이미 정지할 때 모터가 멈추기 때문에 그대로

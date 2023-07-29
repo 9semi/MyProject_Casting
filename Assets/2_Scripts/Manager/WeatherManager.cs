@@ -90,7 +90,7 @@ public class WeatherManager : MonoBehaviour
         float sunSizeConvergence;   // Lighting 조절
         float atmosphereThickness;  // Lighting 조절
 
-        fishControl.rareFishData.Clear();
+        fishControl.GetRareFishList().Clear();
 
         //Debug.Log("[" + worldTime + "]시로 바뀝니다.");
 

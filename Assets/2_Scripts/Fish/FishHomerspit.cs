@@ -505,7 +505,7 @@ public class FishHomerspit : FishBase
                 spawnControl.Sand(myTr, randChoice, 2, minY, maxY, 26, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -519,7 +519,7 @@ public class FishHomerspit : FishBase
                 spawnControl.Though(myTr, 0, 16, minY, maxY, 6, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -533,7 +533,7 @@ public class FishHomerspit : FishBase
                 spawnControl.Though(myTr, 0, 16, minY, maxY, 6, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -759,7 +759,7 @@ public class FishHomerspit : FishBase
                 }
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -782,7 +782,7 @@ public class FishHomerspit : FishBase
                 }
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -796,7 +796,7 @@ public class FishHomerspit : FishBase
                 spawnControl.Though(myTr, 0, 16, minY, maxY, 6, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -811,7 +811,7 @@ public class FishHomerspit : FishBase
                 spawnControl.Sand(myTr, randChoice, 2, minY, maxY, 26, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -825,7 +825,7 @@ public class FishHomerspit : FishBase
                 spawnControl.End(myTr, 0, 17, minY, maxY, 6, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
         }
@@ -837,7 +837,7 @@ public class FishHomerspit : FishBase
 
         // 전시할 때 물고기가 너무 안물리는 것을 방지하기 위한 코드이며 
         // 일반적인 빌드 파일에서는 제외해야 한다.
-        if (fishControl._isConnectedToBluetooth)
+        if (fishControl.IsConnectedToBluetooth)
         {
             if (fishType == PublicDefined.eFishType.Normal)
             {

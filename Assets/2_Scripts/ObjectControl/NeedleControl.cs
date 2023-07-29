@@ -148,31 +148,31 @@ public class NeedleControl : MonoBehaviour
                     switch(_userData.GetCurrentEquipmentDictionary()["sinker"])
                     {
                         case 0:
-                            fishControl._normalBLDC = 10 + 2;
+                            fishControl.NormalBLDC = 10 + 2;
                             break;
                         case 1:
-                            fishControl._normalBLDC = 10 + 4;
+                            fishControl.NormalBLDC = 10 + 4;
                             break;
                         case 2:
-                            fishControl._normalBLDC = 10 + 6;
+                            fishControl.NormalBLDC = 10 + 6;
                             break;
                         case 3:
-                            fishControl._normalBLDC = 10 + 8;
+                            fishControl.NormalBLDC = 10 + 8;
                             break;
                         case 4:
-                            fishControl._normalBLDC = 10 + 10;
+                            fishControl.NormalBLDC = 10 + 10;
                             break;
 
                     }
                 }
                 else
                 {
-                    fishControl._normalBLDC = 10;
+                    fishControl.NormalBLDC = 10;
                 }
 
-                fishControl._bldcMax = 25;
-                fishControl.dc = 0;
-                bleTotal.Motor(fishControl._normalBLDC, fishControl.dc);
+                fishControl.BldcMax = 25;
+                fishControl.DcValue = 0;
+                bleTotal.Motor(fishControl.NormalBLDC, fishControl.DcValue);
             }
         }
     }

@@ -764,13 +764,13 @@ public class GameManager : MonoBehaviour
         // 블루투스
         if (bleTotal != null && bleTotal.ConnectedMain)
         {
-            if (fishControl._dcCoroutine != null)
+            if (fishControl.DcCoroutine != null)
             {
-                StopCoroutine(fishControl._dcCoroutine);
-                fishControl._dcCoroutine = null;
+                StopCoroutine(fishControl.DcCoroutine);
+                fishControl.DcCoroutine = null;
             }
 
-            if(fishControl._motorStopCoroutine != null)
+            if(fishControl._MotorStopCoroutine != null)
                 fishControl.MotorStop();
         }
     }

@@ -239,9 +239,9 @@ public class BLETotal : MonoBehaviour
                         else if (error < 10 && checkSum[2] == 2)
                         {
                             error++;
-                            fishControl._fishBLDC = 0;
-                            fishControl._normalBLDC = 0;
-                            fishControl.dc = 0;
+                            fishControl.FishBLDC = 0;
+                            fishControl.NormalBLDC = 0;
+                            fishControl.DcValue = 0;
                             Motor(0, 0);
                         }
                     }
@@ -270,7 +270,7 @@ public class BLETotal : MonoBehaviour
                                 string jsonString = Encoding.Default.GetString(data);
                                 _reelData = JsonConvert.DeserializeObject<ReelBlueToothData>(jsonString);
                                 gameMgr._reelData = _reelData;
-                                fishControl._reelData = _reelData;
+                                fishControl.SetReelData(_reelData);
 
                                 if (!_preH.Equals(_reelData.H) && gameMgr.NeedleInWater)
                                 {

@@ -164,7 +164,7 @@ public class MatchManager : MonoBehaviour
             AudioManager.INSTANCE.StopBGM();
 
         _ingameUIManager._ingameUIManager_isPause = true;
-        _fishControl._isPause = true;
+        _fishControl.IsPause = true;
         _gameManager.needleControl._isPause = true;
         _gameManager.IsPause = true;
         _gameManager.IsReset = true;
@@ -193,11 +193,11 @@ public class MatchManager : MonoBehaviour
         AudioManager.INSTANCE.StopBGM();
         AudioManager.INSTANCE.StopAllEffect();
 
-        if (_fishControl._fishResisteAudioObject != null)
+        if (_fishControl.FishResisteAudioObject != null)
         {
-            _fishControl._fishResisteAudioObject.GetComponent<AudioSource>().loop = false;
-            _fishControl._fishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
-            _fishControl._fishResisteAudioObject = null;
+            _fishControl.FishResisteAudioObject.GetComponent<AudioSource>().loop = false;
+            _fishControl.FishResisteAudioObject.GetComponent<AudioPoolObject>().ReturnThis();
+            _fishControl.FishResisteAudioObject = null;
         }
 
         _resultUI.Init(_beforeGrade, _beforeStar, _userData._grade, _userData._star, _winConditionString[_conditionNumber], isVictory, _userData._nickname, _opponentName, _myScore, _opponentScore);

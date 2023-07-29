@@ -455,7 +455,7 @@ public class FishSkyway : FishBase
                 }
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -469,7 +469,7 @@ public class FishSkyway : FishBase
                 spawnControl.Seaweed(myTr, 0, 7, minY, maxY, 14, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -483,7 +483,7 @@ public class FishSkyway : FishBase
                 spawnControl.Rock(myTr, 0, 7, minY, maxY, 14, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -497,7 +497,7 @@ public class FishSkyway : FishBase
                 spawnControl.Sand(myTr, 0, 8, minY, maxY, 14, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -745,7 +745,7 @@ public class FishSkyway : FishBase
                 }
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -759,7 +759,7 @@ public class FishSkyway : FishBase
                 spawnControl.Though(myTr, 0, 28, minY, maxY, 5, _isSurface);
                 rareFish.transform = myTr;
                 rareFish.image = myImg;
-                fishControl.rareFishData.Add(rareFish);
+                fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion            
         }
@@ -769,7 +769,7 @@ public class FishSkyway : FishBase
 
         // 전시할 때 물고기가 너무 안물리는 것을 방지하기 위한 코드이며 
         // 일반적인 빌드 파일에서는 제외해야 한다.
-        if (fishControl._isConnectedToBluetooth)
+        if (fishControl.IsConnectedToBluetooth)
         {
             if (fishType == PublicDefined.eFishType.Normal)
             {

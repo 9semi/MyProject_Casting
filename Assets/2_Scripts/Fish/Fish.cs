@@ -256,7 +256,7 @@ public class Fish : FishBase
                 }
                 rareFish.transform = transform;
                 rareFish.image = myImg;
-                _fishControl.rareFishData.Add(rareFish);
+                _fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -383,7 +383,7 @@ public class Fish : FishBase
                 }
                 rareFish.transform = transform;
                 rareFish.image = myImg;
-                _fishControl.rareFishData.Add(rareFish);
+                _fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -504,7 +504,7 @@ public class Fish : FishBase
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
                 rareFish.transform = transform;
                 rareFish.image = myImg;
-                _fishControl.rareFishData.Add(rareFish);
+                _fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -518,7 +518,7 @@ public class Fish : FishBase
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
                 rareFish.transform = transform;
                 rareFish.image = myImg;
-                _fishControl.rareFishData.Add(rareFish);
+                _fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -692,7 +692,7 @@ public class Fish : FishBase
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
                 rareFish.transform = transform;
                 rareFish.image = myImg;
-                _fishControl.rareFishData.Add(rareFish);
+                _fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 
@@ -801,7 +801,7 @@ public class Fish : FishBase
                 _spawnControl.Though(transform, 0, 28, minY, maxY, 5, _isSurface);
                 rareFish.transform = transform;
                 rareFish.image = myImg;
-                _fishControl.rareFishData.Add(rareFish);
+                _fishControl.GetRareFishList().Add(rareFish);
                 break;
             #endregion
 

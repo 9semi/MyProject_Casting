@@ -237,15 +237,15 @@ public class TensionUI : MonoBehaviour
         {
             if (_gameManager.NeedleInWater)
             {
-                if (_fishControl._dcCoroutine != null)
+                if (_fishControl.DcCoroutine != null)
                 {
                     //_fishControl.bldc = 15; _fishControl.dc = 0;
                     //bleTotal.Motor(_fishControl.bldc, _fishControl.dc);
-                    _fishControl.StopCoroutine(_fishControl._dcCoroutine);
-                    _fishControl._dcCoroutine = null;
-                    _fishControl._isDCing = false;
+                    _fishControl.StopCoroutine(_fishControl.DcCoroutine);
+                    _fishControl.DcCoroutine = null;
+                    _fishControl.IsDcing = false;
 
-                    bleTotal.Motor(_fishControl._normalBLDC, 0);
+                    bleTotal.Motor(_fishControl.NormalBLDC, 0);
                 }
             }
         }
@@ -292,7 +292,7 @@ public class TensionUI : MonoBehaviour
                 //Debug.Log(time);
                 gageProgress -= gageSpeed * time;
 
-                if (_fishControl.isY)
+                if (_fishControl.GetFishMovementDirection(1))
                 {// 물고기가 아래로 간다면 
                     gageProgress += 45 * time;
                 }
@@ -301,7 +301,7 @@ public class TensionUI : MonoBehaviour
                     gageProgress -= 45 * time;
                 }
 
-                if (!_fishControl.isZ)
+                if (!_fishControl.GetFishMovementDirection(2))
                 {
                     gageProgress += 45 * time;
                 }
@@ -403,7 +403,7 @@ public class TensionUI : MonoBehaviour
                         _gameManager.NeedleInWater = false;
                         ReelExit();
 
-                        if (_fishControl.fishTr != null && _fishControl.IsCatch)
+                        if (_fishControl.FishTransform != null && _fishControl.IsCatch)
                         {
                             // 캐릭터가 낚싯대 들어올리는 애니메이션
                             _gameManager.SettingCharacterAnimator(_raiseHash, true);
@@ -490,9 +490,9 @@ public class TensionUI : MonoBehaviour
                         if (angle >= 0 && angle < 1)
                             angle = 1;
 
-                        if (!_fishControl.isY && !_fishControl.isZ)
+                        if (!_fishControl.GetFishMovementDirection(1) && !_fishControl.GetFishMovementDirection(2))
                             gageProgress = gageSpeed * time2 * Mathf.RoundToInt((float)angle);
-                        else if (_fishControl.isY && _fishControl.isZ)
+                        else if (_fishControl.GetFishMovementDirection(1) && _fishControl.GetFishMovementDirection(2))
                             gageProgress = 4 * gageSpeed * time2 * Mathf.RoundToInt((float)angle);
                         else
                             gageProgress = 2 * gageSpeed * time2 * Mathf.RoundToInt((float)angle);
@@ -547,7 +547,7 @@ public class TensionUI : MonoBehaviour
                         _gameManager.NeedleInWater = false;
                         ReelExit();
 
-                        if (_fishControl.fishTr != null && _fishControl.IsCatch)
+                        if (_fishControl.FishTransform != null && _fishControl.IsCatch)
                         {
                             _gameManager.SettingCharacterAnimator(_raiseHash, true);
 

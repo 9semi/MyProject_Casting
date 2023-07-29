@@ -16,23 +16,37 @@ public class FishControl : FishBase
     readonly Vector3 _diedFishRotate_octopus = new Vector3(55, 0, 0);
     readonly Vector3 _caughtFIshPos = new Vector3(0.13f, -0.02f, 0.05f);
 
-    PetManager petMgr;
-    stFishData _fishData; public stFishData GetStructFishData() { return _fishData; }
-    PublicDefined.stFishInfo _fishDataForPassCheck;
-
     [SerializeField] InGameUIManager _ingameUIManager;
     [SerializeField] FishPopUp _fishPopUp;
-
     [SerializeField] GameObject _attackSuccessObject;
     [SerializeField] GameObject _attackFailObject;
-
     [SerializeField] GameManager _gameManager;
-    CharacterManager characterMgr;
+    [SerializeField] GameObject arrowLeft;
+    [SerializeField] GameObject arrowRight;
+    [SerializeField] GameObject arrowUp;
+    [SerializeField] ParticleSystem reelEft;
+    [Header("FishObjectManager")]
+    [SerializeField] FishObjectManager _jeongdongjinFishManager;
+    [SerializeField] FishObjectManagerSkyway _skywayFishManager;
+    [SerializeField] FishObjectManagerHomerspit _homerspitFishManager;
+    [Header("매치 모드일 때")]
+    [SerializeField] GameObject _currentMatchStateObject;
 
-    // 바늘
+    List<stRareFish> _rareFishList = new List<stRareFish>(); public List<stRareFish> GetRareFishList() { return _rareFishList; }
+    PetManager _petManager;
+    UserData _userData;
+    BLETotal _bleTotal;
+    TensionUI _tensionUI; public TensionUI _TensionUI { set { _tensionUI = value; } }
+    CharacterManager _characterManager;
     NeedleControl _needleControl; public void SetNeedleControlInstance(NeedleControl instance) { _needleControl = instance; }
+    ReelBlueToothData _reelData; public void SetReelData(ReelBlueToothData reelData) { _reelData = reelData; }
+
+    stFishData _fishData; public stFishData GetStructFishData() { return _fishData; }
+    PublicDefined.stFishInfo _fishDataForPassCheck;
+    Animator _fishAni;
     Transform _target; public Transform Target { get { return _target; } set { _target = value; } }
     Transform _needleCenterPos; public Transform NeedleCenterPos { set { _needleCenterPos = value; } }
+    Transform _fishTransform; public Transform FishTransform { get { return _fishTransform; } set { _fishTransform = value; } }
     bool _isFind = false; public bool IsFind { get { return _isFind; } set { _isFind = value; } }
     bool _isBite = false; public bool IsBite { get { return _isBite; } }
     bool _isCatch = false; public bool IsCatch { get { return _isCatch; } set { _isCatch = value; } }
@@ -40,81 +54,58 @@ public class FishControl : FishBase
     bool _isFighting = false; public bool IsFighting { get { return _isFighting; } set { _isFighting = value; } }
     bool _isOver = false;
     bool _isDeath = false; public bool IsDeath { get { return _isDeath; } set { _isDeath = value; } }
-
-    // 특수 공격 처리
     bool _isCenter = false; 
     bool _isLeft = false;  
     bool _isRight = false; 
     bool _isSpecialAttack = false; public bool IsSpecialAttack { get { return _isSpecialAttack; } set { _isSpecialAttack = value; } }
-    
-    public GameObject arrowLeft;
-    public GameObject arrowRight;
-    public GameObject arrowUp;
-    private Coroutine specialAttackCor;
     bool _firstVib;
     bool _secondVib;
     bool _thirdVib;
     bool _fourthVib;
     int _specialAttackPointRectTr_Y = 38;
 
-    // 텐션 게이지 관련
-    [SerializeField] public ParticleSystem reelEft;
-
-    public Coroutine biteCor;
-    public Coroutine fightCor;
-    public Coroutine dieCor;
-    public Coroutine _shutCoroutine;
-    public Coroutine _fishMoveToNeedleCoroutine;
-    private GameObject fishSkin;
+    Coroutine _bittingGageCoroutine;
+    Coroutine _specialAttackCoroutine;
+    Coroutine biteCor;
+    Coroutine fightCor;
+    Coroutine dieCor;
+    Coroutine _shutCoroutine;
+    Coroutine _motorStopCoroutine; public Coroutine _MotorStopCoroutine
+    { get { return _motorStopCoroutine; } set { _motorStopCoroutine = value; } }
+    Coroutine _fishMoveToNeedleCoroutine; public Coroutine FishMoveToNeedleCoroutine
+    { get { return _fishMoveToNeedleCoroutine; } set { _fishMoveToNeedleCoroutine = value; } }
+    Coroutine _dcCoroutine; public Coroutine DcCoroutine
+    { get { return _dcCoroutine; } set { _dcCoroutine = value; } }
+    GameObject fishSkin;
     GameObject _fishObject;
-    [HideInInspector] public Transform fishTr;
-
-    public Option option;
-
-    // 희귀 물고기 리스트
-    public List<stRareFish> rareFishData = new List<stRareFish>();
-
-    // 블루투스 데이터 관련
-    [HideInInspector] public BLETotal bleTotal;
-    [HideInInspector] public Coroutine _dcCoroutine;
-    [HideInInspector] public bool isX = false, isY = false, isZ = false;
-    [HideInInspector] public int _normalBLDC, _fishBLDC, dc;
-    [HideInInspector] public float rand;
+    GameObject _fishResisteAudioObject; public GameObject FishResisteAudioObject
+    { get { return _fishResisteAudioObject; } set { _fishResisteAudioObject = value; } }
+    int _normalBLDC; public int NormalBLDC { get { return _normalBLDC; } set { _normalBLDC = value; } }
+    int _fishBLDC; public int FishBLDC { get { return _fishBLDC; } set { _fishBLDC = value; } }
+    int _dcValue; public int DcValue { get { return _dcValue; } set { _dcValue = value; } }
+    int _bldcMax = 0; public int BldcMax { get { return _bldcMax; } set { _bldcMax = value; } }
+    int _powerCount = 0;
+    float rand;
     float term;
-    [HideInInspector] public bool _isDCing;
-    [HideInInspector] public int _bldcMax = 0;
-
-    // 바이팅 관련
-    public Coroutine bittingGageCor;
-
-    // 파이팅 관련
-    TensionUI _tensionUI; public TensionUI _TensionUI { set { _tensionUI = value; } }
-    [HideInInspector] public int powerCount = 0;
-
-    Animator _fishAni;
-
-    [HideInInspector] public GameObject _fishResisteAudioObject = null;
-    bool isTutorial;
-    // tutorial 중에는 기능을 막는다.
-    [HideInInspector] public bool _tutorialBittingStop;
+    bool _isDCing; public bool IsDcing { get { return _isDCing; } set { _isDCing = value; } }
+    bool _isTutorial;
+    bool _tutorialBittingStop;
+    bool _isConnectedToBluetooth; public bool IsConnectedToBluetooth { get { return _isConnectedToBluetooth; } }
+    bool _bittingPermission;
+    bool _isMatchMode;
+    bool _isPause; public bool IsPause { get { return _isPause; } set { _isPause = value; } }
+    bool isX = false, isY = false, isZ = false;
+    public bool GetFishMovementDirection(int xyzNumber)
+    {
+        switch (xyzNumber)
+        {
+            case 0: return isX;
+            case 1: return isY;
+            case 2: return isZ;
+            default: return false;
+        }
+    }
     
-    [Header("FishObjectManager")]
-    public FishObjectManager _jeongdongjinFishManager;
-    public FishObjectManagerSkyway _skywayFishManager;
-    public FishObjectManagerHomerspit _homerspitFishManager;
-
-    // 자이로 블루투스 
-    [HideInInspector] public bool _isConnectedToBluetooth = false;
-    [HideInInspector] public bool _bittingPermission;
-    [HideInInspector] public ReelBlueToothData _reelData;
-
-    [Header("매치 모드일 때")]
-    public GameObject _currentMatchStateObject;
-    [HideInInspector] bool _isMatchMode;
-    [HideInInspector] public bool _isPause; // 매치모드 끝날 때 전부 멈춰야 한다. 특수 공격 소리가 계속 나는 상황이 발생해서 막아야 한다.
-
-    UserData _userData;
-    public Coroutine _motorStopCoroutine;
 
     private void Awake()
     {
@@ -123,10 +114,10 @@ public class FishControl : FishBase
 
     void Start()
     {
-        isTutorial = DataManager.INSTANCE._tutorialIsInProgress;
+        _isTutorial = DataManager.INSTANCE._tutorialIsInProgress;
         _isMatchMode = DataManager.INSTANCE._matchGameIsInProgress;
-        characterMgr = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterManager>();
-        petMgr = GameObject.FindGameObjectWithTag("Pet").GetComponent<PetManager>();
+        _characterManager = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterManager>();
+        _petManager = GameObject.FindGameObjectWithTag("Pet").GetComponent<PetManager>();
         fightCor = null;
         biteCor = null;
         _shutCoroutine = null;
@@ -135,13 +126,13 @@ public class FishControl : FishBase
         // 블루투스 오브젝트 연결
         if (GameObject.FindGameObjectWithTag("Bluetooth"))
         {
-            bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
+            _bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
 
-            if (bleTotal._connectedMain)
+            if (_bleTotal._connectedMain)
             {
                 _isConnectedToBluetooth = true;
                 _reelData = new ReelBlueToothData();
-                bleTotal.fishControl = this;
+                _bleTotal.fishControl = this;
             }
         }
     }
@@ -150,7 +141,7 @@ public class FishControl : FishBase
     {
         while (true)
         {
-            fishTr.position = _needleCenterPos.position;
+            _fishTransform.position = _needleCenterPos.position;
             yield return null;
         }
     }
@@ -178,19 +169,19 @@ public class FishControl : FishBase
         switch (_fishData._motorType)
         {
             case 0:
-                dc = 0;
+                _dcValue = 0;
                 break;
             case 1:
                 while (_isStart || _isBite || _isCatch)
                 {
                     rand = UnityEngine.Random.Range(1f, 10f);
-                    dc = 0;
-                    bleTotal.Motor(_fishBLDC, dc);
+                    _dcValue = 0;
+                    _bleTotal.Motor(_fishBLDC, _dcValue);
                     _isDCing = false;
                     yield return new WaitForSeconds(rand);
-                    dc = UnityEngine.Random.Range(50, 71);
+                    _dcValue = UnityEngine.Random.Range(50, 71);
                     rand = UnityEngine.Random.Range(1f, 4f);
-                    bleTotal.Motor(_fishBLDC, dc);
+                    _bleTotal.Motor(_fishBLDC, _dcValue);
                     _isDCing = true;
                     yield return new WaitForSeconds(rand);
                 }
@@ -199,13 +190,13 @@ public class FishControl : FishBase
                 while (_isStart || _isBite || _isCatch)
                 {
                     rand = UnityEngine.Random.Range(1f, 8f);
-                    dc = 0;
-                    bleTotal.Motor(_fishBLDC, dc);
+                    _dcValue = 0;
+                    _bleTotal.Motor(_fishBLDC, _dcValue);
                     _isDCing = false;
                     yield return new WaitForSeconds(rand);
-                    dc = UnityEngine.Random.Range(65, 86);
+                    _dcValue = UnityEngine.Random.Range(65, 86);
                     rand = UnityEngine.Random.Range(1f, 4f);
-                    bleTotal.Motor(_fishBLDC, dc);
+                    _bleTotal.Motor(_fishBLDC, _dcValue);
                     _isDCing = true;
                     yield return new WaitForSeconds(rand);
 
@@ -215,13 +206,13 @@ public class FishControl : FishBase
                 while (_isStart || _isBite || _isCatch)
                 {
                     rand = UnityEngine.Random.Range(1f, 5f);
-                    dc = 0;
-                    bleTotal.Motor(_fishBLDC, dc);
+                    _dcValue = 0;
+                    _bleTotal.Motor(_fishBLDC, _dcValue);
                     _isDCing = false;
                     yield return new WaitForSeconds(rand);
-                    dc = UnityEngine.Random.Range(80, 100);
+                    _dcValue = UnityEngine.Random.Range(80, 100);
                     rand = UnityEngine.Random.Range(1, 4);
-                    bleTotal.Motor(_fishBLDC, dc);
+                    _bleTotal.Motor(_fishBLDC, _dcValue);
                     _isDCing = true;
                     yield return new WaitForSeconds(rand);
                 }
@@ -249,13 +240,13 @@ public class FishControl : FishBase
     }
 
     // 잡은 물고기 데이터 가져오는 함수
-    public void SetFish(GameObject fishObject, GameObject _fishSkin, Transform _fishTr, stFishData fishData)
+    public void SetFish(GameObject fishObject, GameObject _fishSkin, Transform __fishTransform, stFishData fishData)
     {
         _fishObject = fishObject;
         fishSkin = _fishSkin;
-        fishTr = _fishTr;
+        _fishTransform = __fishTransform;
         _fishData = fishData;
-        _fishAni = _fishTr.GetComponent<Animator>();
+        _fishAni = __fishTransform.GetComponent<Animator>();
 
         _fishDataForPassCheck = new PublicDefined.stFishInfo(_fishData._fishDBNumber, _fishData._name, _fishData._lenth, _fishData._weight, _fishData._price, _fishData._gradeType);
     }
@@ -263,7 +254,7 @@ public class FishControl : FishBase
     {
         while(!_isDeath)
         {
-            if (_target.position.z < 7 && powerCount < 4 && !isTutorial) // 물고기가 나랑 가까울 때
+            if (_target.position.z < 7 && _powerCount < 4 && !_isTutorial) // 물고기가 나랑 가까울 때
             {
                 _gameManager.AddForceToNeedle(0, 0, 200);
             }
@@ -304,16 +295,16 @@ public class FishControl : FishBase
         }
         _gameManager._currentState = PublicDefined.IngameState.fighting;
         _gameManager.IsNoBite = true; // 물고기가 물었다.
-        petMgr.isCatch = true;
+        _petManager.isCatch = true;
 
-        if (petMgr._itemUIState.Equals(PetManager.eItemUIState._on))
+        if (_petManager._itemUIState.Equals(PetManager.eItemUIState._on))
         {
-            petMgr.ClickItemButton();
+            _petManager.ClickItemButton();
         }
         _isDeath = false;
         _isFighting = true;
         fishSkin.SetActive(true);   // 물고기 그래픽 On
-        _gameManager.FishCaught = fishTr.GetChild(0).GetChild(0).transform;   // 낚시대 휘어지게 만들어줄려고
+        _gameManager.FishCaught = _fishTransform.GetChild(0).GetChild(0).transform;   // 낚시대 휘어지게 만들어줄려고
         //_needleControl.myRd.constraints = RigidbodyConstraints.None;
         _needleControl.StopCoroutine(_needleControl.needleCor); // 바늘 가라앉기 중지
         _needleControl.needleCor = null;
@@ -322,7 +313,7 @@ public class FishControl : FishBase
         OnDie();
 
         // #블루투스
-        if (bleTotal != null && bleTotal.ConnectedMain) // 블루투스와 연결이 되어있는지 확인한다.
+        if (_bleTotal != null && _bleTotal.ConnectedMain) // 블루투스와 연결이 되어있는지 확인한다.
         { // 블루투스와 연결이 잘 되어 있다면 기기?의 명령을 수행한다.
             _fishBLDC = (int)(_fishData._weight * 10) + 20;
 
@@ -339,9 +330,9 @@ public class FishControl : FishBase
             FightPower(_fishData._activityType, term);
 
             // #블루투스
-            if (bleTotal != null && bleTotal.ConnectedMain && !isTutorial)
+            if (_bleTotal != null && _bleTotal.ConnectedMain && !_isTutorial)
             {
-                bleTotal.Motor(BLDC(isY, isZ), dc);
+                _bleTotal.Motor(BLDC(isY, isZ), _dcValue);
             }
 
             yield return ReturnRandomDelay();
@@ -359,7 +350,7 @@ public class FishControl : FishBase
 
     private void FightPower(int type, float power)
     {
-        if (isTutorial)
+        if (_isTutorial)
             return;
 
         int randX, randY, randZ;
@@ -372,7 +363,7 @@ public class FishControl : FishBase
 
         x = 0; y = 0; z = 0;
 
-        fishTr.eulerAngles = new Vector3(0, 180, 0);
+        _fishTransform.eulerAngles = new Vector3(0, 180, 0);
 
         // 물고기가 가는 방향의 파워와 물고기의 각도 설정
         if (randX.Equals(0))
@@ -394,13 +385,13 @@ public class FishControl : FishBase
                 {
                     y = yPower - 2;
                     isY = false;
-                    fishTr.Rotate(0, 0, 15);
+                    _fishTransform.Rotate(0, 0, 15);
                 }
                 else
                 {
                     y = -yPower;
                     isY = true;
-                    fishTr.Rotate(0, 0, -30);
+                    _fishTransform.Rotate(0, 0, -30);
                 }
                 if (randZ < 6)
                 {
@@ -418,13 +409,13 @@ public class FishControl : FishBase
                 {
                     y = yPower - 2;
                     isY = false;
-                    fishTr.Rotate(0, 0, 15);
+                    _fishTransform.Rotate(0, 0, 15);
                 }
                 else
                 {
                     y = -yPower;
                     isY = true;
-                    fishTr.Rotate(0, 0, -30);
+                    _fishTransform.Rotate(0, 0, -30);
                 }
                 if (randZ < 2)
                 {
@@ -442,13 +433,13 @@ public class FishControl : FishBase
                 {
                     y = yPower - 2;
                     isY = false;
-                    fishTr.Rotate(0, 0, 15);
+                    _fishTransform.Rotate(0, 0, 15);
                 }
                 else
                 {
                     y = -yPower;
                     isY = true;
-                    fishTr.Rotate(0, 0, -30);
+                    _fishTransform.Rotate(0, 0, -30);
                 }
                 if (randZ < 8)
                 {
@@ -466,13 +457,13 @@ public class FishControl : FishBase
                 {
                     y = yPower - 2;
                     isY = false;
-                    fishTr.Rotate(0, 0, 15);
+                    _fishTransform.Rotate(0, 0, 15);
                 }
                 else
                 {
                     y = -yPower;
                     isY = true;
-                    fishTr.Rotate(0, 0, -30);
+                    _fishTransform.Rotate(0, 0, -30);
                 }
                 if (randZ < 5)
                 {
@@ -490,13 +481,13 @@ public class FishControl : FishBase
                 {
                     y = yPower - 2;
                     isY = false;
-                    fishTr.Rotate(0, 0, 15);
+                    _fishTransform.Rotate(0, 0, 15);
                 }
                 else
                 {
                     y = -yPower;
                     isY = true;
-                    fishTr.Rotate(0, 0, -30);
+                    _fishTransform.Rotate(0, 0, -30);
                 }
                 if (randZ < 5)
                 {
@@ -525,12 +516,12 @@ public class FishControl : FishBase
         if (!z.Equals(0))
             xPower *= 0.75f;
 
-        if(powerCount > 2)
+        if(_powerCount > 2)
             _gameManager.AddForceToNeedle(xPower, y * power, z * power * 0.8f);
         else
             _gameManager.AddForceToNeedle(xPower, y * power, z * power);
 
-        powerCount++;
+        _powerCount++;
 
         // 물고기가 앞으로 나아간다면 특수공격은 하지 않는다.
         // 물고기가 너무 가까우면 안한다.
@@ -611,11 +602,11 @@ public class FishControl : FishBase
 
     public void SpecialAttack(int direct)
     {
-        specialAttackCor = StartCoroutine(SpecialAttackCoroutine(direct));
+        _specialAttackCoroutine = StartCoroutine(_specialAttackCoroutineoutine(direct));
     }
 
     // 특수공격 코루틴(가속도 센서로 구현되어 있음) 
-    public IEnumerator SpecialAttackCoroutine(int direct)
+    public IEnumerator _specialAttackCoroutineoutine(int direct)
     {
         float specialAttackGageX = 0;
         float time = 0;
@@ -747,7 +738,7 @@ public class FishControl : FishBase
                         {
                             if (_reelData.Za < -500 && !_isPause)
                             {
-                                //Debug.Log("600보다 커야한다. " + bleTotal._reelData.Za);
+                                //Debug.Log("600보다 커야한다. " + _bleTotal._reelData.Za);
                                 _gameManager.IsPause = true;
 
                                 successCount += Time.deltaTime;
@@ -860,7 +851,7 @@ public class FishControl : FishBase
                         {
                             if (_reelData.Za > 500 && !_isPause)
                             {
-                                //Debug.Log("-650보다 작아야한다. " + bleTotal._reelData.Za);
+                                //Debug.Log("-650보다 작아야한다. " + _bleTotal._reelData.Za);
                                 _gameManager.IsPause = true;
                                 if (successCount.Equals(0))
                                 {
@@ -1008,7 +999,7 @@ public class FishControl : FishBase
                 break;
         }
 
-        StopCoroutine(specialAttackCor);
+        StopCoroutine(_specialAttackCoroutine);
     }
 
     IEnumerator SpecialAttackSuccessCoroutine()
@@ -1034,9 +1025,9 @@ public class FishControl : FishBase
         _ingameUIManager.FishingState(2);
         _ingameUIManager.HidePassContent();
         
-        if(petMgr._itemUIState.Equals(PetManager.eItemUIState._on))
+        if(_petManager._itemUIState.Equals(PetManager.eItemUIState._on))
         {
-            petMgr.ClickItemButton();
+            _petManager.ClickItemButton();
         }
 
         if (_isMatchMode)
@@ -1044,21 +1035,21 @@ public class FishControl : FishBase
 
         AudioManager.INSTANCE.SaveBGMPlayerCurrentTime();
         AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.bitting, true);
-        bittingGageCor = StartCoroutine(_tensionUI.BittingGage(second1, second2));
+        _bittingGageCoroutine = StartCoroutine(_tensionUI.BittingGage(second1, second2));
         //_tensionUI._gageEffect.SetActive(false);
         _tensionUI.ResetColor_SpecialAttack();
         _tensionUI.ResetGuide();
 
 
         // #블루투스
-        if (bleTotal != null && bleTotal.ConnectedMain) // 블루투스와 연결이 되어있는지 확인한다.
+        if (_bleTotal != null && _bleTotal.ConnectedMain) // 블루투스와 연결이 되어있는지 확인한다.
         { // 블루투스와 연결이 잘 되어 있다면 기기?의 명령을 수행한다.
             _fishBLDC = (int)(_fishData._weight * 10) + 20;
 
             if (_fishBLDC > 85)
                 _fishBLDC = 85;
 
-            bleTotal.Motor(_fishBLDC, 0);
+            _bleTotal.Motor(_fishBLDC, 0);
         }
         while (_tensionUI._RedGageBarRectTransform.sizeDelta.x < 900 && _isStart && !_isPause) // 빨간색 게이지가 꽉 차지 않았다면
         {
@@ -1102,10 +1093,10 @@ public class FishControl : FishBase
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
                                 _isStart = false;
 
-                                if (bleTotal != null && bleTotal.ConnectedMain)
+                                if (_bleTotal != null && _bleTotal.ConnectedMain)
                                 {
-                                    dc = 0;
-                                    bleTotal.Motor(_normalBLDC, dc);
+                                    _dcValue = 0;
+                                    _bleTotal.Motor(_normalBLDC, _dcValue);
                                 }
 
                             }
@@ -1139,8 +1130,8 @@ public class FishControl : FishBase
                             {
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
                                 _isStart = false;
-                                dc = 0;
-                                bleTotal.Motor(_normalBLDC, dc);
+                                _dcValue = 0;
+                                _bleTotal.Motor(_normalBLDC, _dcValue);
 
                                 if (DataManager.INSTANCE._vibration)
                                     Vibration.Vibrate(300);
@@ -1152,7 +1143,7 @@ public class FishControl : FishBase
             // 블루투스 X
             else
             {
-                if ((_gameManager.AngleGyro.x > 7 || (bleTotal != null && _gameManager.AngleGyro.x > 4) || Input.GetButtonDown("Jump")) && !_tutorialBittingStop)
+                if ((_gameManager.AngleGyro.x > 7 || (_bleTotal != null && _gameManager.AngleGyro.x > 4) || Input.GetButtonDown("Jump")) && !_tutorialBittingStop)
                 {
                     _gameManager.SettingCharacterAnimator(_hooksetHash);
                     randChance = UnityEngine.Random.Range(0, 10);
@@ -1245,8 +1236,8 @@ public class FishControl : FishBase
         }
 
         // 시간이 지나서 물고기를 놓쳤다.
-        StopCoroutine(bittingGageCor);
-        bittingGageCor = null;
+        StopCoroutine(_bittingGageCoroutine);
+        _bittingGageCoroutine = null;
         _isStart = false;
         PlayBGMWhenBittingFail();
         _isOver = false;
@@ -1255,9 +1246,9 @@ public class FishControl : FishBase
         if (!_isBite)
         {
             // #블루투스
-            if (bleTotal != null && bleTotal.ConnectedMain)
+            if (_bleTotal != null && _bleTotal.ConnectedMain)
             {
-                bleTotal.Motor(_normalBLDC, dc);
+                _bleTotal.Motor(_normalBLDC, _dcValue);
             }
 
             _ingameUIManager.FishingState(3);
@@ -1266,13 +1257,13 @@ public class FishControl : FishBase
             switch(DataManager.INSTANCE._mapType)
             {
                 case PublicDefined.eMapType.jeongdongjin:
-                    fishTr.GetComponent<Fish>().Restart();
+                    _fishTransform.GetComponent<Fish>().Restart();
                     break;
                 case PublicDefined.eMapType.skyway:
-                    fishTr.GetComponent<FishSkyway>().Restart();
+                    _fishTransform.GetComponent<FishSkyway>().Restart();
                     break;
                 case PublicDefined.eMapType.homerspit:
-                    fishTr.GetComponent<FishHomerspit>().Restart();
+                    _fishTransform.GetComponent<FishHomerspit>().Restart();
                     break;
             }
 
@@ -1309,7 +1300,7 @@ public class FishControl : FishBase
                 _gameManager.IsPause = true;
 
                 // #블루투스
-                if (bleTotal != null && bleTotal.ConnectedMain)
+                if (_bleTotal != null && _bleTotal.ConnectedMain)
                 {
                      MotorStop();
                 }
@@ -1339,7 +1330,7 @@ public class FishControl : FishBase
             {
                 _gameManager._currentState = PublicDefined.IngameState.casting;
                 // #블루투스
-                if (bleTotal != null && bleTotal.ConnectedMain)
+                if (_bleTotal != null && _bleTotal.ConnectedMain)
                 {
                     if (_dcCoroutine != null)
                     {
@@ -1348,8 +1339,8 @@ public class FishControl : FishBase
                     }
                     // DC: 물고기 흔들림
                     // BLDC: 낚싯줄 땡김
-                    dc = 0;
-                    bleTotal.Motor(_normalBLDC, dc);
+                    _dcValue = 0;
+                    _bleTotal.Motor(_normalBLDC, _dcValue);
                 }
 
                 if (_isSpecialAttack)
@@ -1379,13 +1370,13 @@ public class FishControl : FishBase
                 switch (DataManager.INSTANCE._mapType)
                 {
                     case PublicDefined.eMapType.jeongdongjin:
-                        fishTr.GetComponent<Fish>().Restart();
+                        _fishTransform.GetComponent<Fish>().Restart();
                         break;
                     case PublicDefined.eMapType.skyway:
-                        fishTr.GetComponent<FishSkyway>().Restart();
+                        _fishTransform.GetComponent<FishSkyway>().Restart();
                         break;
                     case PublicDefined.eMapType.homerspit:
-                        fishTr.GetComponent<FishHomerspit>().Restart();
+                        _fishTransform.GetComponent<FishHomerspit>().Restart();
                         break;
                 }
 
@@ -1401,7 +1392,7 @@ public class FishControl : FishBase
             }
             yield return null;
         }
-        powerCount = 0;
+        _powerCount = 0;
         StopCoroutine(dieCor);
 
     }
@@ -1427,42 +1418,42 @@ public class FishControl : FishBase
         // 모터가 흔들리는 중에 멈춘다.
         if (_isDCing)
         {
-            int temp = dc;
+            int temp = _dcValue;
 
-            while (dc > 0)
+            while (_dcValue > 0)
             {
-                dc -= temp / 3;
+                _dcValue -= temp / 3;
                 timer += 1;
 
-                if (dc < 0)
-                    dc = 0;
+                if (_dcValue < 0)
+                    _dcValue = 0;
 
-                bleTotal.Motor(15, dc);
+                _bleTotal.Motor(15, _dcValue);
 
                 if (timer > 4)
                     break;
 
                 yield return PublicDefined._05secRealDelay;
 
-                dc = 0;
-                bleTotal.Motor(0, dc);
+                _dcValue = 0;
+                _bleTotal.Motor(0, _dcValue);
             }
             _isDCing = false;
         }
         else
         {
-            dc = 0;
-            bleTotal.Motor(15, dc);
+            _dcValue = 0;
+            _bleTotal.Motor(15, _dcValue);
 
             yield return PublicDefined._09secRealDelay;
 
-            dc = 0;
-            bleTotal.Motor(0, dc);
+            _dcValue = 0;
+            _bleTotal.Motor(0, _dcValue);
 
         }
 
-        dc = 0;
-        bleTotal.Motor(0, dc);
+        _dcValue = 0;
+        _bleTotal.Motor(0, _dcValue);
         _motorStopCoroutine = null;
     }
 
@@ -1486,28 +1477,28 @@ public class FishControl : FishBase
             {
                 if (_fishData._fishDBNumber.Equals(28))
                 {
-                    fishTr.localPosition = _caughtFIshPos;
-                    fishTr.position += Vector3.down * 0.2f;
-                    fishTr.GetChild(0).localPosition = Vector3.zero;
-                    fishTr.localRotation = Quaternion.Euler(60, 0, 0);
+                    _fishTransform.localPosition = _caughtFIshPos;
+                    _fishTransform.position += Vector3.down * 0.2f;
+                    _fishTransform.GetChild(0).localPosition = Vector3.zero;
+                    _fishTransform.localRotation = Quaternion.Euler(60, 0, 0);
                 }
                 else
                 {
-                    fishTr.localPosition = _caughtFIshPos;
-                    fishTr.GetChild(0).localPosition = Vector3.zero;
-                    fishTr.GetChild(0).GetChild(0).localPosition = Vector3.zero;
+                    _fishTransform.localPosition = _caughtFIshPos;
+                    _fishTransform.GetChild(0).localPosition = Vector3.zero;
+                    _fishTransform.GetChild(0).GetChild(0).localPosition = Vector3.zero;
                 }
 
                 switch (DataManager.INSTANCE._mapType)
                 {
                     case PublicDefined.eMapType.jeongdongjin:
-                        fishTr.GetComponent<Fish>().StopCor();
+                        _fishTransform.GetComponent<Fish>().StopCor();
                         break;
                     case PublicDefined.eMapType.skyway:
-                        fishTr.GetComponent<FishSkyway>().StopCor();
+                        _fishTransform.GetComponent<FishSkyway>().StopCor();
                         break;
                     case PublicDefined.eMapType.homerspit:
-                        fishTr.GetComponent<FishHomerspit>().StopCor();
+                        _fishTransform.GetComponent<FishHomerspit>().StopCor();
                         break;
                     default:
                         break;
@@ -1520,26 +1511,26 @@ public class FishControl : FishBase
                 // 낚시 바늘로 이동
                 if (_fishData._fishDBNumber.Equals(28))
                 {
-                    fishTr.localPosition = _caughtFIshPos;
-                    fishTr.GetChild(0).localPosition = Vector3.zero;
+                    _fishTransform.localPosition = _caughtFIshPos;
+                    _fishTransform.GetChild(0).localPosition = Vector3.zero;
                 }
                 else
                 {
-                    fishTr.localPosition = _caughtFIshPos;
-                    fishTr.GetChild(0).localPosition = Vector3.zero;
-                    fishTr.GetChild(0).GetChild(0).localPosition = Vector3.zero;
+                    _fishTransform.localPosition = _caughtFIshPos;
+                    _fishTransform.GetChild(0).localPosition = Vector3.zero;
+                    _fishTransform.GetChild(0).GetChild(0).localPosition = Vector3.zero;
                 }
 
                 switch (DataManager.INSTANCE._mapType)
                 {
                     case PublicDefined.eMapType.jeongdongjin:
-                        fishTr.GetComponent<Fish>().StopCor();
+                        _fishTransform.GetComponent<Fish>().StopCor();
                         break;
                     case PublicDefined.eMapType.skyway:
-                        fishTr.GetComponent<FishSkyway>().StopCor();
+                        _fishTransform.GetComponent<FishSkyway>().StopCor();
                         break;
                     case PublicDefined.eMapType.homerspit:
-                        fishTr.GetComponent<FishHomerspit>().StopCor();
+                        _fishTransform.GetComponent<FishHomerspit>().StopCor();
                         break;
                     default:
                         break;
@@ -1562,7 +1553,7 @@ public class FishControl : FishBase
                 _gameManager.SettingCharacterAnimator(_raiseHash, false);
 
                 _isCatch = false;
-                petMgr.petAnimator.SetBool(_catchHash, false);
+                _petManager.petAnimator.SetBool(_catchHash, false);
 
                 _fishData._lenth = (_fishData._lenth * 10000) * 0.01f;
 
@@ -1622,7 +1613,7 @@ public class FishControl : FishBase
         arrowLeft.SetActive(false);
         _gameManager.SettingCharacterAnimator(_rightHash, false);
         arrowRight.SetActive(false);
-        StopCoroutine(specialAttackCor);
+        StopCoroutine(_specialAttackCoroutine);
     }
 
     IEnumerator MakeDelay(int delayNumber, Action action)
