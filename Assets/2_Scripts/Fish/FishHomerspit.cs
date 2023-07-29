@@ -225,7 +225,7 @@ public class FishHomerspit : FishBase
         biteBait = backBiteBait;
         searchRange = backSearchRange;
 
-        target = fishControl.target;
+        target = fishControl.Target;
         _originParent = transform.parent;
         if (moveCor != null)
         {
@@ -1254,26 +1254,26 @@ public class FishHomerspit : FishBase
 
     public IEnumerator LookTarget()
     {
-        yield return new WaitUntil(() => fishControl.target != null);
+        yield return new WaitUntil(() => fishControl.Target != null);
 
         if (target == null)
-            target = fishControl.target;
+            target = fishControl.Target;
 
         float randChance;
         isFind = false;
         while (!isFind)
         {
-            if (!fishControl.isFind && gameMgr.GetNeedleControlTransform().position.z > 5.5f)
+            if (!fishControl.IsFind && gameMgr.GetNeedleControlTransform().position.z > 5.5f)
             {
                 if (Vector3.Magnitude(target.position - myTr.position) < searchRange)
                 {
                     randChance = Random.Range(0.0f, 100.0f);
 
                     // 바늘을 물었을 때
-                    if (randChance <= biteBait && !fishControl.isFind && gameMgr.NeedleInWater && !gameMgr.BaitThrowMode)
+                    if (randChance <= biteBait && !fishControl.IsFind && gameMgr.NeedleInWater && !gameMgr.BaitThrowMode)
                     {
                         isFind = true;
-                        fishControl.isFind = true;
+                        fishControl.IsFind = true;
                         if (DataManager.INSTANCE._vibration)
                             Vibration.Vibrate(500);
                         myTr.LookAt(target);

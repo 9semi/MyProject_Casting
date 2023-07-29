@@ -316,7 +316,7 @@ public class BLETotal : MonoBehaviour
     {
 		reeling._IsReeling = true;
 
-		if (!fishControl.isBite)
+		if (!fishControl.IsBite)
 			reeling.OnReeling();
 	}
 
@@ -325,7 +325,7 @@ public class BLETotal : MonoBehaviour
 	{
 		reeling._IsReeling = true;
 
-		if (!fishControl.isBite)
+		if (!fishControl.IsBite)
 			reeling.OnReeling();
 
 		//yield return PublicDefined._01secDelay;
@@ -336,7 +336,7 @@ public class BLETotal : MonoBehaviour
 		reeling._IsReeling = false;
 		yield return null;
 
-		if (!fishControl.isBite)
+		if (!fishControl.IsBite)
 			reeling.OnReeling();
 	}
 

@@ -635,7 +635,7 @@ public class FishPopUp : MonoBehaviour
         fishControl.GetStructFishData()._fishTransform.localPosition = Vector3.zero;
         fishControl.GetStructFishData()._fishObject.SetActive(false);
         fishControl.fishTr = null;
-        fishControl.isFind = false;
+        fishControl.IsFind = false;
         characterMgr.ResetPos();
         gameObject.SetActive(false);
     }

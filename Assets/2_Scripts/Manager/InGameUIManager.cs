@@ -210,7 +210,7 @@ public class InGameUIManager : MonoBehaviour
         if (_gameManager.NeedleInWater && !_isPause) // 찌가 물 속이라면
         {
             // reeling 애니메이션을 위해서 추가
-            if (distance < 15 && fishControl.isBite)
+            if (distance < 15 && fishControl.IsBite)
             {
                 // 캐릭터 애니메이션(Reeling:Trigger)
                 _gameManager.SettingCharacterAnimator(_reelingHash);
@@ -219,7 +219,7 @@ public class InGameUIManager : MonoBehaviour
             if (bleTotal != null && bleTotal.ConnectedMain)
             {
                 // 물고기가 바늘에 걸려있고 꽤 멀리 있으면 빨리 당겨진다.
-                if (fishControl.isBite || _gameManager.GetNeedleControlTransform().position.z > 15)
+                if (fishControl.IsBite || _gameManager.GetNeedleControlTransform().position.z > 15)
                 {
                     forceZ = -48;
                     //forceY = -23;
@@ -232,7 +232,7 @@ public class InGameUIManager : MonoBehaviour
             }
             else
             {
-                if (fishControl.isBite || _gameManager.GetNeedleControlTransform().position.z > 15)
+                if (fishControl.IsBite || _gameManager.GetNeedleControlTransform().position.z > 15)
                 {
                     forceZ = -38;
                     //forceY = -23;
@@ -259,7 +259,7 @@ public class InGameUIManager : MonoBehaviour
                 _gameManager.AddForceToNeedle(powerX, powerY, powerZ);
 
             // 바늘에 물고기가 물려있는 상황 -> TensionUI에 ReelOn, ReelOff로 옮긴다.
-            if (!fishControl.isBite && !fishControl._isFighting)
+            if (!fishControl.IsBite && !fishControl.IsFighting)
             {
                 if (_gameManager.GetNeedleControlTransform().position.z < 5f)
                 {
@@ -267,7 +267,7 @@ public class InGameUIManager : MonoBehaviour
                     if (fishBitting_Eng.activeSelf)
                     {
                         fishBitting_Eng.SetActive(false);
-                        fishControl.isStart = false;
+                        fishControl.IsStart = false;
                     }
                     //SoundManager.instance.EffectPlay("Reeling");
                     // 물고기 크기 설정
@@ -537,7 +537,7 @@ public class InGameUIManager : MonoBehaviour
             fishControl.RestartDCCoroutine();
         }
         // 찌가 물 속에 있고 물고기가 문 상태
-        else if (_gameManager.NeedleInWater && fishControl.isStart)
+        else if (_gameManager.NeedleInWater && fishControl.IsStart)
         {
             //Debug.Log("2");
             fishControl.RestartDCCoroutine();

@@ -63,7 +63,7 @@ public class WeatherManager : MonoBehaviour
     ///삽입 후 사용하면 됨
     public void TimeUp()
     {
-        if (!fishControl.isFind)
+        if (!fishControl.IsFind)
         {
             if (meteorCor != null)
                 StopCoroutine(meteorCor);
@@ -455,7 +455,7 @@ public class WeatherManager : MonoBehaviour
                     //// 조건 여부에 따라 시간++
                     //while (worldTime.Equals(0))
                     //{
-                    //    if (!fishControl.isFind)
+                    //    if (!fishControl.IsFind)
                     //    {
                     //        if (meteorCor != null)
                     //            StopCoroutine(meteorCor);
@@ -488,7 +488,7 @@ public class WeatherManager : MonoBehaviour
                     // 조건 여부에 따라 시간++
                     while (worldTime.Equals(0))
                     {
-                        if (!fishControl.isFind)
+                        if (!fishControl.IsFind)
                         {
                             if (meteorCor != null)
                                 StopCoroutine(meteorCor);
@@ -524,7 +524,7 @@ public class WeatherManager : MonoBehaviour
                 }
                 while (worldTime.Equals(1))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -560,7 +560,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(2))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -594,7 +594,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(3))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -629,7 +629,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(4))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -688,7 +688,7 @@ public class WeatherManager : MonoBehaviour
 
                 while (worldTime.Equals(5))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -737,7 +737,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(6))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -770,7 +770,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(7))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -803,7 +803,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(8))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -836,7 +836,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(9))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -869,7 +869,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(10))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -902,7 +902,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(11))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -935,7 +935,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(12))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -968,7 +968,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(13))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -1001,7 +1001,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(14))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -1034,7 +1034,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(15))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -1067,7 +1067,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(16))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -1112,7 +1112,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(17))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -1155,7 +1155,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(18))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         StopCoroutine(backgroundCor);
                         worldTime++;
@@ -1189,7 +1189,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(19))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -1224,7 +1224,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(20))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -1259,7 +1259,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(21))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -1295,7 +1295,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(22))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);
@@ -1329,7 +1329,7 @@ public class WeatherManager : MonoBehaviour
                 // 조건 여부에 따라 시간++
                 while (worldTime.Equals(23))
                 {
-                    if (!fishControl.isFind)
+                    if (!fishControl.IsFind)
                     {
                         if (meteorCor != null)
                             StopCoroutine(meteorCor);

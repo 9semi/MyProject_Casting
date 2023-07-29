@@ -189,7 +189,7 @@ public class TensionUI : MonoBehaviour
         // 크기 세팅
         MaxMinSegment();
 
-        while (_fishControl.isStart)
+        while (_fishControl.IsStart)
         {
             _gageCondition = _redGageBarRectTransform.sizeDelta.x + gageSpeed * Time.deltaTime;
 
@@ -217,7 +217,7 @@ public class TensionUI : MonoBehaviour
         if (_fishBitting_Eng.activeSelf)
         {
             _fishBitting_Eng.SetActive(false);
-            _fishControl.isStart = false;
+            _fishControl.IsStart = false;
         }
 
         
@@ -227,7 +227,7 @@ public class TensionUI : MonoBehaviour
         }
         
         _gageEffect.SetActive(false);
-        _fishControl._isFighting = false;
+        _fishControl.IsFighting = false;
         StopCoroutine(reelOnCor);
         StopCoroutine(reelOffCor);
         _yellowGageBar.SetActive(false);
@@ -282,7 +282,7 @@ public class TensionUI : MonoBehaviour
         float gageProgress;
         float time;
 
-        while (_fishControl.isBite) // 물고기가 미끼를 물었다.
+        while (_fishControl.IsBite) // 물고기가 미끼를 물었다.
         {
             gageProgress = 0;
 
@@ -394,16 +394,16 @@ public class TensionUI : MonoBehaviour
                     }
                 }
 
-                if (_fishControl.isBite)
+                if (_fishControl.IsBite)
                 {
                     if (_gameManager.GetNeedleControlTransform().position.z < 5f)
                     {
-                        _fishControl.isDeath = true; // 여기까지 실행됐는데 다음줄부터 실행이 안된거다.
+                        _fishControl.IsDeath = true; // 여기까지 실행됐는데 다음줄부터 실행이 안된거다.
                         _ingameUIManager.DistanceDepthTextOff();
                         _gameManager.NeedleInWater = false;
                         ReelExit();
 
-                        if (_fishControl.fishTr != null && _fishControl.isCatch)
+                        if (_fishControl.fishTr != null && _fishControl.IsCatch)
                         {
                             // 캐릭터가 낚싯대 들어올리는 애니메이션
                             _gameManager.SettingCharacterAnimator(_raiseHash, true);
@@ -421,7 +421,7 @@ public class TensionUI : MonoBehaviour
     {
         float gageProgress;
         float time1 = 0, time2;
-        while (_fishControl.isBite)
+        while (_fishControl.IsBite)
         {
             if (_reeling._IsReeling)
             {
@@ -538,16 +538,16 @@ public class TensionUI : MonoBehaviour
                     }
                 }
 
-                if (_fishControl.isBite)
+                if (_fishControl.IsBite)
                 {
                     if (_gameManager.GetNeedleControlTransform().position.z < 5f)
                     {
-                        _fishControl.isDeath = true;
+                        _fishControl.IsDeath = true;
                         _ingameUIManager.DistanceDepthTextOff();
                         _gameManager.NeedleInWater = false;
                         ReelExit();
 
-                        if (_fishControl.fishTr != null && _fishControl.isCatch)
+                        if (_fishControl.fishTr != null && _fishControl.IsCatch)
                         {
                             _gameManager.SettingCharacterAnimator(_raiseHash, true);
 

@@ -267,7 +267,7 @@ public class PetManager : MonoBehaviour
     // 떡밥 이미지 클릭
     public void ClickBaitThrow()
     {
-        if (gameMgr._currentState.Equals(PublicDefined.IngameState.fighting) || _radarInUse || fishControl.isFind || gameMgr.IsFly)
+        if (gameMgr._currentState.Equals(PublicDefined.IngameState.fighting) || _radarInUse || fishControl.IsFind || gameMgr.IsFly)
             return;
 
         if (gameMgr.BaitThrowMode)

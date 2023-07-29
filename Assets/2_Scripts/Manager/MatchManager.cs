@@ -152,10 +152,10 @@ public class MatchManager : MonoBehaviour
     }
     void StopAllAction()
     {
-        if (_fishControl._isSpecialAttack)
+        if (_fishControl.IsSpecialAttack)
         {
             _gameManager.SettingCharacterAnimator(_centerHash, false);
-            _fishControl._isSpecialAttack = false;
+            _fishControl.IsSpecialAttack = false;
         }
 
         AudioManager.INSTANCE.StopAllEffect();
@@ -165,7 +165,7 @@ public class MatchManager : MonoBehaviour
 
         _ingameUIManager._ingameUIManager_isPause = true;
         _fishControl._isPause = true;
-        _fishControl.needleControl._isPause = true;
+        _gameManager.needleControl._isPause = true;
         _gameManager.IsPause = true;
         _gameManager.IsReset = true;
         _gameManager.IsPlayingBGM = false;

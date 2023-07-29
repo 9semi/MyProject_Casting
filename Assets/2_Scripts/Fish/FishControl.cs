@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishControl :  FishBase
+public class FishControl : FishBase
 {
     readonly int _centerHash = Animator.StringToHash("Center");
     readonly int _blockspeedHash = Animator.StringToHash("BlockSpeed");
@@ -20,33 +20,33 @@ public class FishControl :  FishBase
     stFishData _fishData; public stFishData GetStructFishData() { return _fishData; }
     PublicDefined.stFishInfo _fishDataForPassCheck;
 
-    public InGameUIManager inGameUIMgr;
-    public FishPopUp fishPopUp;
+    [SerializeField] InGameUIManager _ingameUIManager;
+    [SerializeField] FishPopUp _fishPopUp;
 
-    public GameObject attackSuccess;   // 공격성공 그래픽
-    public GameObject attackFail;  // 공격실패 그래픽
+    [SerializeField] GameObject _attackSuccessObject;
+    [SerializeField] GameObject _attackFailObject;
 
-    public GameManager gameMgr;
-    [HideInInspector] public CharacterManager characterMgr;
+    [SerializeField] GameManager _gameManager;
+    CharacterManager characterMgr;
 
     // 바늘
-    [HideInInspector] public NeedleControl needleControl;
-    [HideInInspector] public Transform target; //NeedleControl에서 Needle의 Transform을 넘겨줬다.
-    [HideInInspector] public Transform _needleCenterPos;
-    [HideInInspector] public bool isFind = false; // 물고기 한마리라도 찾았으면 나머지 안타게끔
-    [HideInInspector] public bool isBite = false; // 물고나서 체력이 0되기전까지
-    [HideInInspector] public bool isCatch = false;    // 잡고 나서 팝업으로
-    [HideInInspector] public bool isStart = false;    // 챔질 시작 true, 챔질 끝나면 false
-    [HideInInspector] public bool isBlue = false; // 블루투스 통신을 위한 것
-    [HideInInspector] public bool _isFighting = false; // 텐션게이지 범위 안?
-    [HideInInspector] public bool isOver = false;
-    [HideInInspector] public bool isDeath = false;    // 잡았을 때
+    NeedleControl _needleControl; public void SetNeedleControlInstance(NeedleControl instance) { _needleControl = instance; }
+    Transform _target; public Transform Target { get { return _target; } set { _target = value; } }
+    Transform _needleCenterPos; public Transform NeedleCenterPos { set { _needleCenterPos = value; } }
+    bool _isFind = false; public bool IsFind { get { return _isFind; } set { _isFind = value; } }
+    bool _isBite = false; public bool IsBite { get { return _isBite; } }
+    bool _isCatch = false; public bool IsCatch { get { return _isCatch; } set { _isCatch = value; } }
+    bool _isStart = false; public bool IsStart { get { return _isStart; } set { _isStart = value; } }
+    bool _isFighting = false; public bool IsFighting { get { return _isFighting; } set { _isFighting = value; } }
+    bool _isOver = false;
+    bool _isDeath = false; public bool IsDeath { get { return _isDeath; } set { _isDeath = value; } }
 
     // 특수 공격 처리
-    [HideInInspector] public bool isCenter = false;   // 애니메이션, 특수 공격할 때 낚싯대를 위로 당길 때 true
-    [HideInInspector] public bool isLeft = false;   // 애니메이션 특수 공격할 때 낚싯대를 왼쪽으로 당길 때 true
-    [HideInInspector] public bool isRight = false;   // 애니메이션 특수 공격할 때 낚싯대를 오른쪽으로 당길 때 true
-    [HideInInspector] public bool _isSpecialAttack = false;  // 특수공격 진행중인지
+    bool _isCenter = false; 
+    bool _isLeft = false;  
+    bool _isRight = false; 
+    bool _isSpecialAttack = false; public bool IsSpecialAttack { get { return _isSpecialAttack; } set { _isSpecialAttack = value; } }
+    
     public GameObject arrowLeft;
     public GameObject arrowRight;
     public GameObject arrowUp;
@@ -56,6 +56,7 @@ public class FishControl :  FishBase
     bool _thirdVib;
     bool _fourthVib;
     int _specialAttackPointRectTr_Y = 38;
+
     // 텐션 게이지 관련
     [SerializeField] public ParticleSystem reelEft;
 
@@ -180,7 +181,7 @@ public class FishControl :  FishBase
                 dc = 0;
                 break;
             case 1:
-                while (isStart || isBite || isCatch)
+                while (_isStart || _isBite || _isCatch)
                 {
                     rand = UnityEngine.Random.Range(1f, 10f);
                     dc = 0;
@@ -195,7 +196,7 @@ public class FishControl :  FishBase
                 }
                 break;
             case 2:
-                while (isStart || isBite || isCatch)
+                while (_isStart || _isBite || _isCatch)
                 {
                     rand = UnityEngine.Random.Range(1f, 8f);
                     dc = 0;
@@ -211,7 +212,7 @@ public class FishControl :  FishBase
                 }
                 break;
             case 3:
-                while (isStart || isBite || isCatch)
+                while (_isStart || _isBite || _isCatch)
                 {
                     rand = UnityEngine.Random.Range(1f, 5f);
                     dc = 0;
@@ -260,27 +261,27 @@ public class FishControl :  FishBase
     }
     public IEnumerator ShutInEdge()
     {
-        while(!isDeath)
+        while(!_isDeath)
         {
-            if (target.position.z < 7 && powerCount < 4 && !isTutorial) // 물고기가 나랑 가까울 때
+            if (_target.position.z < 7 && powerCount < 4 && !isTutorial) // 물고기가 나랑 가까울 때
             {
-                gameMgr.AddForceToNeedle(0, 0, 200);
+                _gameManager.AddForceToNeedle(0, 0, 200);
             }
-            else if (target.position.x < -target.position.z)
+            else if (_target.position.x < -_target.position.z)
             {
-                gameMgr.AddForceToNeedle(120, 0, 0);
+                _gameManager.AddForceToNeedle(120, 0, 0);
             }
-            else if (target.position.x > target.position.z)
+            else if (_target.position.x > _target.position.z)
             {
-                gameMgr.AddForceToNeedle(-120, 0, 0);
+                _gameManager.AddForceToNeedle(-120, 0, 0);
             }
-            else if (target.position.z > 60)
+            else if (_target.position.z > 60)
             {
-                gameMgr.AddForceToNeedle(0, 0, -200);
+                _gameManager.AddForceToNeedle(0, 0, -200);
             }
-            else if (target.position.y > -3f) // 물고기가 해수면이랑 가까울 때
+            else if (_target.position.y > -3f) // 물고기가 해수면이랑 가까울 때
             {
-                gameMgr.AddForceToNeedle(0, -180, 0);
+                _gameManager.AddForceToNeedle(0, -180, 0);
             }
             yield return PublicDefined._02secDelay;
         }
@@ -301,21 +302,21 @@ public class FishControl :  FishBase
                 AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.homerspitFighting, true);
                 break;
         }
-        gameMgr._currentState = PublicDefined.IngameState.fighting;
-        gameMgr.IsNoBite = true; // 물고기가 물었다.
+        _gameManager._currentState = PublicDefined.IngameState.fighting;
+        _gameManager.IsNoBite = true; // 물고기가 물었다.
         petMgr.isCatch = true;
 
         if (petMgr._itemUIState.Equals(PetManager.eItemUIState._on))
         {
             petMgr.ClickItemButton();
         }
-        isDeath = false;
+        _isDeath = false;
         _isFighting = true;
         fishSkin.SetActive(true);   // 물고기 그래픽 On
-        gameMgr.FishCaught = fishTr.GetChild(0).GetChild(0).transform;   // 낚시대 휘어지게 만들어줄려고
-        //needleControl.myRd.constraints = RigidbodyConstraints.None;
-        needleControl.StopCoroutine(needleControl.needleCor); // 바늘 가라앉기 중지
-        needleControl.needleCor = null;
+        _gameManager.FishCaught = fishTr.GetChild(0).GetChild(0).transform;   // 낚시대 휘어지게 만들어줄려고
+        //_needleControl.myRd.constraints = RigidbodyConstraints.None;
+        _needleControl.StopCoroutine(_needleControl.needleCor); // 바늘 가라앉기 중지
+        _needleControl.needleCor = null;
         _tensionUI.WeightGage(_fishData._weight, _userData);
 
         OnDie();
@@ -331,7 +332,7 @@ public class FishControl :  FishBase
             _dcCoroutine = StartCoroutine(DC());
         }
 
-        while (!isDeath)    // 죽기전까지 계속 반복
+        while (!_isDeath)    // 죽기전까지 계속 반복
         {
             term = UnityEngine.Random.Range(3f, 4.5f);
 
@@ -511,33 +512,33 @@ public class FishControl :  FishBase
         }
 
         // 특수공격 처리
-        Vector3 cross = Vector3.Cross(Vector3.forward.normalized, needleControl.myTr.position.normalized);
+        Vector3 cross = Vector3.Cross(Vector3.forward.normalized, _needleControl.myTr.position.normalized);
 
         float xPower = 0;
 
         // 왼쪽으로 간다면
         if (randX.Equals(0))
-            xPower = x * power - target.position.z;
+            xPower = x * power - _target.position.z;
         else
-            xPower = x * power + target.position.z;
+            xPower = x * power + _target.position.z;
 
         if (!z.Equals(0))
             xPower *= 0.75f;
 
         if(powerCount > 2)
-            gameMgr.AddForceToNeedle(xPower, y * power, z * power * 0.8f);
+            _gameManager.AddForceToNeedle(xPower, y * power, z * power * 0.8f);
         else
-            gameMgr.AddForceToNeedle(xPower, y * power, z * power);
+            _gameManager.AddForceToNeedle(xPower, y * power, z * power);
 
         powerCount++;
 
         // 물고기가 앞으로 나아간다면 특수공격은 하지 않는다.
         // 물고기가 너무 가까우면 안한다.
-        if (z > 0 || _isSpecialAttack || needleControl.myTr.position.z < 9.5f)
+        if (z > 0 || _isSpecialAttack || _needleControl.myTr.position.z < 9.5f)
             return;
 
         // 물고기가 아래로 내려가거나 물고기가 기준선 가운데에 있다면 위로
-        if ((y < 0) || (needleControl.myTr.position.x > -0.25f && needleControl.myTr.position.x < 0.25f))
+        if ((y < 0) || (_needleControl.myTr.position.x > -0.25f && _needleControl.myTr.position.x < 0.25f))
         {
             SpecialAttack(0);
         }
@@ -545,9 +546,9 @@ public class FishControl :  FishBase
         else if (cross.y > 0)
         {
             // 오른쪽에 있지만 기준선에 가깝고 왼쪽으로 움직인다면
-            if(needleControl.myTr.position.z < 20)
+            if(_needleControl.myTr.position.z < 20)
             {
-                if (needleControl.myTr.position.x < 1.5f && x < 0)
+                if (_needleControl.myTr.position.x < 1.5f && x < 0)
                 {
                     // 오
                     SpecialAttack(1);
@@ -560,7 +561,7 @@ public class FishControl :  FishBase
             }
             else
             {
-                if (needleControl.myTr.position.x < 0.5f && x < 0)
+                if (_needleControl.myTr.position.x < 0.5f && x < 0)
                 {
                     // 오
                     SpecialAttack(1);
@@ -576,9 +577,9 @@ public class FishControl :  FishBase
         else if(cross.y < 0)
         {
             // 왼쪽에 있지만 기준선에 가깝고 오른쪽으로 움직인다면
-            if (needleControl.myTr.position.z < 20)
+            if (_needleControl.myTr.position.z < 20)
             {
-                if (needleControl.myTr.position.x > -1.5f && x > 0)
+                if (_needleControl.myTr.position.x > -1.5f && x > 0)
                 {
                     // 왼
 
@@ -593,7 +594,7 @@ public class FishControl :  FishBase
             }
             else
             {
-                if (needleControl.myTr.position.x > -0.5f && x > 0)
+                if (_needleControl.myTr.position.x > -0.5f && x > 0)
                 {
                     // 왼
 
@@ -622,7 +623,7 @@ public class FishControl :  FishBase
         float successStandard;
         bool _isSpecialAttackSuccess = false;
         _isSpecialAttack = true;
-        inGameUIMgr.FishingState(6);
+        _ingameUIManager.FishingState(6);
         _tensionUI.ColorChange_SpecialAttack(direct);
 
         switch (direct)
@@ -648,9 +649,9 @@ public class FishControl :  FishBase
                                 // 캐릭터 애니메이션(Center:true)
                                 if (successCount.Equals(0))
                                 {
-                                    gameMgr.SettingCharacterAnimator(_centerHash, true);
-                                    gameMgr.SettingCharacterAnimator(_blockspeedHash, 1);
-                                    isCenter = true;
+                                    _gameManager.SettingCharacterAnimator(_centerHash, true);
+                                    _gameManager.SettingCharacterAnimator(_blockspeedHash, 1);
+                                    _isCenter = true;
                                 }
 
                                 if (successCount >= 2f) // 특수 공격 성공
@@ -669,9 +670,9 @@ public class FishControl :  FishBase
                             // 캐릭터 애니메이션(Center:true)
                             if (successCount.Equals(0))
                             {
-                                gameMgr.SettingCharacterAnimator(_centerHash, true);
-                                gameMgr.SettingCharacterAnimator(_blockspeedHash, 1);
-                                isCenter = true;
+                                _gameManager.SettingCharacterAnimator(_centerHash, true);
+                                _gameManager.SettingCharacterAnimator(_blockspeedHash, 1);
+                                _isCenter = true;
                             }
 
                             successCount += Time.deltaTime;
@@ -747,15 +748,15 @@ public class FishControl :  FishBase
                             if (_reelData.Za < -500 && !_isPause)
                             {
                                 //Debug.Log("600보다 커야한다. " + bleTotal._reelData.Za);
-                                gameMgr.IsPause = true;
+                                _gameManager.IsPause = true;
 
                                 successCount += Time.deltaTime;
 
                                 if (successCount.Equals(0))
                                 {
-                                    gameMgr.SettingCharacterAnimator(_leftHash, true);
-                                    gameMgr.SettingCharacterAnimator(_blockspeedHash, 1);
-                                    isLeft = true;
+                                    _gameManager.SettingCharacterAnimator(_leftHash, true);
+                                    _gameManager.SettingCharacterAnimator(_blockspeedHash, 1);
+                                    _isLeft = true;
                                 }
 
                                 if (successCount >= 2f)
@@ -766,7 +767,7 @@ public class FishControl :  FishBase
                             }
                             else
                             {
-                                gameMgr.IsPause = false;
+                                _gameManager.IsPause = false;
                             }
                         }
                     }
@@ -774,13 +775,13 @@ public class FishControl :  FishBase
                     {
                         if ((Input.acceleration.x > successStandard || Input.GetKey(KeyCode.D)) && !_isPause)
                         {
-                            gameMgr.IsPause = true;
+                            _gameManager.IsPause = true;
 
                             if (successCount.Equals(0))
                             {
-                                gameMgr.SettingCharacterAnimator(_leftHash, true);
-                                gameMgr.SettingCharacterAnimator(_blockspeedHash, 1);
-                                isLeft = true;
+                                _gameManager.SettingCharacterAnimator(_leftHash, true);
+                                _gameManager.SettingCharacterAnimator(_blockspeedHash, 1);
+                                _isLeft = true;
                             }
 
                             successCount += Time.deltaTime;
@@ -826,7 +827,7 @@ public class FishControl :  FishBase
                         }
                         else
                         {
-                            gameMgr.IsPause = false;
+                            _gameManager.IsPause = false;
                         }
                     }
                     time += Time.deltaTime;
@@ -840,7 +841,7 @@ public class FishControl :  FishBase
                     yield return null;
                 }
 
-                gameMgr.IsPause = false;
+                _gameManager.IsPause = false;
                 break;
             case 2: // 왼쪽
                 successStandard = -0.2f;
@@ -860,12 +861,12 @@ public class FishControl :  FishBase
                             if (_reelData.Za > 500 && !_isPause)
                             {
                                 //Debug.Log("-650보다 작아야한다. " + bleTotal._reelData.Za);
-                                gameMgr.IsPause = true;
+                                _gameManager.IsPause = true;
                                 if (successCount.Equals(0))
                                 {
-                                    gameMgr.SettingCharacterAnimator(_rightHash, true);
-                                    gameMgr.SettingCharacterAnimator(_blockspeedHash, 1);
-                                    isRight = true;
+                                    _gameManager.SettingCharacterAnimator(_rightHash, true);
+                                    _gameManager.SettingCharacterAnimator(_blockspeedHash, 1);
+                                    _isRight = true;
                                 }
 
                                 if (successCount >= 2f)
@@ -878,7 +879,7 @@ public class FishControl :  FishBase
                             }
                             else
                             {
-                                gameMgr.IsPause = false;
+                                _gameManager.IsPause = false;
                             }
                         }
                     }
@@ -886,13 +887,13 @@ public class FishControl :  FishBase
                     {
                         if ((Input.acceleration.x < successStandard || Input.GetKey(KeyCode.A)) && !_isPause)
                         {
-                            gameMgr.IsPause = true;
+                            _gameManager.IsPause = true;
 
                             if (successCount.Equals(0))
                             {
-                                gameMgr.SettingCharacterAnimator(_rightHash, true);
-                                gameMgr.SettingCharacterAnimator(_blockspeedHash, 1);
-                                isRight = true;
+                                _gameManager.SettingCharacterAnimator(_rightHash, true);
+                                _gameManager.SettingCharacterAnimator(_blockspeedHash, 1);
+                                _isRight = true;
                             }
 
                             successCount += Time.deltaTime;
@@ -941,7 +942,7 @@ public class FishControl :  FishBase
                         }
                         else
                         {
-                            gameMgr.IsPause = false;
+                            _gameManager.IsPause = false;
                         }
                     }
                     time += Time.deltaTime;
@@ -955,11 +956,11 @@ public class FishControl :  FishBase
                     yield return null;
                 }
 
-                gameMgr.IsPause = false;
+                _gameManager.IsPause = false;
                 break;
         }
 
-        gameMgr.IsPause = false;
+        _gameManager.IsPause = false;
 
         _tensionUI.GetSpecialAttackImageObject(1).SetActive(false);
         _tensionUI.GetSpecialAttackImageObject(2).SetActive(false);
@@ -975,8 +976,7 @@ public class FishControl :  FishBase
             _tensionUI.AddGageSegment();
             _tensionUI.Success_SpecialAttack(direct);
             StartCoroutine(SpecialAttackSuccessCoroutine());
-            //_isSpecialAttack = false;
-            attackSuccess.SetActive(true);
+            _attackSuccessObject.SetActive(true);
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
         }
         // 특수 공격 실패
@@ -984,7 +984,7 @@ public class FishControl :  FishBase
         {
             _tensionUI.ResetColor_SpecialAttack();
             _isSpecialAttack = false;
-            attackFail.SetActive(true);
+            _attackFailObject.SetActive(true);
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
         }
 
@@ -992,18 +992,18 @@ public class FishControl :  FishBase
         {
             case 0:
                 // 캐릭터 애니메이션(Center:false)
-                gameMgr.SettingCharacterAnimator(_centerHash, false);
-                isCenter = false;
+                _gameManager.SettingCharacterAnimator(_centerHash, false);
+                _isCenter = false;
                 arrowUp.SetActive(false);
                 break;
             case 1:
-                gameMgr.SettingCharacterAnimator(_leftHash, false);
-                isLeft = false;
+                _gameManager.SettingCharacterAnimator(_leftHash, false);
+                _isLeft = false;
                 arrowRight.SetActive(false);
                 break;
             case 2:
-                gameMgr.SettingCharacterAnimator(_rightHash, false);
-                isRight = false;
+                _gameManager.SettingCharacterAnimator(_rightHash, false);
+                _isRight = false;
                 arrowLeft.SetActive(false);
                 break;
         }
@@ -1027,12 +1027,12 @@ public class FishControl :  FishBase
         float vib = 0;  // 진동
         int randChance;
 
-        gameMgr.StopHookSet();
+        _gameManager.StopHookSet();
 
-        isStart = true; // 챔질 시작
-        isOver = false; // 챔질 끝
-        inGameUIMgr.FishingState(2);
-        inGameUIMgr.HidePassContent();
+        _isStart = true; // 챔질 시작
+        _isOver = false; // 챔질 끝
+        _ingameUIManager.FishingState(2);
+        _ingameUIManager.HidePassContent();
         
         if(petMgr._itemUIState.Equals(PetManager.eItemUIState._on))
         {
@@ -1060,7 +1060,7 @@ public class FishControl :  FishBase
 
             bleTotal.Motor(_fishBLDC, 0);
         }
-        while (_tensionUI._RedGageBarRectTransform.sizeDelta.x < 900 && isStart && !_isPause) // 빨간색 게이지가 꽉 차지 않았다면
+        while (_tensionUI._RedGageBarRectTransform.sizeDelta.x < 900 && _isStart && !_isPause) // 빨간색 게이지가 꽉 차지 않았다면
         {
             // 블루투스 O
             if (_isConnectedToBluetooth)
@@ -1069,20 +1069,20 @@ public class FishControl :  FishBase
                 {
                     if (_reelData.Zg > 20000 && !_tutorialBittingStop)
                     {
-                        gameMgr.SettingCharacterAnimator(_hooksetHash);
+                        _gameManager.SettingCharacterAnimator(_hooksetHash);
                         randChance = UnityEngine.Random.Range(0, 10);
 
                         // 빨간색 텐션게이지가 노란색 텐션게이지 안에 있는지 확인
                         if (_tensionUI._RedGageBarRectTransform.sizeDelta.x >= _tensionUI._MinX && _tensionUI._RedGageBarRectTransform.sizeDelta.x <= _tensionUI._MaxX)
                         {
                             // 성공
-                            if (randChance < chance1 && gameMgr.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                            if (randChance < chance1 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
                             {
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
-                                inGameUIMgr.FishingState(3);
-                                inGameUIMgr.FishingState(4);
-                                isStart = false;
-                                isBite = true;
+                                _ingameUIManager.FishingState(3);
+                                _ingameUIManager.FishingState(4);
+                                _isStart = false;
+                                _isBite = true;
                                 _fishMoveToNeedleCoroutine = StartCoroutine(FishMovetoNeedle());
                                 OnFight();
                                 OnShutInEdge();
@@ -1100,7 +1100,7 @@ public class FishControl :  FishBase
                             else
                             {
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
-                                isStart = false;
+                                _isStart = false;
 
                                 if (bleTotal != null && bleTotal.ConnectedMain)
                                 {
@@ -1113,13 +1113,13 @@ public class FishControl :  FishBase
                         // 게이지 밖
                         else
                         {
-                            if (randChance < chance2 && gameMgr.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                            if (randChance < chance2 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
                             {
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
-                                inGameUIMgr.FishingState(3);
-                                inGameUIMgr.FishingState(4);
-                                isStart = false;
-                                isBite = true;
+                                _ingameUIManager.FishingState(3);
+                                _ingameUIManager.FishingState(4);
+                                _isStart = false;
+                                _isBite = true;
                                 OnFight();
                                 OnShutInEdge();
                                 _fishMoveToNeedleCoroutine = StartCoroutine(FishMovetoNeedle());
@@ -1138,7 +1138,7 @@ public class FishControl :  FishBase
                             else
                             {
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
-                                isStart = false;
+                                _isStart = false;
                                 dc = 0;
                                 bleTotal.Motor(_normalBLDC, dc);
 
@@ -1152,22 +1152,22 @@ public class FishControl :  FishBase
             // 블루투스 X
             else
             {
-                if ((gameMgr.AngleGyro.x > 7 || (bleTotal != null && gameMgr.AngleGyro.x > 4) || Input.GetButtonDown("Jump")) && !_tutorialBittingStop)
+                if ((_gameManager.AngleGyro.x > 7 || (bleTotal != null && _gameManager.AngleGyro.x > 4) || Input.GetButtonDown("Jump")) && !_tutorialBittingStop)
                 {
-                    gameMgr.SettingCharacterAnimator(_hooksetHash);
+                    _gameManager.SettingCharacterAnimator(_hooksetHash);
                     randChance = UnityEngine.Random.Range(0, 10);
 
                     // 빨간색 텐션게이지가 노란색 텐션게이지 안에 있는지 확인
                     if (_tensionUI._RedGageBarRectTransform.sizeDelta.x >= _tensionUI._MinX && _tensionUI._RedGageBarRectTransform.sizeDelta.x <= _tensionUI._MaxX)
                     {
                         // 성공
-                        if (randChance < chance1 && gameMgr.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                        if (randChance < chance1 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
                         {
                             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
-                            inGameUIMgr.FishingState(3);
-                            inGameUIMgr.FishingState(4);
-                            isStart = false;
-                            isBite = true;
+                            _ingameUIManager.FishingState(3);
+                            _ingameUIManager.FishingState(4);
+                            _isStart = false;
+                            _isBite = true;
                             _fishMoveToNeedleCoroutine = StartCoroutine(FishMovetoNeedle());
                             OnFight();
                             OnShutInEdge();
@@ -1188,7 +1188,7 @@ public class FishControl :  FishBase
                         else
                         {
                             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
-                            isStart = false;
+                            _isStart = false;
 
                             if (DataManager.INSTANCE._vibration)
                                 Vibration.Vibrate(300);
@@ -1197,13 +1197,13 @@ public class FishControl :  FishBase
                     // 게이지 밖
                     else 
                     {
-                        if (randChance < chance2 && gameMgr.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                        if (randChance < chance2 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
                         {
                             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
-                            inGameUIMgr.FishingState(3);
-                            inGameUIMgr.FishingState(4);
-                            isStart = false;
-                            isBite = true;
+                            _ingameUIManager.FishingState(3);
+                            _ingameUIManager.FishingState(4);
+                            _isStart = false;
+                            _isBite = true;
                             OnFight();
                             OnShutInEdge();
                             _fishMoveToNeedleCoroutine = StartCoroutine(FishMovetoNeedle());
@@ -1222,7 +1222,7 @@ public class FishControl :  FishBase
                         else
                         {
                             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
-                            isStart = false;
+                            _isStart = false;
 
                             if (DataManager.INSTANCE._vibration)
                                 Vibration.Vibrate(300);
@@ -1247,12 +1247,12 @@ public class FishControl :  FishBase
         // 시간이 지나서 물고기를 놓쳤다.
         StopCoroutine(bittingGageCor);
         bittingGageCor = null;
-        isStart = false;
+        _isStart = false;
         PlayBGMWhenBittingFail();
-        isOver = false;
-        isBite = false;
+        _isOver = false;
+        _isBite = false;
 
-        if (!isBite)
+        if (!_isBite)
         {
             // #블루투스
             if (bleTotal != null && bleTotal.ConnectedMain)
@@ -1260,8 +1260,8 @@ public class FishControl :  FishBase
                 bleTotal.Motor(_normalBLDC, dc);
             }
 
-            inGameUIMgr.FishingState(3);
-            inGameUIMgr.FishingState(5);
+            _ingameUIManager.FishingState(3);
+            _ingameUIManager.FishingState(5);
            
             switch(DataManager.INSTANCE._mapType)
             {
@@ -1282,31 +1282,31 @@ public class FishControl :  FishBase
                 _fishMoveToNeedleCoroutine = null;
             }
 
-            isOver = false;
+            _isOver = false;
 
             yield return PublicDefined._2secRealDelay;
 
             if (_isMatchMode)
                 _currentMatchStateObject.SetActive(true);
             else
-                inGameUIMgr.ShowPassContent();
+                _ingameUIManager.ShowPassContent();
 
             _tensionUI.SetGageObject(false);
-            isFind = false;
+            _isFind = false;
         }
         StopCoroutine(biteCor);
     }
 
     public IEnumerator Dying()
     {
-        while (isBite)
+        while (_isBite)
         {
-            if (isDeath)
+            if (_isDeath)
             {
-                //Debug.Log("FishControl/Dying/isDeath : " + isDeath);
-                gameMgr._currentState = PublicDefined.IngameState.idle;
-                gameMgr.HideBait();
-                gameMgr.IsPause = true;
+                //Debug.Log("FishControl/Dying/_isDeath : " + _isDeath);
+                _gameManager._currentState = PublicDefined.IngameState.idle;
+                _gameManager.HideBait();
+                _gameManager.IsPause = true;
 
                 // #블루투스
                 if (bleTotal != null && bleTotal.ConnectedMain)
@@ -1321,23 +1321,23 @@ public class FishControl :  FishBase
                 StopCoroutine(fightCor);
                 StopCoroutine(_shutCoroutine);
 
-                isBite = false;
-                isCatch = true;
+                _isBite = false;
+                _isCatch = true;
 
                 if(_fishData._fishDBNumber.Equals(28))
                     _fishObject.transform.eulerAngles = _diedFishRotate_octopus;
                 else
                     _fishObject.transform.eulerAngles = _diedFishRotate;
-                gameMgr.IsPlayingBGM = false;
+                _gameManager.IsPlayingBGM = false;
 
                 // 게이지는 안 켠다.
-                gameMgr.IsReset = true;
-                gameMgr.ResetAction();
+                _gameManager.IsReset = true;
+                _gameManager.ResetAction();
             }
             //잡기 실패했을 때(파이팅 중이 아니라면)
             else if (!_isFighting)
             {
-                gameMgr._currentState = PublicDefined.IngameState.casting;
+                _gameManager._currentState = PublicDefined.IngameState.casting;
                 // #블루투스
                 if (bleTotal != null && bleTotal.ConnectedMain)
                 {
@@ -1362,18 +1362,18 @@ public class FishControl :  FishBase
                 if (_isMatchMode)
                     _currentMatchStateObject.SetActive(true);
                 else
-                    inGameUIMgr.ShowPassContent();
+                    _ingameUIManager.ShowPassContent();
 
-                inGameUIMgr.FishingState(1);   // 낚시실패 UI 활성화
-                gameMgr.IsPause = false;
+                _ingameUIManager.FishingState(1);   // 낚시실패 UI 활성화
+                _gameManager.IsPause = false;
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
-                isBite = false;
-                isStart = false;
-                isFind = false;
+                _isBite = false;
+                _isStart = false;
+                _isFind = false;
 
-                if (needleControl.needleCor == null)
+                if (_needleControl.needleCor == null)
                 {
-                    needleControl.NeedleMoveRestart();
+                    _needleControl.NeedleMoveRestart();
                     
                 }
                 switch (DataManager.INSTANCE._mapType)
@@ -1396,7 +1396,7 @@ public class FishControl :  FishBase
                 }
 
                 fishSkin.SetActive(false);  // 물고기 비활성화
-                gameMgr.IsPlayingBGM = false;
+                _gameManager.IsPlayingBGM = false;
                 PlayBGMWhenBittingFail();  // 게임 재시작 할 수 있도록 리셋
             }
             yield return null;
@@ -1477,10 +1477,10 @@ public class FishControl :  FishBase
     public void Catching()
     {
         // 물 밖으로 건져낼 때
-        if (isCatch && isDeath)
+        if (_isCatch && _isDeath)
         {
-            gameMgr.SettingCharacterAnimator(_raiseHash);
-            gameMgr.PickupFish();
+            _gameManager.SettingCharacterAnimator(_raiseHash);
+            _gameManager.PickupFish();
 
             if (_isMatchMode)
             {
@@ -1551,7 +1551,7 @@ public class FishControl :  FishBase
             StartCoroutine(MakeDelay(2, () =>
             {
                 // 낚시 성공 UI 활성화
-                inGameUIMgr.FishingState(0);
+                _ingameUIManager.FishingState(0);
 
                 // 성공 효과음 재생
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishCatchSuccess).GetComponent<AudioPoolObject>().Init();
@@ -1559,9 +1559,9 @@ public class FishControl :  FishBase
                 AudioManager.INSTANCE.StopBGM();
                 // 물고기 손으로 드는 애니메이션 재생
 
-                gameMgr.SettingCharacterAnimator(_raiseHash, false);
+                _gameManager.SettingCharacterAnimator(_raiseHash, false);
 
-                isCatch = false;
+                _isCatch = false;
                 petMgr.petAnimator.SetBool(_catchHash, false);
 
                 _fishData._lenth = (_fishData._lenth * 10000) * 0.01f;
@@ -1570,9 +1570,9 @@ public class FishControl :  FishBase
 
 
                 if (_isMatchMode)
-                    fishPopUp.SetUpInfo_Match(_fishDataForPassCheck, _fishData._fishDBNumber, _fishData._name, _fishData._lenth, _fishData._weight, _fishData._price, _fishData._info, _fishData._gradeType, _fishAni);
+                    _fishPopUp.SetUpInfo_Match(_fishDataForPassCheck, _fishData._fishDBNumber, _fishData._name, _fishData._lenth, _fishData._weight, _fishData._price, _fishData._info, _fishData._gradeType, _fishAni);
                 else
-                    fishPopUp.SetUpInfo(_fishDataForPassCheck, _fishData._fishDBNumber, _fishData._name, _fishData._lenth, _fishData._weight, _fishData._price, _fishData._info, _fishData._gradeType, _fishAni);
+                    _fishPopUp.SetUpInfo(_fishDataForPassCheck, _fishData._fishDBNumber, _fishData._name, _fishData._lenth, _fishData._weight, _fishData._price, _fishData._info, _fishData._gradeType, _fishAni);
 
                 if (_fishData._gradeType.Equals(PublicDefined.eFishType.Rare))
                 {
@@ -1591,14 +1591,14 @@ public class FishControl :  FishBase
                 }
             }));
 
-            isOver = true;
+            _isOver = true;
             
         }
     }
     #endregion
     public void PlayBGMWhenBittingFail()
     {
-        gameMgr.IsPlayingBGM = true;
+        _gameManager.IsPlayingBGM = true;
         switch (DataManager.INSTANCE._mapType)
         {
             case PublicDefined.eMapType.jeongdongjin:
@@ -1616,11 +1616,11 @@ public class FishControl :  FishBase
     private void StopSpecialAttack()
     {
         _isSpecialAttack = false;
-        gameMgr.SettingCharacterAnimator(_centerHash, false);
+        _gameManager.SettingCharacterAnimator(_centerHash, false);
         arrowUp.SetActive(false);
-        gameMgr.SettingCharacterAnimator(_leftHash, false);
+        _gameManager.SettingCharacterAnimator(_leftHash, false);
         arrowLeft.SetActive(false);
-        gameMgr.SettingCharacterAnimator(_rightHash, false);
+        _gameManager.SettingCharacterAnimator(_rightHash, false);
         arrowRight.SetActive(false);
         StopCoroutine(specialAttackCor);
     }

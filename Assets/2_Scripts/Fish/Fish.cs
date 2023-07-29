@@ -175,7 +175,7 @@ public class Fish : FishBase
         if (_gameManager == null)
             _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
-        target = _fishControl.target;    // 바늘(루어)
+        target = _fishControl.Target;    // 바늘(루어)
 
         if(!DataManager.INSTANCE._tutorialIsInProgress)
         {
@@ -1320,15 +1320,15 @@ public class Fish : FishBase
     {
         yield return _lookDelay;
 
-        while (_fishControl.target == null || target == null)
+        while (_fishControl.Target == null || target == null)
         {
             //Debug.Log(1);
             yield return _lookDelay;
 
             if(_gameManager.needleControl != null)
             {
-                _fishControl.target = _gameManager.needleControl.transform;
-                target = _fishControl.target;
+                _fishControl.Target = _gameManager.needleControl.transform;
+                target = _fishControl.Target;
             }
         }
 
@@ -1337,7 +1337,7 @@ public class Fish : FishBase
 
         while (!_isFind)
         {
-            if (!_fishControl.isFind && _gameManager.GetNeedleControlTransform().position.z > 5.5f)
+            if (!_fishControl.IsFind && _gameManager.GetNeedleControlTransform().position.z > 5.5f)
             {
                 // 범위 = 평균크기 * 10 -> 기본 포착범위 2m(물고기 개체수가 많아 콜라이더 탐색방식은 사용안함) 
 
@@ -1346,10 +1346,10 @@ public class Fish : FishBase
                     randChance = Random.Range(0.0f, 100.0f);                
                     
                     // 바늘을 물었을 때
-                    if (randChance <= biteBait && !_fishControl.isFind && _gameManager.NeedleInWater && !_gameManager.BaitThrowMode)
+                    if (randChance <= biteBait && !_fishControl.IsFind && _gameManager.NeedleInWater && !_gameManager.BaitThrowMode)
                     {
                         _isFind = true;
-                        _fishControl.isFind = true;
+                        _fishControl.IsFind = true;
 
                         if(DataManager.INSTANCE._vibration)
                             Vibration.Vibrate(500); //  진동0.5f                   

@@ -65,9 +65,9 @@ public class NeedleControl : MonoBehaviour
 
         // 물고기 작업 시작
         fishControl = GameObject.FindGameObjectWithTag("FishControl").GetComponent<FishControl>();
-        fishControl.needleControl = GetComponent<NeedleControl>();
-        fishControl.target = myTr;
-        fishControl._needleCenterPos = _centerPos;
+        fishControl.SetNeedleControlInstance(GetComponent<NeedleControl>());
+        fishControl.Target = myTr;
+        fishControl.NeedleCenterPos = _centerPos;
 
         // 파티클 연결 작업
         particleObject = GameObject.FindGameObjectWithTag("Object").GetComponent<ObjectManager>()._splashObject;
@@ -105,7 +105,7 @@ public class NeedleControl : MonoBehaviour
 
             isWater = true;
             gameMgr.NeedleReset();
-            fishControl.isCatch = false;
+            fishControl.IsCatch = false;
 
             transform.eulerAngles = Vector3.zero;
             transform.GetChild(0).localEulerAngles = Vector3.zero;
@@ -135,7 +135,7 @@ public class NeedleControl : MonoBehaviour
             }));
             
             // 물고기 작업 시작
-            fishControl.isFind = false;
+            fishControl.IsFind = false;
             
             gameMgr.SettingCharacterAnimator(_throwHash, false);
 
@@ -215,7 +215,7 @@ public class NeedleControl : MonoBehaviour
         // 기본적으로 움직이기 시작하기 때문에.
         gameMgr.NeedleStartMoving();
 
-        while (gameMgr.style == GameManager.GameStyle.Bobber && !fishControl.isBite)
+        while (gameMgr.style == GameManager.GameStyle.Bobber && !fishControl.IsBite)
         {
             if (myTr.position.y > _depthLength - 1.5f)
             {
@@ -232,7 +232,7 @@ public class NeedleControl : MonoBehaviour
             yield return waitTime;
         }
 
-        while (gameMgr.style == GameManager.GameStyle.Onetwo && !fishControl.isBite)
+        while (gameMgr.style == GameManager.GameStyle.Onetwo && !fishControl.IsBite)
         {
             // 찌와 같은 부력
             if(currentBait.Equals(53) || currentBait.Equals(54))

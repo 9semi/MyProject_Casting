@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
         }
 
         //// 물고기 뭄? 낚시대 휨(많이) : 낚시대 휨(약간) 
-        if (fishControl.isBite)
+        if (fishControl.IsBite)
         {
             fish = _fishCaught.position;
             Point2();
@@ -711,7 +711,7 @@ public class GameManager : MonoBehaviour
             reelCor = StartCoroutine(ReelDirection());
             // 물고기 bitting 실패 초기화
             //fishControl.isFind = false;
-            fishControl.isStart = false;
+            fishControl.IsStart = false;
             // 물고기 들어올린다.
             fishControl.Catching();
             rodPoint0.localPosition = resetPointPos0;
@@ -1048,7 +1048,7 @@ public class GameManager : MonoBehaviour
             _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, _reelPoint2.position, _reelPoint1.position, _lineRendererPositions[9]);
         }
         // 물고기가 물었을 때 or 물지 않았을 때의 릴 포인트 위치설정
-        if (fishControl.isBite)
+        if (fishControl.IsBite)
         {            
             _reelPoint2.position = new Vector3(_reelPoint3.position.x * 0.8f, -1.5f, _reelPoint3.position.z * 0.8f);
             _reelPoint1.position = new Vector3(_reelPoint2.position.x, _reelPoint2.position.y, _reelPoint2.position.z);
@@ -1089,7 +1089,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < reelNumPoints; i++)
         {
-            if (i.Equals(0) && !fishControl.isCenter && !fishControl.isLeft && !fishControl.isRight)
+            if (i.Equals(0) && !fishControl.IsSpecialAttack)
                 _lineRendererPositions[i] = new Vector3(reelPosition[i].position.x, reelPosition[i].position.y - 0.1f,
                     reelPosition[i].position.z);
             else
@@ -1128,7 +1128,7 @@ public class GameManager : MonoBehaviour
             _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, _reelPoint2.position, _reelPoint1.position, _lineRendererPositions[9]);
         }
 
-        if (fishControl.isBite)
+        if (fishControl.IsBite)
         {
             _reelPoint2.position = new Vector3(_reelPoint3.position.x * 0.8f, -1.5f, _reelPoint3.position.z * 0.8f);
             _reelPoint1.position = new Vector3(_reelPoint2.position.x, _reelPoint2.position.y, _reelPoint2.position.z);

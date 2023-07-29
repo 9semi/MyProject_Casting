@@ -57,7 +57,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             _isReeling = true;
             myAnim.SetFloat("Speed", 1);
 
-            if (!fishControl.isBite)
+            if (!fishControl.IsBite)
                 OnReeling();
         }
     }
@@ -69,7 +69,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         //_needleCollider.isTrigger = false;
         myAnim.SetFloat("Speed", 0);
 
-        if (!fishControl.isBite)
+        if (!fishControl.IsBite)
             OnReeling();
     }
 
@@ -123,7 +123,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             //_needleCollider.isTrigger = true;
             myAnim.SetFloat("Speed", 1);
 
-            if (!fishControl.isBite)
+            if (!fishControl.IsBite)
                 OnReeling();
         }
     }
@@ -133,7 +133,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         //_needleCollider.isTrigger = false;
         myAnim.SetFloat("Speed", 0);
 
-        if (!fishControl.isBite)
+        if (!fishControl.IsBite)
             OnReeling();
     }
 }
