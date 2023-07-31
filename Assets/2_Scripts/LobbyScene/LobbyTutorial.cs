@@ -5,23 +5,23 @@ using UnityEngine.UI;
 
 public class LobbyTutorial : MonoBehaviour
 {
-    public GameObject _step0Object;
-    public GameObject _step1Object;
-    public GameObject _step2Object;
-    public GameObject _step3Object;
-    public GameObject _step4Object;
-    public GameObject _step5Object;
-    public GameObject _step6Object;
-    public GameObject _fishinggearUI;
-    public GameObject _step7Object;
+    [SerializeField] GameObject _step0Object;
+    [SerializeField] GameObject _step1Object;
+    [SerializeField] GameObject _step2Object;
+    [SerializeField] GameObject _step3Object;
+    [SerializeField] GameObject _step4Object;
+    [SerializeField] GameObject _step5Object;
+    [SerializeField] GameObject _step6Object;
+    [SerializeField] GameObject _fishinggearUI;
+    [SerializeField] GameObject _step7Object;
 
-    public GameObject _skipButton;
-    public GameObject _skipUIObject;
+    [SerializeField] GameObject _skipButton;
+    [SerializeField] GameObject _skipUIObject;
 
-    public Button _goldButton;
-    public Button _pearlButton;
+    [SerializeField] Button _goldButton;
+    [SerializeField] Button _pearlButton;
 
-    public int _progress;
+    int _progress;
 
     void OnEnable()
     {

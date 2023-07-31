@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class OverlapObject : MonoBehaviour
 {
-    public string _noticeText;
-    public Text _text;
+    [SerializeField] string _noticeText;
+    [SerializeField] Text _text;
     Coroutine _timerCoroutine;
 
     private void OnEnable()

@@ -13,50 +13,50 @@ public class MyInfoUI : MonoBehaviour
     readonly string[] _aquariumNames = { "산호초", "맹그로브 숲", "고요한 난파선", "해조숲", "푸른빛 동굴" };
 
     [Header("정보 메뉴")]
-    public Text _goldText;
-    public Text _pearlText;
-    public Text _winText;
-    public Text _loseText;
-    public Text _drawText;
-    public Text _jeongdongjinFishRecord;
-    public Text _skywayFishRecord;
-    public Text _homerspitFishRecord;
+    [SerializeField] Text _goldText;
+    [SerializeField] Text _pearlText;
+    [SerializeField] Text _winText;
+    [SerializeField] Text _loseText;
+    [SerializeField] Text _drawText;
+    [SerializeField] Text _jeongdongjinFishRecord;
+    [SerializeField] Text _skywayFishRecord;
+    [SerializeField] Text _homerspitFishRecord;
 
     [Header("장비 메뉴")]
-    public Sprite _uimaskSprite;
-    public Image _rodImage;
-    public Text _rodText;
-    public Image _reelImage;
-    public Text _reelText;
-    public Image _baitImage;
-    public Text _baitText;
-    public Image _pastebaitImage;
-    public Text _pastebaitText;
-    public Image _floatImage;
-    public Text _floatText;
-    public Image _sinkerImage;
-    public Text _sinkerText;
+    [SerializeField] Sprite _uimaskSprite;
+    [SerializeField] Image _rodImage;
+    [SerializeField] Text _rodText;
+    [SerializeField] Image _reelImage;
+    [SerializeField] Text _reelText;
+    [SerializeField] Image _baitImage;
+    [SerializeField] Text _baitText;
+    [SerializeField] Image _pastebaitImage;
+    [SerializeField] Text _pastebaitText;
+    [SerializeField] Image _floatImage;
+    [SerializeField] Text _floatText;
+    [SerializeField] Image _sinkerImage;
+    [SerializeField] Text _sinkerText;
 
     [Header("대표 물고기 메뉴")]
     [Header("물고기 이미지")]
-    public Sprite[] _fishSprites;
-    public Sprite[] _aquariumBGSprites;
-    public Text _aquariumName;
-    public GameObject _aquariumNullObject;
-    public Image _aquariumBG;
+    [SerializeField] Sprite[] _fishSprites;
+    [SerializeField] Sprite[] _aquariumBGSprites;
+    [SerializeField] Text _aquariumName;
+    [SerializeField] GameObject _aquariumNullObject;
+    [SerializeField] Image _aquariumBG;
 
     [Header("--------------")]
     [Header("버튼 이미지")]
-    public Sprite _selectButtonSprite;
-    public Sprite _unselectButtonSprite;
+    [SerializeField] Sprite _selectButtonSprite;
+    [SerializeField] Sprite _unselectButtonSprite;
 
     [Header("대표 물고기 UI")]
-    public Image _fishImage;
-    public Text _fishNameText;
-    public Text _fishLengthText;
-    public Text _fishWeightText;
-    public Text _fishPriceText;
-    public Sprite _noneSprite;
+    [SerializeField] Image _fishImage;
+    [SerializeField] Text _fishNameText;
+    [SerializeField] Text _fishLengthText;
+    [SerializeField] Text _fishWeightText;
+    [SerializeField] Text _fishPriceText;
+    [SerializeField] Sprite _noneSprite;
 
     string _name;
     int _price;

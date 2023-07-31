@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class MyInfoFishSlot : MonoBehaviour
 {
-    public Text _nameText;
-    public Text _lengthText;
-    public Text _weightText;
+    [SerializeField] Text _nameText;
+    [SerializeField] Text _lengthText;
+    [SerializeField] Text _weightText;
 
     int _DBNum;
     int _price;

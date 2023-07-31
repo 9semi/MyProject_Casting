@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GoldPearlSlot : MonoBehaviour
 {
-    public Item _item;
-    public BuyPopUP _buyPop;
+    [SerializeField] Item _item;
+    [SerializeField] BuyPopUP _buyPop;
 
     public void ClickBuyButton()
     {

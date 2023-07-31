@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class MailObject : MonoBehaviour
 {
-    public Sprite _gmSprite; // 여자 이미지
-    public Sprite _userSrpite; // 별 이미지
+    [SerializeField] Sprite _gmSprite; // 여자 이미지
+    [SerializeField] Sprite _userSrpite; // 별 이미지
 
-    public Image _addresserImage;
-    public Text _contentText;
+    [SerializeField] Image _addresserImage;
+    [SerializeField] Text _contentText;
 
-    public LobbyTutorial _lobbyTutorial;
+    [SerializeField] LobbyTutorial _lobbyTutorial;
 
     public void Init(string content, bool isGM = true)
     {

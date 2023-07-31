@@ -13,25 +13,25 @@ public class FishingGearEquipUI : MonoBehaviour
     readonly string _floatText = "float";
     readonly string[] _itemTypeTextArray = { "³¬½Ë´ë", "¸±", "ÀÏ¹Ý ¹Ì³¢", "·ç¾î ¹Ì³¢", "¹Ø¹ä", "Âî/ºÀµ¹" };
 
-    public Equipment _eq;
-    public BaitSellUI _sellUI;
-    public Text _itemTypeText;
+    [SerializeField] Equipment _eq;
+    [SerializeField] BaitSellUI _sellUI;
+    [SerializeField] Text _itemTypeText;
 
-    public Image _prevItemImage;
-    public Text _prevItemNameText;
-    public Text _prevItemInfoText;
+    [SerializeField] Image _prevItemImage;
+    [SerializeField] Text _prevItemNameText;
+    [SerializeField] Text _prevItemInfoText;
 
-    public Image _currentItemImage;
-    public Text _currentItemNameText;
-    public Text _currentItemInfoText;
+    [SerializeField] Image _currentItemImage;
+    [SerializeField] Text _currentItemNameText;
+    [SerializeField] Text _currentItemInfoText;
 
-    public GameObject _noneObject;
-    public GameObject _overlapObject;
-    public GameObject _isLureObject;
+    [SerializeField] GameObject _noneObject;
+    [SerializeField] GameObject _overlapObject;
+    [SerializeField] GameObject _isLureObject;
 
-    public GameObject _normalButtonObject;
-    public GameObject _baitButtonObject;
-    public Button _sellButton;
+    [SerializeField] GameObject _normalButtonObject;
+    [SerializeField] GameObject _baitButtonObject;
+    [SerializeField] Button _sellButton;
 
     int _currentButtonNumber = 0;
     int _currentItemIndex = -1;

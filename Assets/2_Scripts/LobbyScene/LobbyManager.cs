@@ -9,36 +9,37 @@ public class LobbyManager : MonoBehaviour
     readonly string _platinumOverString = "사용하시던 [월간 골드 플레티넘]의 기간이 만료되었습니다.";
     readonly string _diamondOverString = "사용하시던 [월간 골드 다이아몬드]의 기간이 만료되었습니다.";
 
-    public GameObject _mailCountObject;
-    public Text _mailCountText;
-    public GameObject _mailUI;
-    public LobbyTutorial _tutorialUI;
+    [SerializeField] GameObject _mailCountObject;
+    [SerializeField] Text _mailCountText;
+    [SerializeField] GameObject _mailUI;
+    [SerializeField] LobbyTutorial _tutorialUI;
 
     [Header("Info UI")]
-    public Text _nameText;
-    public Text _gradeText;
-    public GameObject[] _starObject;
-    public Image[] _1_3_starImages;
-    public Image[] _4_6_starImages;
-    public Image[] _7_9_starImages;
+    [SerializeField] Text _nameText;
+    [SerializeField] Text _gradeText;
+    [SerializeField] GameObject[] _starObject;
+    [SerializeField] Image[] _1_3_starImages;
+    [SerializeField] Image[] _4_6_starImages;
+    [SerializeField] Image[] _7_9_starImages;
 
     [Header("MyInfo UI")]
-    public MyInfoUI _myinfoUI;
-    public Text _nameText2;
-    public Text _gradeText2;
-    public GameObject[] _starObject2;
-    public Image[] _1_3_starImages2;
-    public Image[] _4_6_starImages2;
-    public Image[] _7_9_starImages2;
+    [SerializeField] MyInfoUI _myinfoUI;
+    [SerializeField] Text _nameText2;
+    [SerializeField] Text _gradeText2;
+    [SerializeField] GameObject[] _starObject2;
+    [SerializeField] Image[] _1_3_starImages2;
+    [SerializeField] Image[] _4_6_starImages2;
+    [SerializeField] Image[] _7_9_starImages2;
 
     [Header("OST")]
-    public Sprite _playSprite;
-    public Sprite _pauseSprite;
-    public Image _ostStateImage;
-    public bool _ostOn = false;
+    [SerializeField] Sprite _playSprite;
+    [SerializeField] Sprite _pauseSprite;
+    [SerializeField] Image _ostStateImage;
+    [SerializeField] bool _ostOn = false;
 
-    public Lobby_GetPackageRewardUI _lobby_getPackageRewardUI;
-    public PackageOverUI _packageOverUI;
+    [SerializeField] Lobby_GetPackageRewardUI _lobby_getPackageRewardUI;
+    [SerializeField] PackageOverUI _packageOverUI;
+
     UserData _userData;
 
     private void Start()

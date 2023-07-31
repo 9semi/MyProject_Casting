@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class GoldPearlShop : MonoBehaviour
 {
-    public Sprite _selectedSprite;
-    public Sprite _unselectSprite;
+    [SerializeField] Sprite _selectedSprite;
+    [SerializeField] Sprite _unselectSprite;
 
-    public Image _goldButtonImage;
-    public Image _pearlButtonImage;
+    [SerializeField] Image _goldButtonImage;
+    [SerializeField] Image _pearlButtonImage;
 
-    public GameObject _goldProductObject;
-    public GameObject _pearlProductObject;
+    [SerializeField] GameObject _goldProductObject;
+    [SerializeField] GameObject _pearlProductObject;
 
     private void OnEnable()
     {

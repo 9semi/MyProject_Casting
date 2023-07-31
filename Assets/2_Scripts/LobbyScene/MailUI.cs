@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MailUI : MonoBehaviour
 {
-    public Transform _content;
+    [SerializeField] Transform _content;
 
     int _mailCount;
 

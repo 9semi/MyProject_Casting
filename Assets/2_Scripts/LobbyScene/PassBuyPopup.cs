@@ -14,17 +14,17 @@ public class PassBuyPopup : MonoBehaviour
     Item _diamondPackage;
     Item _adblockPackage;
 
-    public GetPackageRewardUI _getRewardUI;
+    [SerializeField] GetPackageRewardUI _getRewardUI;
 
-    public GameObject[] _buyButtons;
-    public Sprite[] _passSprites;
-    public GameObject _infoObjects;
+    [SerializeField] GameObject[] _buyButtons;
+    [SerializeField] Sprite[] _passSprites;
+    [SerializeField] GameObject _infoObjects;
 
-    public Image _passImage;
-    public Text _passNameText;
-    public Text _infoText;
-    public Text _costText;
-    public GameObject _alreadyHaveObject;
+    [SerializeField] Image _passImage;
+    [SerializeField] Text _passNameText;
+    [SerializeField] Text _infoText;
+    [SerializeField] Text _costText;
+    [SerializeField] GameObject _alreadyHaveObject;
 
     bool _isInfoOn;
     UserData _userData;
