@@ -50,7 +50,7 @@ public class InGameUIManager : MonoBehaviour
     [Header("-----PassQuest 관련-----")]
     [SerializeField] GameObject _questContentObject;
     [SerializeField] Text _currentContentText;
-    [SerializeField] Text _currentStateText;
+    [SerializeField] Text CurrentStateText;
     [SerializeField] GameObject _currentPassObject;
     [SerializeField] GameObject _allClearObject;
     [SerializeField] Sprite _notClearButtonSprite;
@@ -450,7 +450,7 @@ public class InGameUIManager : MonoBehaviour
         _gameManager.IsPause = true;
         fishControl.IsPause = true;
 
-        if (_gameManager._currentState.Equals(PublicDefined.IngameState.idle))
+        if (_gameManager.CurrentState.Equals(GameManager.eIngameState.idle))
         {
             _fishingGearButtonInMenu.SetActive(true);
         }
@@ -459,7 +459,7 @@ public class InGameUIManager : MonoBehaviour
             _fishingGearButtonInMenu.SetActive(false);
         }
 
-        if(_gameManager._currentState.Equals(PublicDefined.IngameState.fighting))
+        if(_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting))
         {
             if (_characterGageObject.activeSelf)
                 _characterGageObject.SetActive(false);
@@ -475,7 +475,7 @@ public class InGameUIManager : MonoBehaviour
 
     public void ClickGameGuideButton()
     {
-        if (_gameManager.NeedleInWater || _gameManager._currentState != PublicDefined.IngameState.idle)
+        if (_gameManager.NeedleInWater || _gameManager.CurrentState != GameManager.eIngameState.idle)
             return;
 
         if (_gameGuideUI.activeSelf)
@@ -505,7 +505,7 @@ public class InGameUIManager : MonoBehaviour
             fishControl._MotorStopCoroutine = null;
         }
 
-        if (_gameManager._currentState.Equals(PublicDefined.IngameState.fighting))
+        if (_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting))
         {
             if (!_characterGageObject.activeSelf)
                 _characterGageObject.SetActive(true);
@@ -528,7 +528,7 @@ public class InGameUIManager : MonoBehaviour
         }
 
         // 파이팅 상태
-        if (_gameManager._currentState.Equals(PublicDefined.IngameState.fighting))
+        if (_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting))
         {
             //Debug.Log("1");
             fishControl.RestartDCCoroutine();
@@ -584,7 +584,7 @@ public class InGameUIManager : MonoBehaviour
     public void SetQuestContent(string content, string currentState)
     {
         _currentContentText.text = content;
-        _currentStateText.text = currentState;
+        CurrentStateText.text = currentState;
     }
 
     public void QuestClear(bool isClear)
@@ -605,7 +605,7 @@ public class InGameUIManager : MonoBehaviour
             // Sprite 교체
             _passObjectImage.sprite = _clearButtonSprite;
 
-            _currentStateText.text = _questClearText;
+            CurrentStateText.text = _questClearText;
         }
         else
         {
@@ -619,7 +619,7 @@ public class InGameUIManager : MonoBehaviour
     
     public void ClickPassQuestButton()
     {
-        if (_gameManager._currentState == PublicDefined.IngameState.fighting)
+        if (_gameManager.CurrentState == GameManager.eIngameState.fighting)
             return;
 
         if (_questContentObject.activeSelf)

@@ -293,8 +293,8 @@ public class FishControl : FishBase
                 AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.homerspitFighting, true);
                 break;
         }
-        _gameManager._currentState = PublicDefined.IngameState.fighting;
-        _gameManager.IsNoBite = true; // 물고기가 물었다.
+        _gameManager.CurrentState = GameManager.eIngameState.fighting;
+        _gameManager.IsNoBite = true; 
         _petManager.isCatch = true;
 
         if (_petManager._itemUIState.Equals(PetManager.eItemUIState._on))
@@ -1067,7 +1067,7 @@ public class FishControl : FishBase
                         if (_tensionUI._RedGageBarRectTransform.sizeDelta.x >= _tensionUI._MinX && _tensionUI._RedGageBarRectTransform.sizeDelta.x <= _tensionUI._MaxX)
                         {
                             // 성공
-                            if (randChance < chance1 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                            if (randChance < chance1 && _gameManager.NeedleControl.GetNeedleControlTransform().position.z > 5.5f)
                             {
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
                                 _ingameUIManager.FishingState(3);
@@ -1104,7 +1104,7 @@ public class FishControl : FishBase
                         // 게이지 밖
                         else
                         {
-                            if (randChance < chance2 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                            if (randChance < chance2 && _gameManager.NeedleControl.GetNeedleControlTransform().position.z > 5.5f)
                             {
                                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
                                 _ingameUIManager.FishingState(3);
@@ -1152,7 +1152,7 @@ public class FishControl : FishBase
                     if (_tensionUI._RedGageBarRectTransform.sizeDelta.x >= _tensionUI._MinX && _tensionUI._RedGageBarRectTransform.sizeDelta.x <= _tensionUI._MaxX)
                     {
                         // 성공
-                        if (randChance < chance1 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                        if (randChance < chance1 && _gameManager.NeedleControl.GetNeedleControlTransform().position.z > 5.5f)
                         {
                             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
                             _ingameUIManager.FishingState(3);
@@ -1188,7 +1188,7 @@ public class FishControl : FishBase
                     // 게이지 밖
                     else 
                     {
-                        if (randChance < chance2 && _gameManager.needleControl.GetNeedleControlTransform().position.z > 5.5f)
+                        if (randChance < chance2 && _gameManager.NeedleControl.GetNeedleControlTransform().position.z > 5.5f)
                         {
                             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackSuccess).GetComponent<AudioPoolObject>().Init();
                             _ingameUIManager.FishingState(3);
@@ -1295,7 +1295,7 @@ public class FishControl : FishBase
             if (_isDeath)
             {
                 //Debug.Log("FishControl/Dying/_isDeath : " + _isDeath);
-                _gameManager._currentState = PublicDefined.IngameState.idle;
+                _gameManager.CurrentState = GameManager.eIngameState.idle;
                 _gameManager.HideBait();
                 _gameManager.IsPause = true;
 
@@ -1328,7 +1328,7 @@ public class FishControl : FishBase
             //잡기 실패했을 때(파이팅 중이 아니라면)
             else if (!_isFighting)
             {
-                _gameManager._currentState = PublicDefined.IngameState.casting;
+                _gameManager.CurrentState = GameManager.eIngameState.casting;
                 // #블루투스
                 if (_bleTotal != null && _bleTotal.ConnectedMain)
                 {

@@ -60,9 +60,9 @@ public class DBManager : MonoBehaviour
     UserData _userData;
     StringBuilder _sb = new StringBuilder();
 
-    public bool _dataLoadSuccess = false;
-    public int _dataLoadProgress = 0;
-    public bool _isTest = false;
+   bool _dataLoadSuccess; public bool DataLoadSuccess { set { _dataLoadSuccess = value; } }
+   int _dataLoadProgress; public int DataLoadProgress { set { _dataLoadProgress = value; } }
+   bool _isTest;
 
     private void Awake()
     {
@@ -430,19 +430,19 @@ public class DBManager : MonoBehaviour
         else
         {
             XmlElement bgmV = xml.CreateElement("BgmVolume");
-            bgmV.InnerText = AudioManager.INSTANCE._bgmVolume.ToString();
+            bgmV.InnerText = AudioManager.INSTANCE.BgmVolume.ToString();
             rootNode.AppendChild(bgmV);
 
             XmlElement bgmM = xml.CreateElement("BgmMute");
-            bgmM.InnerText = AudioManager.INSTANCE._bgmMute.ToString();
+            bgmM.InnerText = AudioManager.INSTANCE.BgmMute.ToString();
             rootNode.AppendChild(bgmM);
 
             XmlElement effV = xml.CreateElement("EffectVolume");
-            effV.InnerText = AudioManager.INSTANCE._effectVolume.ToString();
+            effV.InnerText = AudioManager.INSTANCE.EffectVolume.ToString();
             rootNode.AppendChild(effV);
 
             XmlElement effM = xml.CreateElement("EffectMute");
-            effM.InnerText = AudioManager.INSTANCE._effectMute.ToString();
+            effM.InnerText = AudioManager.INSTANCE.EffectMute.ToString();
             rootNode.AppendChild(effM);
 
             XmlElement v = xml.CreateElement("Vibration");

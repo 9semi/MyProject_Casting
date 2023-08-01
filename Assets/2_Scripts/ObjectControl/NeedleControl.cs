@@ -61,7 +61,7 @@ public class NeedleControl : MonoBehaviour
         _ingameUIManager = GameObject.FindGameObjectWithTag("UI").GetComponent<InGameUIManager>();
         cameraMgr = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraManager>();
         gameMgr = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        gameMgr.needleControl = GetComponent<NeedleControl>();
+        gameMgr.NeedleControl = GetComponent<NeedleControl>();
 
         // 물고기 작업 시작
         fishControl = GameObject.FindGameObjectWithTag("FishControl").GetComponent<FishControl>();
@@ -215,7 +215,7 @@ public class NeedleControl : MonoBehaviour
         // 기본적으로 움직이기 시작하기 때문에.
         gameMgr.NeedleStartMoving();
 
-        while (gameMgr.style == GameManager.GameStyle.Bobber && !fishControl.IsBite)
+        while (gameMgr.GameStyleSstate == GameManager.eGameStyle.Bobber && !fishControl.IsBite)
         {
             if (myTr.position.y > _depthLength - 1.5f)
             {
@@ -232,7 +232,7 @@ public class NeedleControl : MonoBehaviour
             yield return waitTime;
         }
 
-        while (gameMgr.style == GameManager.GameStyle.Onetwo && !fishControl.IsBite)
+        while (gameMgr.GameStyleSstate == GameManager.eGameStyle.Onetwo && !fishControl.IsBite)
         {
             // 찌와 같은 부력
             if(currentBait.Equals(53) || currentBait.Equals(54))

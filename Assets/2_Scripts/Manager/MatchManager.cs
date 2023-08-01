@@ -165,7 +165,7 @@ public class MatchManager : MonoBehaviour
 
         _ingameUIManager._ingameUIManager_isPause = true;
         _fishControl.IsPause = true;
-        _gameManager.needleControl._isPause = true;
+        _gameManager.NeedleControl._isPause = true;
         _gameManager.IsPause = true;
         _gameManager.IsReset = true;
         _gameManager.IsPlayingBGM = false;
@@ -530,7 +530,7 @@ public class MatchManager : MonoBehaviour
     
     public void ClickEquipmentButton()
     {
-        if (_gameManager._currentState.Equals(PublicDefined.IngameState.casting) || _gameManager.NeedleInWater || _fishPopupObject.activeSelf)
+        if (_gameManager.CurrentState.Equals(GameManager.eIngameState.casting) || _gameManager.NeedleInWater || _fishPopupObject.activeSelf)
             return;
 
         PlayClickEffectAudio();

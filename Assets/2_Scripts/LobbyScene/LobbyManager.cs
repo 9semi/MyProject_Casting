@@ -345,15 +345,15 @@ public class LobbyManager : MonoBehaviour
 
         if(_ostOn)
         {
-            if (AudioManager.INSTANCE._bgmVolume <= 0)
+            if (AudioManager.INSTANCE.BgmVolume <= 0)
             {
                 AudioManager.INSTANCE.BGMSetting(0.5f, false);
                 DBManager.INSTANCE.SaveXml(false);
             }
 
-            if (AudioManager.INSTANCE._bgmMute)
+            if (AudioManager.INSTANCE.BgmMute)
             {
-                AudioManager.INSTANCE.BGMSetting(AudioManager.INSTANCE._bgmVolume, false);
+                AudioManager.INSTANCE.BGMSetting(AudioManager.INSTANCE.BgmVolume, false);
                 DBManager.INSTANCE.SaveXml(false);
             }
 

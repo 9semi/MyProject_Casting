@@ -10,6 +10,7 @@ public class Fish : FishBase
     SpawnControl _spawnControl;
     FishControl _fishControl;   
     GameManager _gameManager;
+    PetManager _petManager;
     NeedleControl _needle;
 
     int _randSpawn;
@@ -174,6 +175,8 @@ public class Fish : FishBase
             _fishControl = GameObject.FindGameObjectWithTag("FishControl").GetComponent<FishControl>();
         if (_gameManager == null)
             _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        if (_petManager == null)
+            _petManager = GameObject.FindGameObjectWithTag("Pet").GetComponent<PetManager>();
 
         target = _fishControl.Target;    // 바늘(루어)
 
@@ -1325,9 +1328,9 @@ public class Fish : FishBase
             //Debug.Log(1);
             yield return _lookDelay;
 
-            if(_gameManager.needleControl != null)
+            if(_gameManager.NeedleControl != null)
             {
-                _fishControl.Target = _gameManager.needleControl.transform;
+                _fishControl.Target = _gameManager.NeedleControl.transform;
                 target = _fishControl.Target;
             }
         }
@@ -1406,7 +1409,7 @@ public class Fish : FishBase
             yield return null;
         }
 
-        if (_gameManager.petMgr.isLightOn)
+        if (_petManager.isLightOn)
         {
             if (fishDBNum.Equals(9) || fishDBNum.Equals(13))
             {

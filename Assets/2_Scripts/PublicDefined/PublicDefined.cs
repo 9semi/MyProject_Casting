@@ -69,14 +69,7 @@ public class PublicDefined : MonoBehaviour
             _fishType = (int)t;
         }
     }
-
-    public enum IngameState
-    {
-        idle = 0,
-        casting,
-        fighting,
-    }
-
+    
     public enum eFishType
     {
         Sundry,

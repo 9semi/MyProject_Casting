@@ -70,10 +70,10 @@ public class Option : MonoBehaviour
         _vibrationCheck.SetActive(_isVibrationOn);
         _landscapeCheck.SetActive(_isLandscapeOn);
 
-        _isMute_BGM = AudioManager.INSTANCE._bgmMute;
-        _isMute_EFFECT = AudioManager.INSTANCE._effectMute;
-        bgmSlider.value = AudioManager.INSTANCE._bgmVolume * 10;
-        effectSlider.value = AudioManager.INSTANCE._effectVolume * 10;
+        _isMute_BGM = AudioManager.INSTANCE.BgmMute;
+        _isMute_EFFECT = AudioManager.INSTANCE.EffectMute;
+        bgmSlider.value = AudioManager.INSTANCE.BgmVolume * 10;
+        effectSlider.value = AudioManager.INSTANCE.EffectVolume * 10;
 
         //Debug.Log(AudioManager.INSTANCE._bgmVolume);
         //Debug.Log(AudioManager.INSTANCE._bgmVolume * 10);

@@ -24,6 +24,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private void Awake()
     {
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        _gameManager.SetReelingInstance(this);
         _ingameUIManager = GameObject.FindGameObjectWithTag("UI").GetComponent<InGameUIManager>();
         GameObject.FindGameObjectWithTag("Tension").GetComponent<TensionUI>().GetReelingInstance(this);
     }

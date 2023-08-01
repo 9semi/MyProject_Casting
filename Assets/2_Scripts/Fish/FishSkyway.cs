@@ -1277,20 +1277,20 @@ public class FishSkyway : FishBase
             yield return null;
         }
 
-        if (gameMgr.petMgr.isLightOn)
-        {
-            if (fishDBNum.Equals(85) || fishDBNum.Equals(91))
-                searchRange = backSearchRange + 1;
-            else
-                searchRange = backSearchRange - 1;
-        }
-        else
-        {
-            if (fishDBNum.Equals(85) || fishDBNum.Equals(91))
-                searchRange = backSearchRange - 1;
-            else
-                searchRange = backSearchRange + 1;
-        }
+        //if (gameMgr.petMgr.isLightOn)
+        //{
+        //    if (fishDBNum.Equals(85) || fishDBNum.Equals(91))
+        //        searchRange = backSearchRange + 1;
+        //    else
+        //        searchRange = backSearchRange - 1;
+        //}
+        //else
+        //{
+        //    if (fishDBNum.Equals(85) || fishDBNum.Equals(91))
+        //        searchRange = backSearchRange - 1;
+        //    else
+        //        searchRange = backSearchRange + 1;
+        //}
         StopCor();
         yield return null;
     }

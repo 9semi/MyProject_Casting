@@ -64,6 +64,7 @@ public class FishPopUp : MonoBehaviour
     // 획득이나 방생이후에 리셋
     GameManager _gameManager;
     InGameUIManager _ingameUIManager;
+    CameraManager _cameraManager;
 
     [Header("수족관 관련")]
     public Sprite _blueButtonSprite;
@@ -93,6 +94,7 @@ public class FishPopUp : MonoBehaviour
     {
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         _ingameUIManager = GameObject.FindGameObjectWithTag("UI").GetComponent<InGameUIManager>();
+        _cameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraManager>();
     }
 
     private void Start()
@@ -415,7 +417,7 @@ public class FishPopUp : MonoBehaviour
         _ingameUIManager.ResetCharacterGage();
         _ingameUIManager.SetBackState();
         _ingameUIManager.ShowButtons();
-        _gameManager.cameraMgr.ResetCamera();
+        _cameraManager.ResetCamera();
         characterMgr.ResetPos();
 
         // 재화 들어오는거 추가
@@ -596,7 +598,7 @@ public class FishPopUp : MonoBehaviour
         sellPopup.SetActive(false);
         _gameManager.IsPause = false;
         _ingameUIManager.ShowButtons();
-        _gameManager.cameraMgr.ResetCamera();
+        _cameraManager.ResetCamera();
 
         // 패스 확인
         PassManager.INSTANCE.ToPassManagerAboutFish(_fishInfo);
@@ -619,19 +621,18 @@ public class FishPopUp : MonoBehaviour
 
         if(DataManager.INSTANCE._mapType.Equals(PublicDefined.eMapType.jeongdongjin))
         {
-            //_gameManager._jeongdongjinFishManager._caughtFishs.Add(fishControl.GetStructFishData()._fishObject.GetComponent<Fish>());
-            _gameManager._jeongdongjinFishManager.AddCaughtFishList(fishControl.GetStructFishData()._fishObject.GetComponent<Fish>());
+            _gameManager.GetJeongdongjinFishManager().AddCaughtFishList(fishControl.GetStructFishData()._fishObject.GetComponent<Fish>());
         }
         else if (DataManager.INSTANCE._mapType.Equals(PublicDefined.eMapType.skyway))
         {
-            _gameManager._skywayFishManager._caughtFishs.Add(fishControl.GetStructFishData()._fishObject.GetComponent<FishSkyway>());
+            _gameManager.GetSkywayFishManager()._caughtFishs.Add(fishControl.GetStructFishData()._fishObject.GetComponent<FishSkyway>());
         }
         else if (DataManager.INSTANCE._mapType.Equals(PublicDefined.eMapType.homerspit))
         {
-            _gameManager._homerspitFishManager._caughtFishs.Add(fishControl.GetStructFishData()._fishObject.GetComponent<FishHomerspit>());
+            _gameManager.GetHomerspitFishManager()._caughtFishs.Add(fishControl.GetStructFishData()._fishObject.GetComponent<FishHomerspit>());
         }
 
-        fishControl.GetStructFishData()._fishTransform.SetParent(_gameManager._catchPos);
+        fishControl.GetStructFishData()._fishTransform.SetParent(_gameManager.CatchPosition);
         fishControl.GetStructFishData()._fishTransform.localPosition = Vector3.zero;
         fishControl.GetStructFishData()._fishObject.SetActive(false);
         fishControl.FishTransform = null;

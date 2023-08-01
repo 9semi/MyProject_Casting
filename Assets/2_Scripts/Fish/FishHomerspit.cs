@@ -1337,14 +1337,14 @@ public class FishHomerspit : FishBase
             yield return null;
         }
 
-        if (gameMgr.petMgr.isLightOn)
-        {
-            searchRange = backSearchRange - 1;
-        }
-        else
-        {
-            searchRange = backSearchRange + 1;
-        }
+        //if (gameMgr.petMgr.isLightOn)
+        //{
+        //    searchRange = backSearchRange - 1;
+        //}
+        //else
+        //{
+        //    searchRange = backSearchRange + 1;
+        //}
 
         StopCor();
         yield return null;

@@ -15,8 +15,8 @@ public class CameraManager : MonoBehaviour
     readonly Vector3 _whenCatchFishRot = Vector3.up * 44;
 
     readonly float _shakeRange = 0.02f;
-    [SerializeField] GameManager gameMgr;
-    [SerializeField] InGameUIManager inGameUiMgr;
+    [SerializeField] GameManager _gameManager;
+    [SerializeField] InGameUIManager _ingameUIManager;
 
     Transform _needleTransform;
     Vector3 _shakeVector;
@@ -34,13 +34,14 @@ public class CameraManager : MonoBehaviour
 
     void Start()
     {
+        _gameManager.SetCameraManagerInstance(this);
         _resetPos = transform.position;
         _resetRot = transform.rotation;
     }
 
     private void LateUpdate()
     {
-        if (gameMgr.IsFly && !gameMgr.IsPause)
+        if (_gameManager.IsFly && !_gameManager.IsPause)
         {
             //transform.position = new Vector3(transform.position.x, target.position.y + 1f, target.position.z - 1.5f);
             transform.position = new Vector3(_needleTransform.position.x - 2f, _needleTransform.position.y + 1f, _needleTransform.position.z - 1.5f);
@@ -58,8 +59,8 @@ public class CameraManager : MonoBehaviour
     {
         transform.position = _resetPos;
         transform.rotation = _resetRot;
-        gameMgr.IsReset = true;
-        gameMgr.RotateStop = false;
+        _gameManager.IsReset = true;
+        _gameManager.RotateStop = false;
         
     }
 

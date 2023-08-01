@@ -22,13 +22,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioClip _castingReelEffectClip;
 
     // 배경음 기본 정보
-    [HideInInspector] public float _bgmVolume;
-    [HideInInspector] public bool _bgmMute;
-    [HideInInspector] public float _currentBGMProgressTime = 0;
+    float _bgmVolume; public float BgmVolume { get { return _bgmVolume; } }
+    bool _bgmMute; public bool BgmMute { get { return _bgmMute; } }
+    float _currentBGMProgressTime = 0;
 
     // 효과음 기본 정보
-    [HideInInspector] public float _effectVolume;
-    [HideInInspector] public bool _effectMute;
+    float _effectVolume; public float EffectVolume { get { return _effectVolume; } }
+    bool _effectMute; public bool EffectMute { get { return _effectMute; } }
 
     // 효과음 큐
     Queue<GameObject> _effectQueue = new Queue<GameObject>();

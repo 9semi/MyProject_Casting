@@ -1036,7 +1036,7 @@ public class DataManager : MonoBehaviour
             }
 
             _gameManager.ReelPoint2.GetChild(0).gameObject.SetActive(true);
-            _gameManager.style = GameManager.GameStyle.Bobber;
+            _gameManager.GameStyleSstate = GameManager.eGameStyle.Bobber;
         }
 
         if (_depthLength <= 0)
@@ -1057,7 +1057,7 @@ public class DataManager : MonoBehaviour
             }
 
             _gameManager.ReelPoint2.GetChild(0).gameObject.SetActive(false);
-            _gameManager.style = GameManager.GameStyle.Onetwo;
+            _gameManager.GameStyleSstate = GameManager.eGameStyle.Onetwo;
 
         }
     }

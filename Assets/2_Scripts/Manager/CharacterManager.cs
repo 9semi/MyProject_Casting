@@ -17,6 +17,7 @@ public class CharacterManager : MonoBehaviour
     void Awake()
     {
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>() ;
+        _gameManager.SetCharacterManagerInstance(this);
         _ani = GetComponent<Animator>();
         _ani.SetFloat("ReelingSpeed", 0.5f);
         _ani.SetFloat(_blockspeedHash, 1f);

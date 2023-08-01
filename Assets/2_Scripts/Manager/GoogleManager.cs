@@ -197,8 +197,8 @@ public class GoogleManager : MonoBehaviour
             _isLogin = false;
             _loginButton.gameObject.SetActive(true);
             _gameStartButton.SetActive(false);
-            DBManager.INSTANCE._dataLoadSuccess = false;
-            DBManager.INSTANCE._dataLoadProgress = 0;
+            DBManager.INSTANCE.DataLoadSuccess = false;
+            DBManager.INSTANCE.DataLoadProgress = 0;
             DBManager.INSTANCE.UserDataInit();
 
             //Debug.Log("로그아웃");
