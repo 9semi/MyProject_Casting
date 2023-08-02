@@ -9,118 +9,88 @@ using System.Linq;
 public class PetManager : MonoBehaviour
 {
     readonly int _throwHash = Animator.StringToHash("Throw");
+    readonly int isOnHash = Animator.StringToHash("isOn");
+
     public enum eItemUIState
     {
         _on,
         _off,
     }
+    eItemUIState _itemUIState = eItemUIState._off; public eItemUIState ItemUIState { get { return _itemUIState; } }
 
-    readonly int isOnHash = Animator.StringToHash("isOn");
-
-    public bool _isPause;
-
-    [Header("스크립트")]
-    public FishObjectManager _jeongdongjinFishManager;
-    public FishObjectManagerSkyway _skywayFishManager;
-    public FishObjectManagerHomerspit _homerspitFishManager;
-    public BaitSpatulaControl _baitspatulaControl;
-
-    public Sprite _nullSprite;
-    [Header("jeongdongjin 레어 물고기 이미지(레이더용)")]
-    public Sprite _blackporgySprite;
-    public Sprite _largescaleblackfishSprite;
-    public Sprite _japaneseamberjackSprite;
-    public Sprite _japanesespanishmackerelSprite;
-    public Sprite _seabassSprite;
-    public Sprite _spottedseabassSprite;
-
-    [Header("skyway 레어 물고기 이미지(레이더용")]
-    public Sprite _blackgrouper;
-    public Sprite _atlantictrpletail;
-    public Sprite _redporgy;
-    public Sprite _redtilefish;
-    public Sprite _indopacificsailfish;
-    public Sprite _swordfish;
-
-    [Header("homerspit 레어 물고기 이미지(레이더용)")]
-    public Sprite _bigskate;
-    public Sprite _yellowfintuna;
-    public Sprite _lingcod;
-    public Sprite _yelloweyerockfish;
-    public Sprite _quillbackrockfish;
-    public Sprite _salmonshark;
-    public Sprite _halibut;
-    public Sprite _chinooksalmon;
-
-    // 미끼던지기, 플래시를 쏘는 애니메이터
-    public Animator petAnimator;
-
-    // 현재 낚시 상태를 가져오기 위한 클래스
-    public GameManager gameMgr;
-
-    // 게이지 참조하기 위한 클래스
-    public InGameUIManager _ingameUI;
-
-    // 물고기 스크립트 
-    public FishControl fishControl;
-
-    public CharacterManager characterMgr;
-
-    // 램프 오브젝트    
-    public GameObject landingNet;
-
-    // 뜰채 오브젝트
-    public GameObject baitSpatulaula;
-
+    FishObjectManager _jeongdongjinFishManager;
+    FishObjectManagerSkyway _skywayFishManager;
+    FishObjectManagerHomerspit _homerspitFishManager;
+    GameManager _gameManager;
+    InGameUIManager _ingameUIManager;
+    FishControl _fishControl;
     UserData _userData;
 
-    // 램프, 떡밥 던지기 옵션
-    [SerializeField] GameObject _baitBundle;
+    bool _isPause;
+    bool _isLightOn; public bool IsLightOn { get { return _isLightOn; } }
+    bool _isCatch; public bool IsCatch { set { _isCatch = value; } }
+    bool _tutorialThrowStop;
+    bool _radarInUse;
+    int _currentPasteBaitIndex = 0;
+    float _progress; public float Progress { get { return _progress; } set { _progress = value; } }
 
-    // 아이템 옵션 
-    public GameObject _itemOption;
-    public Button _itemOptionButton;
-    Animator _itemOptionAni;
-    public Button _lampButton;
-
-    // 라이트 켜졌을 때
-    public bool isLightOn;
-
-    // 물고기 잡았을 때
-    public bool isCatch;
-
-    // 파워 게이지 값
-    [HideInInspector] public float progress;
-
-    public GameObject _pastebaitIsNullObject;
-    public Light fishingLamp;
-    
-
-    public ParticleSystem radarParticle;
-
-    public Coroutine baitCor;
-
-    // 레이더 관련 레어 물고기 위치 찾기
-    private bool _radarInUse = false;
-    public RectTransform[] _fishIcon;
-    public RectTransform _canvasRect;
-
-    // 회전 관련 (떡밥 던지기)
+    Animator _petAni; public Animator PetAni { get { return _petAni; } }
+    Animator _itemOptionAni; 
+    Coroutine baitCor;
     Vector3 _angleGyro = Vector3.zero;
     Gyroscope _gyroscope;
+    
+    [Header("jeongdongjin 레어 물고기 이미지(레이더용)")]
+    [SerializeField] Sprite _blackporgySprite;
+    [SerializeField] Sprite _largescaleblackfishSprite;
+    [SerializeField] Sprite _japaneseamberjackSprite;
+    [SerializeField] Sprite _japanesespanishmackerelSprite;
+    [SerializeField] Sprite _seabassSprite;
+    [SerializeField] Sprite _spottedseabassSprite;
 
-    int _currentPasteBaitIndex = 0;
-     
-    [HideInInspector] public eItemUIState _itemUIState = eItemUIState._off;
-    [HideInInspector] public bool _tutorialThrowStop;
+    [Header("skyway 레어 물고기 이미지(레이더용")]
+    [SerializeField] Sprite _blackgrouper;
+    [SerializeField] Sprite _atlantictrpletail;
+    [SerializeField] Sprite _redporgy;
+    [SerializeField] Sprite _redtilefish;
+    [SerializeField] Sprite _indopacificsailfish;
+    [SerializeField] Sprite _swordfish;
+
+    [Header("homerspit 레어 물고기 이미지(레이더용)")]
+    [SerializeField] Sprite _bigskate;
+    [SerializeField] Sprite _yellowfintuna;
+    [SerializeField] Sprite _lingcod;
+    [SerializeField] Sprite _yelloweyerockfish;
+    [SerializeField] Sprite _quillbackrockfish;
+    [SerializeField] Sprite _salmonshark;
+    [SerializeField] Sprite _halibut;
+    [SerializeField] Sprite _chinooksalmon;
+    [Header("------------------------------------")]
+    [SerializeField] BaitSpatulaControl _baitspatulaControl;
+    [SerializeField] Sprite _nullSprite;
+    
+    [SerializeField] GameObject landingNet;
+    [SerializeField] GameObject baitSpatulaula;
+    [SerializeField] GameObject _baitBundle;
+    [SerializeField] GameObject _itemOption;
+    [SerializeField] Button _itemOptionButton;
+    [SerializeField] Button _lampButton;
+    [SerializeField] GameObject _pastebaitIsNullObject;
+    [SerializeField] Light fishingLamp;
+    [SerializeField] ParticleSystem radarParticle;
+    [SerializeField] RectTransform[] _fishIcon;
+    [SerializeField] RectTransform _canvasRect;
 
     private void Awake()
     {
+        _petAni = GetComponent<Animator>();
         _tutorialThrowStop = false;
-        isLightOn = false;
+        _isLightOn = false;
     }
     private void Start()
     {
+        InitializeInstance();
+        
         _gyroscope = Input.gyro;
         _gyroscope.enabled = true;
 
@@ -128,9 +98,28 @@ public class PetManager : MonoBehaviour
         _itemOptionAni = _itemOption.GetComponent<Animator>();
 
         // 회전을 위해 스크립트가 보유한 트랜스폼 참조
-        petAnimator = GetComponent<Animator>();
+        _petAni = GetComponent<Animator>();
 
         baitCor = null;
+    }
+    void InitializeInstance()
+    {
+        switch (DataManager.INSTANCE._mapType)
+        {
+            case PublicDefined.eMapType.jeongdongjin:
+                _jeongdongjinFishManager = GameObject.FindGameObjectWithTag("FishObjectManager").GetComponent<FishObjectManager>();
+                return;
+            case PublicDefined.eMapType.skyway:
+                _skywayFishManager = GameObject.FindGameObjectWithTag("FishObjectManager").GetComponent<FishObjectManagerSkyway>();
+                break;
+            case PublicDefined.eMapType.homerspit:
+                _homerspitFishManager = GameObject.FindGameObjectWithTag("FishObjectManager").GetComponent<FishObjectManagerHomerspit>();
+                break;
+        }
+
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        _ingameUIManager = GameObject.FindGameObjectWithTag("UI").GetComponent<InGameUIManager>();
+        _fishControl = GameObject.FindGameObjectWithTag("FishControl").GetComponent<FishControl>();
     }
     // 레이더 이미지 클릭
     public void Fishfinder()
@@ -267,10 +256,10 @@ public class PetManager : MonoBehaviour
     // 떡밥 이미지 클릭
     public void ClickBaitThrow()
     {
-        if (gameMgr.CurrentState.Equals(GameManager.eIngameState.fighting) || _radarInUse || fishControl.IsFind || gameMgr.IsFly)
+        if (_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting) || _radarInUse || _fishControl.IsFind || _gameManager.IsFly)
             return;
 
-        if (gameMgr.BaitThrowMode)
+        if (_gameManager.BaitThrowMode)
         {
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
 
@@ -281,14 +270,14 @@ public class PetManager : MonoBehaviour
             // 떡밥 주걱 off
             baitSpatulaula.SetActive(false);
 
-            gameMgr.BaitThrowMode = false;
+            _gameManager.BaitThrowMode = false;
 
-            _ingameUI._Reeling.enabled = true;
+            _ingameUIManager._Reeling.enabled = true;
 
             // 게이지 바꾸고 초기화
-            _ingameUI.SetPetGage(false);
-            _ingameUI.ResetCharacterGage();
-            gameMgr.Progress = 0;
+            _ingameUIManager.SetPetGage(false);
+            _ingameUIManager.ResetCharacterGage();
+            _gameManager.Progress = 0;
             return;
         }
 
@@ -304,9 +293,9 @@ public class PetManager : MonoBehaviour
         }
         else
         {
-            _ingameUI._Reeling.enabled = false;
+            _ingameUIManager._Reeling.enabled = false;
             // bool형 변수 변경(사람 캐릭터가 못던지게 하기 위함)
-            gameMgr.BaitThrowMode = true;
+            _gameManager.BaitThrowMode = true;
 
             // 떡밥 주걱 회전 코루틴 시작
             _baitspatulaControl.StartRotateCoroutine();
@@ -318,11 +307,11 @@ public class PetManager : MonoBehaviour
             baitSpatulaula.SetActive(true);
 
             // 파워게이지 변경(펫 파워 활성, 사람 파워 비활성)
-            _ingameUI.ResetPetGage();
-            _ingameUI.SetCharacterGage(false);
-            progress = 0;
+            _ingameUIManager.ResetPetGage();
+            _ingameUIManager.SetCharacterGage(false);
+            _progress = 0;
         }
-        //Debug.LogError(gameMgr.BaitThrowMode);
+        //Debug.LogError(_gameManager.BaitThrowMode);
     }
 
     IEnumerator MakeDelay(int delayNumber, Action action)
@@ -356,23 +345,23 @@ public class PetManager : MonoBehaviour
         _currentPasteBaitIndex = _userData.GetCurrentEquipmentDictionary()["pastebait"];
 
         // 게이지 바꾸고 초기화
-        _ingameUI.ResetCharacterGage();
-        _ingameUI.SetPetGage(false);
+        _ingameUIManager.ResetCharacterGage();
+        _ingameUIManager.SetPetGage(false);
 
-        gameMgr.Progress = 0;
-        petAnimator.SetBool(_throwHash, true);
+        _gameManager.Progress = 0;
+        _petAni.SetBool(_throwHash, true);
 
         if(!DataManager.INSTANCE._tutorialIsInProgress)
-            _ingameUI._Reeling.enabled = true;
+            _ingameUIManager._Reeling.enabled = true;
 
         _baitspatulaControl.StopRotateCoroutine();
         StopCoroutine(baitCor);
         
         StartCoroutine(MakeDelay(3, () =>
         {
-            gameMgr.BaitThrowMode = false;
+            _gameManager.BaitThrowMode = false;
             baitSpatulaula.SetActive(false);
-            petAnimator.SetBool(_throwHash, false);
+            _petAni.SetBool(_throwHash, false);
         }));
     }
 
@@ -402,11 +391,11 @@ public class PetManager : MonoBehaviour
     // 불빛이 켜진다.
     void Light()
     {
-        isLightOn = !isLightOn;
-        fishingLamp.enabled = isLightOn;
+        _isLightOn = !_isLightOn;
+        fishingLamp.enabled = _isLightOn;
 
         // 라이트가 온/오프일 때에 따른 물고기들 서칭 범위 변경
-        if (isLightOn)
+        if (_isLightOn)
         {
             switch (DataManager.INSTANCE._mapType)
             {
@@ -444,23 +433,23 @@ public class PetManager : MonoBehaviour
     {
         float powerSpeed = 0.5f;
 
-        while (gameMgr.BaitThrowMode && !_isPause)
+        while (_gameManager.BaitThrowMode && !_isPause)
         {
             // 안드로이드
             #region 
             if (Application.platform.Equals(RuntimePlatform.Android))
             {
-                if (gameMgr._isConnectedToBluettooth_Reel)
+                if (_gameManager.IsConnectedToBluetooth_Reel)
                 {
                     // 신형 릴
                     {
-                        while (progress <= 1f) // 게이지가 1.0보다 작을때 반복
+                        while (_progress <= 1f) // 게이지가 1.0보다 작을때 반복
                         {                    // 파워 게이지
-                            progress += powerSpeed * Time.deltaTime;
-                            _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
+                            _progress += powerSpeed * Time.deltaTime;
+                            _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
                             _angleGyro = _gyroscope.rotationRate;
-                            if (gameMgr.BaitThrowMode && gameMgr._reelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
+                            if (_gameManager.BaitThrowMode && _gameManager.ReelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
                             {
                                 BaitThrow();
                             }
@@ -468,13 +457,13 @@ public class PetManager : MonoBehaviour
                         }
 
 
-                        while (progress >= 0)
+                        while (_progress >= 0)
                         {
-                            progress -= powerSpeed * Time.deltaTime;
-                            _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
+                            _progress -= powerSpeed * Time.deltaTime;
+                            _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
                             _angleGyro = _gyroscope.rotationRate;
-                            if (gameMgr.BaitThrowMode && gameMgr._reelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
+                            if (_gameManager.BaitThrowMode && _gameManager.ReelData.Zg < -30000 && !_tutorialThrowStop && !_tutorialThrowStop)
                             {
                                 BaitThrow();
                             }
@@ -484,13 +473,13 @@ public class PetManager : MonoBehaviour
                 }
                 else
                 {
-                    while (progress <= 1f) // 게이지가 1.0보다 작을때 반복
-                    {                    // 파워 게이지
-                        progress += powerSpeed * Time.deltaTime;
-                        _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
+                    while (_progress <= 1f)
+                    {                   
+                        _progress += powerSpeed * Time.deltaTime;
+                        _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
                         _angleGyro = _gyroscope.rotationRate;
-                        if (gameMgr.BaitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
+                        if (_gameManager.BaitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
                         {
                             BaitThrow();
                         }
@@ -498,13 +487,13 @@ public class PetManager : MonoBehaviour
                     }
 
 
-                    while (progress >= 0)
+                    while (_progress >= 0)
                     {
-                        progress -= powerSpeed * Time.deltaTime;
-                        _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
+                        _progress -= powerSpeed * Time.deltaTime;
+                        _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
                         _angleGyro = _gyroscope.rotationRate;
-                        if (gameMgr.BaitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
+                        if (_gameManager.BaitThrowMode && _angleGyro.x < -9 && !_tutorialThrowStop && !_tutorialThrowStop)
                         {
                             BaitThrow();
                         }
@@ -517,25 +506,25 @@ public class PetManager : MonoBehaviour
             #region
             if(Application.platform.Equals(RuntimePlatform.WindowsEditor))
             {
-                while (progress <= 1f) // 게이지가 1.0보다 작을때 반복
+                while (_progress <= 1f) // 게이지가 1.0보다 작을때 반복
                 {
                     // 파워 게이지
-                    progress += powerSpeed * Time.deltaTime;
-                    _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
+                    _progress += powerSpeed * Time.deltaTime;
+                    _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
-                    if (Input.GetButtonDown("Jump") && gameMgr.BaitThrowMode && !_tutorialThrowStop)
+                    if (Input.GetButtonDown("Jump") && _gameManager.BaitThrowMode && !_tutorialThrowStop)
                     {
                         BaitThrow();
                     }
 
                     yield return null;
                 }
-                while (progress >= 0)
+                while (_progress >= 0)
                 {
-                    progress -= powerSpeed * Time.deltaTime;
-                    _ingameUI.ResetPetGage(Mathf.Lerp(0, 1, progress));
+                    _progress -= powerSpeed * Time.deltaTime;
+                    _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
-                    if (Input.GetButtonDown("Jump") && gameMgr.BaitThrowMode && !_tutorialThrowStop)
+                    if (Input.GetButtonDown("Jump") && _gameManager.BaitThrowMode && !_tutorialThrowStop)
                     {
                         BaitThrow();
                     }
@@ -549,7 +538,7 @@ public class PetManager : MonoBehaviour
 
     public void ClickItemButton()
     {
-        if (gameMgr.CurrentState.Equals(GameManager.eIngameState.fighting) && _itemUIState.Equals(eItemUIState._off))
+        if (_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting) && _itemUIState.Equals(eItemUIState._off))
             return;
 
         // On -> Off
@@ -579,12 +568,12 @@ public class PetManager : MonoBehaviour
     public void CatchFish()
     {
         //landingNet.SetActive(true);
-        //fishControl.fishTr.localScale = new Vector3(fishControl.fishData.lenth * 0.5f, fishControl.fishData.lenth * 0.5f, fishControl.fishData.lenth * 0.5f);
-        //fishControl.fishTr.parent = landingNet.transform.GetChild(0);
-        //fishControl.fishTr.localPosition = Vector3.zero;
-        //fishControl.fishTr.localRotation = Quaternion.Euler(0f, -90f, 0f);
+        //_fishControl.fishTr.localScale = new Vector3(_fishControl.fishData.lenth * 0.5f, _fishControl.fishData.lenth * 0.5f, _fishControl.fishData.lenth * 0.5f);
+        //_fishControl.fishTr.parent = landingNet.transform.GetChild(0);
+        //_fishControl.fishTr.localPosition = Vector3.zero;
+        //_fishControl.fishTr.localRotation = Quaternion.Euler(0f, -90f, 0f);
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishRaise).GetComponent<AudioPoolObject>().Init();
-        //fishControl.fishTr.GetChild(0).GetChild(0).localPosition = Vector3.zero;
+        //_fishControl.fishTr.GetChild(0).GetChild(0).localPosition = Vector3.zero;
 
         //StartCoroutine(MakeDelay(4, () => landingNet.SetActive(false)));
     }

@@ -120,10 +120,10 @@ public class FishObjectManagerHomerspit : MonoBehaviour
 
     public void InitializeFishSearchRange()
     {
-        if (_gameManager._userData == null)
-            _gameManager._userData = DBManager.INSTANCE.GetUserData();
+        if (_gameManager.UserData == null)
+            _gameManager.UserData = DBManager.INSTANCE.GetUserData();
 
-        if (_gameManager._userData.GetCurrentEquipmentDictionary()["bait"].Equals(-1))
+        if (_gameManager.UserData.GetCurrentEquipmentDictionary()["bait"].Equals(-1))
         {
             UpdateFishSearchRange(0);
         }
@@ -12790,7 +12790,7 @@ public class FishObjectManagerHomerspit : MonoBehaviour
 
     void LampCheck()
     {
-        if(!_petManager.isLightOn)
+        if(!_petManager.IsLightOn)
         {
             for (int i = 0; i < blackfinflounder.Length; i++)
             {

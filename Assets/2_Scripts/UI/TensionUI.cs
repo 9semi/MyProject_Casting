@@ -221,7 +221,7 @@ public class TensionUI : MonoBehaviour
         }
 
         
-        if (!_gameManager._userData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
+        if (!_gameManager.UserData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
         {
             _gameManager.SetSinkerObjectActive(true);
         }

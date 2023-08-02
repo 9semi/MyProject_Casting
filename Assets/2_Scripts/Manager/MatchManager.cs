@@ -12,40 +12,40 @@ public class MatchManager : MonoBehaviour
     readonly int _centerHash = Animator.StringToHash("Center");
 
     [Header("상대 이름 리스트")]
-    public string[] _opponentNameList;
+    [SerializeField] string[] _opponentNameList;
 
     [Header("스크립트")]
-    public MatchResultUI _resultUI;
-    public GameManager _gameManager;
-    public PetManager _petManager;
-    public FishControl _fishControl;
-    public InGameUIManager _ingameUIManager;
-   
-    public Text _conditionText;
+    [SerializeField] MatchResultUI _resultUI;
+    [SerializeField] GameManager _gameManager;
+    [SerializeField] PetManager _petManager;
+    [SerializeField] FishControl _fishControl;
+    [SerializeField] InGameUIManager _ingameUIManager;
 
-    public Text _myNameText;
-    public Image _myBar;
-    public Text _myScoreText;
+    [SerializeField] Text _conditionText;
+
+    [SerializeField] Text _myNameText;
+    [SerializeField] Image _myBar;
+    [SerializeField] Text _myScoreText;
     float _myScore;
 
-    public Text _opponentNameText;
-    public Image _opponentBar;
-    public Text _opponentScoreText;
+    [SerializeField] Text _opponentNameText;
+    [SerializeField] Image _opponentBar;
+    [SerializeField] Text _opponentScoreText;
     float _opponentScore;
 
-    public Image _timerImage;
-    public Text _timerText;
+    [SerializeField] Image _timerImage;
+    [SerializeField] Text _timerText;
 
-    public GameObject _resultObject;
+    [SerializeField] GameObject _resultObject;
 
-    public GameObject _equipmentUI;
-    public GameObject _exitUI;
+    [SerializeField] GameObject _equipmentUI;
+    [SerializeField] GameObject _exitUI;
 
-    public GameObject _noticeObject;
-    public Text _noticeText;
+    [SerializeField] GameObject _noticeObject;
+    [SerializeField] Text _noticeText;
 
     // 물고기 팝업창이 있을 때는 장비창 안켜지게 막아야한다.
-    public GameObject _fishPopupObject;
+    [SerializeField] GameObject _fishPopupObject;
 
     UserData _userData;
     int _conditionNumber; // 대결 종목 번호
@@ -58,7 +58,7 @@ public class MatchManager : MonoBehaviour
     StringBuilder _sb2 = new StringBuilder();
 
     // 블루투스 데이터 관련
-    [HideInInspector] public BLETotal bleTotal;
+    BLETotal bleTotal;
 
     Coroutine _timerAudioCoroutine = null;
     float _timer;

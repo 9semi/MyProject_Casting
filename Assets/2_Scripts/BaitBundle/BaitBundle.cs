@@ -35,12 +35,12 @@ public class BaitBundle : MonoBehaviour
     {
         _rgd.useGravity = true;
 
-        if (_pet.progress < 0.3f)
-            _pet.progress = 0.35f;
+        if (_pet.Progress < 0.3f)
+            _pet.Progress = 0.35f;
 
-        _forceVector.x = _baitspatulaControl.RotY * _pet.progress * 13.5f;
-        _forceVector.y = _pet.progress * 600;
-        _forceVector.z = _pet.progress * 780;
+        _forceVector.x = _baitspatulaControl.RotY * _pet.Progress * 13.5f;
+        _forceVector.y = _pet.Progress * 600;
+        _forceVector.z = _pet.Progress * 780;
         _rgd.AddForce(_forceVector);
     }
 

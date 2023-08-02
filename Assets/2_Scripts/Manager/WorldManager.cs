@@ -11,45 +11,40 @@ public class WorldManager : MonoBehaviour
     readonly string _homerspit = "Homerspit";
     readonly string _lobby = "LobbyScene";
 
-    public MapSelectScene_TimeUI _timeUI;
-    public MapSelectScene_RankUI[] _rankUI;
-    public GameObject _tutorialUI;
-    
-    public GameObject nullPopup;
-
-    public BookListUI _booklistUI;
-
-    public MatchUI _matchUI;
-
-    public RectTransform _mapContent;
-
-    public Image _bookArrowImage;
-    public Sprite _upArrowSprite;
-    public Sprite _downArrowSprite;
+    [SerializeField] MapSelectScene_TimeUI _timeUI;
+    [SerializeField] MapSelectScene_RankUI[] _rankUI;
+    [SerializeField] GameObject _tutorialUI;
+    [SerializeField] GameObject nullPopup;
+    [SerializeField] BookListUI _booklistUI;
+    [SerializeField] MatchUI _matchUI;
+    [SerializeField] RectTransform _mapContent;
+    [SerializeField] Image _bookArrowImage;
+    [SerializeField] Sprite _upArrowSprite;
+    [SerializeField] Sprite _downArrowSprite;
 
     [Header("tutorial")]
     int _currentProgressState;
     [Header("Step9")]
-    public GameObject _step9Object;
+    [SerializeField] GameObject _step9Object;
     [Header("Step10")]
-    public GameObject _step10Object;
+    [SerializeField] GameObject _step10Object; public GameObject GetStep10Object() { return _step10Object; }
 
-    public GameObject _step0Object;
-    public GameObject _step1Object;
+    [SerializeField] GameObject _step0Object;
+    [SerializeField] GameObject _step1Object;
 
     [Header("tutorial 스킵 기능")]
-    public GameObject _skipButton;
-    public GameObject _skipUIObject;
+    [SerializeField] GameObject _skipButton;
+    [SerializeField] GameObject _skipUIObject;
 
     int _currentMapNumber = -1;
 
     [Header("물고기 마릿수에 따른 맵 오픈/클로즈")]
-    public GameObject _skywayLockUI;
-    public GameObject _homerspitLockUI;
-    public Button _skywayMapButton;
-    public Button _homerspitMapButton;
-    public GameObject _skywayLockImage;
-    public GameObject _homerspitLockImage;
+    [SerializeField] GameObject _skywayLockUI;
+    [SerializeField] GameObject _homerspitLockUI;
+    [SerializeField] Button _skywayMapButton;
+    [SerializeField] Button _homerspitMapButton;
+    [SerializeField] GameObject _skywayLockImage;
+    [SerializeField] GameObject _homerspitLockImage;
     bool _isSkywayLock;
     bool _isHomerspitLock;
     bool _isTutorial;

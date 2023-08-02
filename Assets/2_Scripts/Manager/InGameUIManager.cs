@@ -276,7 +276,7 @@ public class InGameUIManager : MonoBehaviour
                     DistanceDepthTextOff();
 
                     // 블루투스가 연결되어있다.
-                    if (_gameManager._isConnectedToBluettooth_Main) 
+                    if (_gameManager.IsConnectedToBluetooth_Main) 
                     {
                         fishControl.MotorStop();
                     }

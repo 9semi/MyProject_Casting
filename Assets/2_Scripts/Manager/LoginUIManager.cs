@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LoginUIManager : MonoBehaviour
 {
-    public Animator _startButtonAni;
+    [SerializeField] Animator _startButtonAni;
     private void Start()
     {
         AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.loginscene, true);

@@ -35,7 +35,7 @@ public class CharacterManager : MonoBehaviour
         // 바늘 날라감 표시
         StartCoroutine(ShotCoroutine());
 
-        if (!_gameManager._userData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
+        if (!_gameManager.UserData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
         {
             _gameManager.SetSinkerObjectActive(false);
         }

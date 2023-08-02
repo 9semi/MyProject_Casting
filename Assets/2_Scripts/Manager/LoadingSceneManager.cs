@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class LoadingSceneManager : MonoBehaviour
 {
-    public static string nextScene;
-    public Image backGround;
-    public Sprite[] sprite;
-    public Text text;
-    public Text textNormal;
-    int randNum;
+    [SerializeField] static string nextScene;
+    [SerializeField] Image backGround;
+    [SerializeField] Sprite[] sprite;
+    [SerializeField] Text text;
+    [SerializeField] Text textNormal;
     [SerializeField] Image progressBar;
-
+    int randNum;
+    
     private void Start()
     {
         // 혹시 실행되고 있는 이펙트 소리가 있다면 찾아서 끈다.

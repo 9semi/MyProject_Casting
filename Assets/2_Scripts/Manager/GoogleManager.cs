@@ -2,14 +2,8 @@
 using Firebase.Database;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-//
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-//
-//using Google.Play.AppUpdate;
-//using Google.Play.Common;
 
 public class GoogleManager : MonoBehaviour
 {
@@ -19,21 +13,17 @@ public class GoogleManager : MonoBehaviour
         get { return _unqueInstance; }
     }
 
-    public GameObject _gameStartButton;
-    public Button _loginButton;
-    public Text _stateText; // 테스트용 Text
-    public GameObject _createNicknameUI;
-    public GameObject _updatePlzUI;
+    [SerializeField] GameObject _gameStartButton;
+    [SerializeField] Button _loginButton;
+    [SerializeField] Text _stateText; // 테스트용 Text
+    [SerializeField] GameObject _createNicknameUI;
+    [SerializeField] GameObject _updatePlzUI;
 
     FirebaseAuth auth;
 
     string ID;
     bool _isLogin;
-
-    // 업데이트 관련
     bool _updateNecessity;
-    //AppUpdateManager _appUpdateManager;
-
 
     public class UserInformation
     {

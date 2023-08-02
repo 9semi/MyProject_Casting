@@ -118,7 +118,7 @@ public class NeedleControl : MonoBehaviour
             gameMgr.IsFly = false;
             gameMgr.NeedleInWater = true;
 
-            if (gameMgr._userData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
+            if (gameMgr.UserData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
             {
                 gameMgr.SetSinkerObjectActive(false);
             }

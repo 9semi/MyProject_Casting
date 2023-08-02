@@ -25,36 +25,18 @@ public class GameManager : MonoBehaviour
     readonly int _egingHash = Animator.StringToHash("Eging");
     readonly Vector3 _needleFlyingPos = new Vector3(0.007f, 0.273f, -0.15f);
 
-    bool _tutorialThrowStop;
-    bool _tutorialRotateStop;
-    bool _tutorialGageStop;
 
     // Private
     Vector3 _reelPoint3ResetRot = Vector3.zero;
     Vector3 _needleResetRot = Vector3.zero;
     Vector3 _needleResetPos = Vector3.zero;
-    GameObject reel;   // 릴 오브젝트
-    Transform _reelPos123;    // 릴이 붙을 위치
-    LineRenderer lineRenderer;  // 낚시대 릴
-    LineRenderer lineRenderer2; // 낚시대 릴2
-    Transform rodPoint0, rodPoint1, rodPoint2;    // 베지어 꺽임 포인트  
-    Gyroscope gyroscope;    // 자이로 센서
+    Vector3 _angleGyro; public Vector3 AngleGyro { get { return _angleGyro; } }
+    Vector3 resetPointPos0, resetPointPos1, resetPointPos2;
+    Vector3 fish;    // 잡힌 물고기 포지션
+    Vector3 _sinkerOriginPos;
     Vector3[] _lineRendererPositions = new Vector3[10];  // reelNumPoints위치 저장
     Vector3[] _lineRendererPositions2 = new Vector3[50]; // reelNumPoints2위치 저장
-    int reelNumPoints = 10; // 릴 : 낚시대 처음 -> 낚시대 끝부분(reelPositions.Lenth)
-    int reelNumPoints2 = 50;    // 릴 : 낚시대 끝부분 -> 바늘(reelPositions2.Lenth)
     Vector3[] rodPositions = new Vector3[15];  // 라인 포지션 
-    Transform[] rodborn = new Transform[15];   // 낚시대 위치 트랜스폼
-    Transform[] reelPosition = new Transform[10];
-    float _rotY = 0;// 캐릭터 회전 관련 
-    float _inputY = 0;// 캐릭터 회전 관련 
-    float _minRotY = -32f;// 캐릭터 회전 관련 
-    float _maxRotY = 35f;// 캐릭터 회전 관련 
-    bool _isSpinning;// 릴, 낚시대, 봉돌 데이터
-    bool _isMatch;
-    bool _isTutorial;
-    bool _isPause; public bool IsPause { get { return _isPause; } set { _isPause = value; } }
-    Spline spline;
     Transform reelMiddleObj;
     Transform reelEndObj;
     Transform _reelPoint1;
@@ -62,20 +44,42 @@ public class GameManager : MonoBehaviour
     Transform _reelPoint3; public Transform ReelPoint3 { get { return _reelPoint3; } }
     Transform bobberPos;    // 찌가 붙을 위치
     Transform needlePos;    // 바늘이 붙을 위치
+    Transform _reelPos123;    // 릴이 붙을 위치
+    Transform rodPoint0, rodPoint1, rodPoint2;    // 베지어 꺽임 포인트  
+    Transform[] rodborn = new Transform[15];   // 낚시대 위치 트랜스폼
+    Transform _fishCaught; public Transform FishCaught { set { _fishCaught = value; } }
+    Transform[] reelPosition = new Transform[10];
+    GameObject reel;   // 릴 오브젝트
     GameObject _fakeNeedle;
     GameObject _sinkerObject; public void SetSinkerObjectActive(bool active) { _sinkerObject.gameObject.SetActive(active); }
-    Vector3 _sinkerOriginPos;
-    float _progress; public float Progress { set { _progress = value; } }
-    bool _isFly; public bool IsFly { get { return _isFly; } set { _isFly = value; } }
-    bool _isReset; public bool IsReset { get { return _isReset; } set { _isReset = value; } }
-    bool _needleInWater; public bool NeedleInWater { get { return _needleInWater; } set { _needleInWater = value; } }
-    Vector3 _angleGyro; public Vector3 AngleGyro { get { return _angleGyro; } }
-    bool _baitThrowMode; public bool BaitThrowMode { get { return _baitThrowMode; } set { _baitThrowMode = value; } }
+    LineRenderer lineRenderer;  // 낚시대 릴
+    LineRenderer lineRenderer2; // 낚시대 릴2
+    Gyroscope gyroscope;    // 자이로 센서
+    Spline spline;
+    
+    PublicDefined.eMapType _mapType;
+
+    int reelNumPoints = 10; // 릴 : 낚시대 처음 -> 낚시대 끝부분(reelPositions.Lenth)
+    int reelNumPoints2 = 50;    // 릴 : 낚시대 끝부분 -> 바늘(reelPositions2.Lenth)
+    float _rotY = 0;// 캐릭터 회전 관련 
+    float _inputY = 0;// 캐릭터 회전 관련 
+    float _minRotY = -32f;// 캐릭터 회전 관련 
+    float _maxRotY = 35f;// 캐릭터 회전 관련 
     float x, y, z;// 낚시대 꺽는 고정변수
     float rod1X, rod1Y, rod1Z;// 낚시대 포인트1의 위치(지금은 사용X)
     float rod2X, rod2Y, rod2Z;// 낚시대 포인트2의 위치
-    Transform _fishCaught; public Transform FishCaught { set { _fishCaught = value; } }
-    Vector3 fish;    // 잡힌 물고기 포지션
+    float _progress; public float Progress { set { _progress = value; } }
+    bool _tutorialThrowStop;
+    bool _tutorialRotateStop;
+    bool _tutorialGageStop;
+    bool _isSpinning;
+    bool _isMatch;
+    bool _isTutorial;
+    bool _isPause; public bool IsPause { get { return _isPause; } set { _isPause = value; } }
+    bool _isFly; public bool IsFly { get { return _isFly; } set { _isFly = value; } }
+    bool _isReset; public bool IsReset { get { return _isReset; } set { _isReset = value; } }
+    bool _needleInWater; public bool NeedleInWater { get { return _needleInWater; } set { _needleInWater = value; } }
+    bool _baitThrowMode; public bool BaitThrowMode { get { return _baitThrowMode; } set { _baitThrowMode = value; } }
     bool _isNoBite; public bool IsNoBite { get { return _isNoBite; } set { _isNoBite = value; } }
     bool isTurn;
     bool isHook;
@@ -83,6 +87,9 @@ public class GameManager : MonoBehaviour
     bool _isEging; public bool IsEging { get { return _isEging; } set { _isEging = value; } }
     bool _rotateStop; public bool RotateStop { get { return _rotateStop; } set { _rotateStop = value; } }
     bool _isPlayingBGM; public bool IsPlayingBGM { set { _isPlayingBGM = value; } }
+    bool _isConnectedToBluetooth_Main; public bool IsConnectedToBluetooth_Main { get { return _isConnectedToBluetooth_Main; } }
+    bool _isConnectedToBluetooth_Reel; public bool IsConnectedToBluetooth_Reel { get { return _isConnectedToBluetooth_Reel; } }
+    bool _castingPermission = false;
 
     [Header("베이트 릴")]
     [SerializeField] GameObject _reel_45;
@@ -127,22 +134,11 @@ public class GameManager : MonoBehaviour
     Reeling _reeling; public void SetReelingInstance(Reeling instance) { _reeling = instance; }
     BLETotal _bleTotal;
     Reel _reel;
+    UserData _userData; public UserData UserData { get { return _userData; } set { _userData = value; } }
+    ReelBlueToothData _reelData; public ReelBlueToothData ReelData { get { return _reelData; } set { _reelData = value; } }
 
-    // 데이터베이스 관련
-    [HideInInspector] public UserData _userData;
 
-    // 현재 맵
-    public PublicDefined.eMapType _mapType;
 
-    [Header("낚싯대 휘게하는 변수")]
-    // 낚시대 휨 관련 변수
-    private Vector3 resetPointPos0, resetPointPos1, resetPointPos2;
-
-    // 자이로 블루투스 관련
-    [HideInInspector] public bool _isConnectedToBluettooth_Main = false;
-    [HideInInspector] public bool _isConnectedToBluettooth_Reel = false;
-    [HideInInspector] public bool _castingPermission = false;
-    [HideInInspector] public ReelBlueToothData _reelData;
     
     void Awake()
     {
@@ -244,7 +240,7 @@ public class GameManager : MonoBehaviour
         {
             // 신형 릴
             {
-                if (_isConnectedToBluettooth_Reel)
+                if (_isConnectedToBluetooth_Reel)
                     BluetoothRotate();
                 else
                     CharacterRotate();
@@ -267,7 +263,7 @@ public class GameManager : MonoBehaviour
             {
                 _bleTotal.gameMgr = this;
                 _bleTotal._isInGame_Main = true;
-                _isConnectedToBluettooth_Main = true;
+                _isConnectedToBluetooth_Main = true;
             }
 
             if (_bleTotal._connectedMain)
@@ -275,7 +271,7 @@ public class GameManager : MonoBehaviour
                 _reelData = new ReelBlueToothData();
                 _bleTotal.gameMgr = this;
                 _bleTotal._isInGame_Reel = true;
-                _isConnectedToBluettooth_Reel = true;
+                _isConnectedToBluetooth_Reel = true;
             }
         }
         else
@@ -833,7 +829,7 @@ public class GameManager : MonoBehaviour
 
                     if (ReadyForCasting())
                     {
-                        if (_isConnectedToBluettooth_Reel) // 블루투스 O
+                        if (_isConnectedToBluetooth_Reel) // 블루투스 O
                         {
                             if (_reelData.Zg < -30000 && !_isPause)
                             {
@@ -926,7 +922,7 @@ public class GameManager : MonoBehaviour
 
                     if (ReadyForCasting())
                     {
-                        if (_isConnectedToBluettooth_Reel) // 블루투스 O
+                        if (_isConnectedToBluetooth_Reel) // 블루투스 O
                         {
                             if (_reelData.Zg < -30000 && !_isPause)
                             {

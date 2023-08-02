@@ -130,18 +130,19 @@ public class FishObjectManager : MonoBehaviour
         if (_gameManager == null)
             _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
 
-        if (_gameManager._userData == null)
-            _gameManager._userData = DBManager.INSTANCE.GetUserData();
-
-        if (_gameManager._userData.GetCurrentEquipmentDictionary()["bait"].Equals(-1))
-        {
-            UpdateFishSearchRange(0);
-        }
+        if (_gameManager.UserData == null)
+            _gameManager.UserData = DBManager.INSTANCE.GetUserData();
         else
         {
-            UpdateFishSearchRange(3);
+            if (_gameManager.UserData.GetCurrentEquipmentDictionary()["bait"].Equals(-1))
+            {
+                UpdateFishSearchRange(0);
+            }
+            else
+            {
+                UpdateFishSearchRange(3);
+            }
         }
-
     }
 
     void CreateFish() // 물고기 생성함수
@@ -10315,7 +10316,7 @@ public class FishObjectManager : MonoBehaviour
         if (_petManager == null)
             _petManager = GameObject.FindGameObjectWithTag("Pet").GetComponent<PetManager>();
 
-        if (_petManager.isLightOn)
+        if (_petManager.IsLightOn)
         {
             for (int i = 0; i < bigfinsquid.Length; i++)
             {

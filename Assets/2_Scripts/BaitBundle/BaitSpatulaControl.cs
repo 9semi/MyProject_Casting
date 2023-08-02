@@ -22,7 +22,7 @@ public class BaitSpatulaControl : MonoBehaviour
     public void StartRotateCoroutine()
     {
         //_gameManager.characterTr.eulerAngles = Vector3.zero;
-        _isBluetoothReelConnect = _gameManager._isConnectedToBluettooth_Reel;
+        _isBluetoothReelConnect = _gameManager.IsConnectedToBluetooth_Reel;
 
         _rotateCoroutine = StartCoroutine(RotateCoroutine());
     }
@@ -55,7 +55,7 @@ public class BaitSpatulaControl : MonoBehaviour
                     {
                         // ½ÅÇü ¸±
                         {
-                            _inputY = _gameManager._reelData.Za * -0.0007f;
+                            _inputY = _gameManager.ReelData.Za * -0.0007f;
                             _rotY += _inputY;
                             _rotY = Mathf.Clamp(_rotY, _minRotY, _maxRotY);
 

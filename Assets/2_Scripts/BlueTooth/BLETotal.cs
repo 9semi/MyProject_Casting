@@ -269,7 +269,7 @@ public class BLETotal : MonoBehaviour
                             {
                                 string jsonString = Encoding.Default.GetString(data);
                                 _reelData = JsonConvert.DeserializeObject<ReelBlueToothData>(jsonString);
-                                gameMgr._reelData = _reelData;
+                                gameMgr.ReelData = _reelData;
                                 fishControl.SetReelData(_reelData);
 
                                 if (!_preH.Equals(_reelData.H) && gameMgr.NeedleInWater)
@@ -652,7 +652,7 @@ public class BLETotal : MonoBehaviour
 		// 이미 연결되어 있을 때
 		if (ConnectedMain)
 		{
-			disconnectMain(Address =>
+			DisconnectMain(Address =>
 			{
 				ConnectedMain = false;	// 연결 false
 				isMain = false;	// 연결 false
@@ -759,7 +759,7 @@ public class BLETotal : MonoBehaviour
 		{
 			if (bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite == bleControl.BluetoothStateImageArray[0])
 			{
-				disconnectReel((Address) =>
+				DisconnectReel((Address) =>
 				{
 					ConnectedReel = false;
 					isReel = false;
@@ -843,12 +843,12 @@ public class BLETotal : MonoBehaviour
 		
 	}
 	// Main 연결 해제
-	void disconnectMain(Action<string> action)
+	void DisconnectMain(Action<string> action)
 	{
 		BluetoothLEHardwareInterface.DisconnectPeripheral(addressMain, action);
 	}
 	// Reel 연결 해제
-	void disconnectReel(Action<string> action)
+	void DisconnectReel(Action<string> action)
 	{
 		BluetoothLEHardwareInterface.DisconnectPeripheral(addressReel, action);
 	}

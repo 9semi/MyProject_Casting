@@ -25,19 +25,19 @@ public class IAPManager : MonoBehaviour
     readonly string _adblockPackage = "com.mobilemovement.realisticfishinggamecasting.adblock";
 
     [Header("상점")]
-    public PassBuyPopup _passBuyPopup;
+    [SerializeField] PassBuyPopup _passBuyPopup;
 
     [Header("수족관")]
-    public AquariumUI _aquariumUI;
-    public FishInfoUI _fishInfoUI;
-    public GameObject _aquariumBuyPopup;
+    [SerializeField] AquariumUI _aquariumUI;
+    [SerializeField] FishInfoUI _fishInfoUI;
+    [SerializeField] GameObject _aquariumBuyPopup;
 
     [Header("인게임")]
-    public FishPopUp _fishPopup;
+    [SerializeField] FishPopUp _fishPopup;
 
     [Header("도감")]
-    public GameObject _buyPopup;
-    public PassBuyUI _passBuyUI;
+    [SerializeField] GameObject _buyPopup;
+    [SerializeField] PassBuyUI _passBuyUI;
 
     UserData _userData;
 

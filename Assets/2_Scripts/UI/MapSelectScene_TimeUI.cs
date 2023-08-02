@@ -53,15 +53,15 @@ public class MapSelectScene_TimeUI : MonoBehaviour
             {
                 _startButton.interactable = true;
 
-                if (_worldManager._step10Object.activeSelf)
-                    _worldManager._step10Object.SetActive(false);
+                if (_worldManager.GetStep10Object().activeSelf)
+                    _worldManager.GetStep10Object().SetActive(false);
             }
             else
             {
                 _startButton.interactable = false;
 
-                if (!_worldManager._step10Object.activeSelf)
-                    _worldManager._step10Object.SetActive(true);
+                if (!_worldManager.GetStep10Object().activeSelf)
+                    _worldManager.GetStep10Object().SetActive(true);
             }
         }
 
@@ -70,8 +70,8 @@ public class MapSelectScene_TimeUI : MonoBehaviour
     }
     public void Down()
     {
-        if (_worldManager._step10Object.activeSelf)
-            _worldManager._step10Object.SetActive(false);
+        if (_worldManager.GetStep10Object().activeSelf)
+            _worldManager.GetStep10Object().SetActive(false);
 
         _worldManager.PlayClickEffectAudio();
 
@@ -86,15 +86,15 @@ public class MapSelectScene_TimeUI : MonoBehaviour
             {
                 _startButton.interactable = true;
 
-                if (_worldManager._step10Object.activeSelf)
-                    _worldManager._step10Object.SetActive(false);
+                if (_worldManager.GetStep10Object().activeSelf)
+                    _worldManager.GetStep10Object().SetActive(false);
             }
             else
             {
                 _startButton.interactable = false;
 
-                if (!_worldManager._step10Object.activeSelf)
-                    _worldManager._step10Object.SetActive(true);
+                if (!_worldManager.GetStep10Object().activeSelf)
+                    _worldManager.GetStep10Object().SetActive(true);
             }
         }
 

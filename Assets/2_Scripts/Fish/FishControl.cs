@@ -295,9 +295,9 @@ public class FishControl : FishBase
         }
         _gameManager.CurrentState = GameManager.eIngameState.fighting;
         _gameManager.IsNoBite = true; 
-        _petManager.isCatch = true;
+        _petManager.IsCatch = true;
 
-        if (_petManager._itemUIState.Equals(PetManager.eItemUIState._on))
+        if (_petManager.ItemUIState.Equals(PetManager.eItemUIState._on))
         {
             _petManager.ClickItemButton();
         }
@@ -1025,7 +1025,7 @@ public class FishControl : FishBase
         _ingameUIManager.FishingState(2);
         _ingameUIManager.HidePassContent();
         
-        if(_petManager._itemUIState.Equals(PetManager.eItemUIState._on))
+        if(_petManager.ItemUIState.Equals(PetManager.eItemUIState._on))
         {
             _petManager.ClickItemButton();
         }
@@ -1553,7 +1553,7 @@ public class FishControl : FishBase
                 _gameManager.SettingCharacterAnimator(_raiseHash, false);
 
                 _isCatch = false;
-                _petManager.petAnimator.SetBool(_catchHash, false);
+                _petManager.PetAni.SetBool(_catchHash, false);
 
                 _fishData._lenth = (_fishData._lenth * 10000) * 0.01f;
 

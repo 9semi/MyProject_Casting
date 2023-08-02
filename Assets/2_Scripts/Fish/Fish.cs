@@ -1409,7 +1409,7 @@ public class Fish : FishBase
             yield return null;
         }
 
-        if (_petManager.isLightOn)
+        if (_petManager.IsLightOn)
         {
             if (fishDBNum.Equals(9) || fishDBNum.Equals(13))
             {
