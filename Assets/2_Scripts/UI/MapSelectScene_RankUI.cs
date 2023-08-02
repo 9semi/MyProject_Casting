@@ -10,19 +10,19 @@ public class MapSelectScene_RankUI : MonoBehaviour
     readonly Color _normalColor = new Color(0, 0.6f, 0.15f);
     readonly Color _rareColor = new Color(0.4f, 0, 0.5f);
 
-    public Sprite[] _jeongdongjinFishSprites;
-    public GameObject[] _jeongdongjinFishObjects;
-    public Text _jeongdongjinCountText;
+    [SerializeField] Sprite[] _jeongdongjinFishSprites;
+    [SerializeField] GameObject[] _jeongdongjinFishObjects;
+    [SerializeField] Text _jeongdongjinCountText;
 
-    public Sprite[] _skywayFishSprites;
-    public GameObject[] _skywayFishObjects;
-    public Text _skywayCountText;
+    [SerializeField] Sprite[] _skywayFishSprites;
+    [SerializeField] GameObject[] _skywayFishObjects;
+    [SerializeField] Text _skywayCountText;
 
-    public Sprite[] _homerspitFishSprites;
-    public GameObject[] _homerspitFishObjects;
-    public Text _homerspitCountText;
+    [SerializeField] Sprite[] _homerspitFishSprites;
+    [SerializeField] GameObject[] _homerspitFishObjects;
+    [SerializeField] Text _homerspitCountText;
 
-    public Transform _content;
+    [SerializeField] Transform _content;
 
     public int Init(int mapNumber)
     {

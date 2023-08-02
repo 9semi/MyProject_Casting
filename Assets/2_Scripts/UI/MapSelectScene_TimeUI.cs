@@ -5,22 +5,22 @@ using UnityEngine.UI;
 
 public class MapSelectScene_TimeUI : MonoBehaviour
 {
-    [HideInInspector] public int _worldTime = 12;
+    public int _worldTime = 12;
 
-    public WorldManager _worldManager;
-    public AdModManager _adModManager;
-    public Text _timeText;
-    public Text _mapNameText;
-    public Text _gamestartText;
-    public Image _mapImage;
-    public Sprite[] _mapSprites;
-    public string[] _mapNames;
+    [SerializeField] WorldManager _worldManager;
+    [SerializeField] AdModManager _adModManager;
+    [SerializeField] Text _timeText;
+    [SerializeField] Text _mapNameText;
+    [SerializeField] Text _gamestartText;
+    [SerializeField] Image _mapImage;
+    [SerializeField] Sprite[] _mapSprites;
+    [SerializeField] string[] _mapNames;
 
-    public Button _xButton;
-    public Button _leftButton;
-    public Button _rightButton;
-    public Button _recordButton;
-    public Button _startButton;
+    [SerializeField] Button _xButton;
+    [SerializeField] Button _leftButton;
+    [SerializeField] Button _rightButton;
+    [SerializeField] Button _recordButton;
+    [SerializeField] Button _startButton;
 
     private void OnEnable()
     {

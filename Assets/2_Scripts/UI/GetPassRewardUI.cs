@@ -6,20 +6,20 @@ using UnityEngine.UI;
 public class GetPassRewardUI : MonoBehaviour
 {
     [Header("FreeReward")]
-    public GameObject _freeRewardObject;
-    public Text _freeRewardText_free;
-    public Image _freeRewardImage_free;
-    public Text _freeRewardQuantity_free;
+    [SerializeField] GameObject _freeRewardObject;
+    [SerializeField] Text _freeRewardText_free;
+    [SerializeField] Image _freeRewardImage_free;
+    [SerializeField] Text _freeRewardQuantity_free;
 
 
     [Header("PremiumReward")]
-    public GameObject _preRewardObject;
-    public Text _preRewardText_pre;
-    public Text _freeRewardText_pre;
-    public Image _preRewardImage_pre;
-    public Image _freeRewardImage_pre;
-    public Text _preRewardQuantity_pre;
-    public Text _freeRewardQuantity_pre;    
+    [SerializeField] GameObject _preRewardObject;
+   [SerializeField] Text _preRewardText_pre;
+   [SerializeField] Text _freeRewardText_pre;
+   [SerializeField] Image _preRewardImage_pre;
+   [SerializeField] Image _freeRewardImage_pre;
+   [SerializeField] Text _preRewardQuantity_pre;
+   [SerializeField] Text _freeRewardQuantity_pre;    
 
     public void InitForPremium(string preRewardText, Sprite preRewardSprite, int preRewardQuantity, string freeRewardText, Sprite freeRewardSprite, int freeRewardQuantity)
     {

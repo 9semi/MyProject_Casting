@@ -60,19 +60,12 @@ public class DBManager : MonoBehaviour
     UserData _userData;
     StringBuilder _sb = new StringBuilder();
 
-   bool _dataLoadSuccess; public bool DataLoadSuccess { set { _dataLoadSuccess = value; } }
-   int _dataLoadProgress; public int DataLoadProgress { set { _dataLoadProgress = value; } }
-   bool _isTest;
+    bool _dataLoadSuccess; public bool DataLoadSuccess { set { _dataLoadSuccess = value; } }
+    int _dataLoadProgress; public int DataLoadProgress { set { _dataLoadProgress = value; } }
+    bool _isTest;
 
     private void Awake()
     {
-        //Dictionary<int, Dictionary<int, int>> dic = new Dictionary<int, Dictionary<int, int>>();
-        //Dictionary<int, int> ddiicc = new Dictionary<int, int>();
-        //ddiicc.Add(13, 1);
-        //dic.Add(1, ddiicc);
-        //Debug.Log(dic[1].ContainsKey(10));
-        //Debug.Log(dic[1].ContainsKey(13));
-
         _uniqueInstance = this;
         //Debug.Log("버전: " + _version);
         UserDataInit();
@@ -288,35 +281,17 @@ public class DBManager : MonoBehaviour
 
             if (task.IsCompleted)
             {
-                //Debug.Log(nickname + "2");
                 DataSnapshot snapshot = task.Result;
-
-                //Debug.Log(snapshot.HasChild(_NicknameString));
-
-                //if (snapshot.HasChild(_NicknameString))
-                //{ // Nickname이라는 노드가 있다.
                 if (snapshot.HasChild(nickname))
-                { // 중복되는 닉네임이 있다.
-                  //Debug.Log("z중복되는 닉네임이 있다.");
-                  // Debug.Log(nickname + "3");
-                    CreateNicknameUI.INSTANCE.TheNameAlreadyExists();
-
+                { 
+                    // 중복되는 닉네임이 있다.
+                    GoogleManager.INSTANCE.TheNameAlreadyExists();
                 }
                 else
-                { // 중복되는 닉네임이 없다.
-                  //Debug.Log("x중복되는 닉네임이 없다.");
-                  //  Debug.Log(nickname + "4");
-                    CreateNicknameUI.INSTANCE.TheNameIsAvailable();
-
+                { 
+                    // 중복되는 닉네임이 없다.
+                    GoogleManager.INSTANCE.TheNameIsAvailable();
                 }
-                //}
-                //else
-                //{ // Nickname이라는 노드가 없다. 즉 내가 처음이다.
-                //  //Debug.Log("c중복되는 닉네임이 없다.");
-                //  //  Debug.Log(nickname + "5");
-                //    CreateNicknameUI.INSTANCE.TheNameIsAvailable();
-
-                //}
             }
         });
 

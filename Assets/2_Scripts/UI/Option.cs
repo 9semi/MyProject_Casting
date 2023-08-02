@@ -14,45 +14,44 @@ public class Option : MonoBehaviour
 
     [Header("게임설정, 소리설정, 알림설정, 계정설정 버튼")]
     // 게임 설정(진동, 화면회전), 소리 설정, 알림 설정, 계정설점
-    public GameObject[] settingWindows;
+    [SerializeField] GameObject[] settingWindows;
 
     // 설정 창 이미지
     [Header("설정창 이미지")]
-    public Image[] tab;
+    [SerializeField] Image[] tab;
 
     [Header("소리 관련")]
-    public bool _isMute_BGM;
-    public bool _isMute_EFFECT;
-    // 배경음 조절 슬라이더
-    public Slider bgmSlider;
-    public Image _bgmImage;
+    [SerializeField] bool _isMute_BGM;
+    [SerializeField] bool _isMute_EFFECT;
+    [SerializeField] Slider bgmSlider;
+    [SerializeField] Image _bgmImage;
 
     // 효과음 조절 슬라이더
-    public Slider effectSlider;
-    public Image _effectImage;
+    [SerializeField] Slider effectSlider;
+    [SerializeField] Image _effectImage;
 
-    public Sprite _onSprite;
-    public Sprite _offSprite;
+    [SerializeField] Sprite _onSprite;
+    [SerializeField] Sprite _offSprite;
 
     //게임 설정 관련
     [Header("게임 설정 관련")]
-    public GameObject _vibrationCheck;
+    [SerializeField] GameObject _vibrationCheck;
     bool _isVibrationOn;
-    public GameObject _landscapeCheck;
+    [SerializeField] GameObject _landscapeCheck;
     bool _isLandscapeOn;
-    public GameObject _noticeCheck;
+    [SerializeField] GameObject _noticeCheck;
     bool _isNoticeOn=true;
-    public GameObject _mailCheck;
+    [SerializeField] GameObject _mailCheck;
     bool _isMailOn=true;
-    public GameObject _eventCheck;
+    [SerializeField] GameObject _eventCheck;
     bool _isEventOn=true;
 
 
     [Header("계정 설정 관련")]
-    public GameObject _couponObject;
-    public InputField _couponInputField;
-    public GameObject _couponResultUI;
-    public Text _couponResultText;
+    [SerializeField] GameObject _couponObject;
+    [SerializeField] InputField _couponInputField;
+    [SerializeField] GameObject _couponResultUI;
+    [SerializeField] Text _couponResultText;
     int _couponResultInt = 0;
     string _getGold;
 

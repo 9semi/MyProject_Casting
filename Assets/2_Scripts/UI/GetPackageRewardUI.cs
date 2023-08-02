@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class GetPackageRewardUI : MonoBehaviour
 {
-    public GameObject _platinumObject;
-    public GameObject _diamondObject;
-
-    public Text _noticeText;
+    [SerializeField] GameObject _platinumObject;
+    [SerializeField] GameObject _diamondObject;
+    
+    [SerializeField] Text _noticeText;
 
     public void Init(int type, DateTime startDate, DateTime endDate)
     {

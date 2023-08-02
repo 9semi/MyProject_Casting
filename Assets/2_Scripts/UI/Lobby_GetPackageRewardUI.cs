@@ -6,21 +6,21 @@ using UnityEngine.UI;
 
 public class Lobby_GetPackageRewardUI : MonoBehaviour
 {
-    public GameObject _platinumRewardObject;
-    public Text _platinumPeriodText;
-    public Text _platinumRewardText;
-    public GameObject _platinumGetRewardObject;
-    public GameObject _platinumAlreadyGetObject;
-    public GameObject _platinumADObject;
-    public GameObject _platinumEffect;
+    [SerializeField] GameObject _platinumRewardObject;
+    [SerializeField] Text _platinumPeriodText;
+    [SerializeField] Text _platinumRewardText;
+    [SerializeField] GameObject _platinumGetRewardObject;
+    [SerializeField] GameObject _platinumAlreadyGetObject;
+    [SerializeField] GameObject _platinumADObject;
+    [SerializeField] GameObject _platinumEffect;
 
-    public GameObject _diamondRewardObject;
-    public Text _diamondPeriodText;
-    public Text _diamondRewardText;
-    public GameObject _diamondGetRewardObject;
-    public GameObject _diamondAlreadyGetObject;
-    public GameObject _diamondADObject;
-    public GameObject _diamondEffect;
+    [SerializeField] GameObject _diamondRewardObject;
+    [SerializeField] Text _diamondPeriodText;
+    [SerializeField] Text _diamondRewardText;
+    [SerializeField] GameObject _diamondGetRewardObject;
+    [SerializeField] GameObject _diamondAlreadyGetObject;
+    [SerializeField] GameObject _diamondADObject;
+    [SerializeField] GameObject _diamondEffect;
 
     public void Init(UserData userData, bool havePlatinum, bool haveDiamond, bool isGetPlatinum, bool isGetDiamond)
     {

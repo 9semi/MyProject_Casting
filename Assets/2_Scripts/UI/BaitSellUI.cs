@@ -7,15 +7,15 @@ using UnityEngine.UI;
 public class BaitSellUI : MonoBehaviour
 {
     [Header("UI")]
-    public Button _sellButton;
-    public InputField _inputField;
-    public Text _baitNameText;
-    public Image _baitImage;
-    public Text _beforeQuantityText;
-    public Text _priceText;
+    [SerializeField] Button _sellButton;
+    [SerializeField] InputField _inputField;
+    [SerializeField] Text _baitNameText;
+    [SerializeField] Image _baitImage;
+    [SerializeField] Text _beforeQuantityText;
+    [SerializeField] Text _priceText;
 
     [Header("확인/취소 오브젝트")]
-    public BaitSellCheckUI _checkUI;
+    [SerializeField] BaitSellCheckUI _checkUI;
 
     int _currentQuantity;
     int _maxQuantity; // 팔 수 있는 최대 수량

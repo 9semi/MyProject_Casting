@@ -1150,7 +1150,7 @@ public class DataManager : MonoBehaviour
                 //Debug.Log(Equipment.INSTANCE);
                 if(Equipment.INSTANCE != null)
                 {
-                    Equipment.INSTANCE._currentBaitItem = null;
+                    Equipment.INSTANCE.SetCurrentBaitItem(null);
                     Equipment._prevBaitItemSerialNumber = -1;
                 }
 

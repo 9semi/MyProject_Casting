@@ -13,30 +13,28 @@ public class Shop : MonoBehaviour
         get { return _uniqueInstance; }
     }
 
-    public GameObject _passListObject;
-    public GameObject _otherListObject;
-
-    // 아이템 나타낼 슬롯들
-    //public ShopSlot[] slots; // 미끼가 너무 많아서 2줄로 처리했다. 그래서 Content를 따로 둔다.
-    public ShopSlot[] slots; // 미끼가 낱개로 파는 것이 아니고 상자 형식으로 팔아서 1줄로 해도 된다.
+    [SerializeField] GameObject _passListObject;
+    [SerializeField] GameObject _otherListObject;
+    
+    [SerializeField] ShopSlot[] slots; // 미끼가 낱개로 파는 것이 아니고 상자 형식으로 팔아서 1줄로 해도 된다.
 
 
     // 아이템 항목들(장비, 소비, 기타)
-    public Image[] tab;
+    [SerializeField] Image[] tab;
 
     // 선택된 항목, 비 선택 항목 나타낼 스프라이트 이미지
-    public Sprite tabSeletedSprite, tabUnselectedSprite;
+    [SerializeField] Sprite tabSeletedSprite, tabUnselectedSprite;
 
     // 보유 조개 표시할 텍스트
-    public Text _goldText;
+    [SerializeField] Text _goldText;
 
     // 보유 크리스탈 표시할 텍스트
-    public Text _pearlText;
+    [SerializeField] Text _pearlText;
 
     // 미끼 상자를 구매했을 때 미끼들 나열하기
-    public GameObject _randomBaitUI;
-    public GameObject _randomBaitSlotPrefab;
-    public Transform _randomBaitContent;
+    [SerializeField] GameObject _randomBaitUI;
+    [SerializeField] GameObject _randomBaitSlotPrefab;
+    [SerializeField] Transform _randomBaitContent;
     List<Item> _baitList;
     List<Item> _pastebaitList;
 
@@ -105,7 +103,7 @@ public class Shop : MonoBehaviour
 
             // 활성화가 됐다면
             if (isExist)
-                slots[i]._item = items[i]; // 슬롯 아이템에 아이템을 넣음
+                slots[i].SetItem(items[i]); // 슬롯 아이템에 아이템을 넣음
 
             // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
             slots[i].UpdateSlot();
@@ -124,7 +122,7 @@ public class Shop : MonoBehaviour
 
             // 활성화가 됐다면
             if (isExist)
-                slots[i]._item = floatList[i]; // 슬롯 아이템에 아이템을 넣음
+                slots[i].SetItem(floatList[i]); // 슬롯 아이템에 아이템을 넣음
 
             // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
             slots[i].UpdateSlot();
@@ -140,7 +138,7 @@ public class Shop : MonoBehaviour
 
             // 활성화가 됐다면
             if (isExist)
-                slots[i]._item = sinkerList[i - floatList.Count]; // 슬롯 아이템에 아이템을 넣음
+                slots[i].SetItem(sinkerList[i - floatList.Count]); // 슬롯 아이템에 아이템을 넣음
 
             // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
             slots[i].UpdateSlot();

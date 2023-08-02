@@ -604,7 +604,7 @@ public class PetManager : MonoBehaviour
         {
             if(Equipment.INSTANCE != null)
             {
-                Equipment.INSTANCE._currentPastebaitItem = null;
+                Equipment.INSTANCE.SetCurrentPastebaitItem(null);
             }
             
             _userData.GetCurrentEquipmentDictionary()["pastebait"] = -1;

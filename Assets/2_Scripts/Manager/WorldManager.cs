@@ -314,8 +314,8 @@ public class WorldManager : MonoBehaviour
     }
     public void CloseBookList()
     {
-        if (_booklistUI._jeongdongjinBookObject.activeSelf || _booklistUI._homerspitBookObject.activeSelf ||
-            _booklistUI._skywayBookObject.activeSelf)
+        if (_booklistUI.GetBookObject(0).activeSelf || _booklistUI.GetBookObject(1).activeSelf ||
+            _booklistUI.GetBookObject(2).activeSelf)
             return;
 
         PlayClickEffectAudio();

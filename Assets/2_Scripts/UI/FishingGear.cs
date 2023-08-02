@@ -13,37 +13,37 @@ public class FishingGear : MonoBehaviour
     }
 
     // 낚싯대 껴야된다는 메세지 오브젝트 
-    public GameObject rodEssentialMessage;
+    [SerializeField] GameObject rodEssentialMessage;
 
     // 현재 골드, 조개 나타낼 텍스트
-    public Text _goldText; 
-    public Text _pearlText;
+    [SerializeField] Text _goldText;
+    [SerializeField] Text _pearlText;
 
     // 탭 이미지, 아이템 이미지
-    public Image[] _buttonImages;
+    [SerializeField] Image[] _buttonImages;
 
     // 장착 중인 아이템 슬롯 빨간 테두리 오브젝트
-    public GameObject[] _frames;
+    [SerializeField] GameObject[] _frames;
 
     // 루어 미끼를 끼면 봉돌과 찌는 장착 불가능하게 만든다.
-    public GameObject _floatCover;
-    public GameObject _sinkerCover;
+    [SerializeField] GameObject _floatCover;
+    [SerializeField] GameObject _sinkerCover;
 
     // 선택안된 탭 이미지 스프라이트, 선택된 탭 이미지 스프라이트
-    public Sprite tabUnselectedSprite, tabSeletedSprite;
+    [SerializeField] Sprite tabUnselectedSprite, tabSeletedSprite;
 
     // 채비 슬롯(현재 가지고 있는 아이템 나타낼 슬롯)
-    public Transform _content;
+    [SerializeField] Transform _content;
     Slot[] _slots;
 
     // 바늘이 물에 들어갔는지 판별하기 위한 게임매니저
-    public GameManager gameMgr;
+    [SerializeField] GameManager _gameManager;
 
     // 면사매듭 길이 입력받는 창
-    public InputField _depthLengthInput;
+    [SerializeField] InputField _depthLengthInput; public InputField GetDepthLengthInput() { return _depthLengthInput; }
 
     // equipment 스크립트 가지고 있어야 장비를 바꿀 때마다 초기화 계속 할듯
-    public Equipment _eq;
+    [SerializeField] Equipment _eq;
 
     int _currentButtonNumber;
 
@@ -123,7 +123,7 @@ public class FishingGear : MonoBehaviour
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.exit).GetComponent<AudioPoolObject>().Init();
 
         // 채비창을 끄는데 낚싯대 슬롯에 아이템이 없으면
-        if (_eq._currentRodItem == null || _eq._currentReelItem == null)
+        if (_eq.GetCurrentRodItem() == null || _eq.GetCurrentReelItem() == null)
         {
             // 낚싯대 끼라는 메세지 활성화
             SetRodEssentialMessage(true);
@@ -134,20 +134,20 @@ public class FishingGear : MonoBehaviour
 
             if (!DataManager.INSTANCE._mapType.Equals(PublicDefined.eMapType.lobby))
             {
-                gameMgr.RodMeshOn(ItemData.Instance.rodItemDB[_userData.GetCurrentEquipmentDictionary()["rod"]].rodMaterial);
+                _gameManager.RodMeshOn(ItemData.Instance.rodItemDB[_userData.GetCurrentEquipmentDictionary()["rod"]].rodMaterial);
 
                 if(_userData.GetCurrentEquipmentDictionary()["bait"].Equals(-1))
                 {
-                    gameMgr.UpdateFishSearchRange(0);
+                    _gameManager.UpdateFishSearchRange(0);
                 }
                 else
                 {
-                    gameMgr.UpdateFishSearchRange(3);
+                    _gameManager.UpdateFishSearchRange(3);
                 }
 
-                if (Equipment.INSTANCE._isBaitChange)
+                if (Equipment.INSTANCE.IsBaitChange)
                 {
-                    Equipment.INSTANCE._isBaitChange = false;
+                    Equipment.INSTANCE.IsBaitChange = false;
                     DataManager.INSTANCE.CheckBaitProbability();
                 }
             }
@@ -224,7 +224,7 @@ public class FishingGear : MonoBehaviour
             if (!_userDataDic[i].Equals(0))
             {
                 // 한개 이상 있다면 그 아이템의 정보를 슬롯으로 넘겨준다.
-                _slots[cnt].quantity = _userDataDic[i];
+                _slots[cnt].Quantity = _userDataDic[i];
                 _slots[cnt].UpdateSlot(items[i], _currentButtonNumber);
                 cnt++;
             }
@@ -250,7 +250,7 @@ public class FishingGear : MonoBehaviour
                 if (!n.Equals(0) && baitList[i].typeNum.Equals(1))
                 {
                     // 한개 이상 있다면 그 아이템의 정보를 슬롯으로 넘겨준다.
-                    _slots[cnt].quantity = n;
+                    _slots[cnt].Quantity = n;
                     _slots[cnt].UpdateSlot(baitList[i], _currentButtonNumber);
                     cnt++;
                 }
@@ -264,7 +264,7 @@ public class FishingGear : MonoBehaviour
                 if (!n.Equals(0) && baitList[i].typeNum.Equals(0))
                 {
                     // 한개 이상 있다면 그 아이템의 정보를 슬롯으로 넘겨준다.
-                    _slots[cnt].quantity = n;
+                    _slots[cnt].Quantity = n;
                     _slots[cnt].UpdateSlot(baitList[i], _currentButtonNumber);
                     cnt++;
                 }
@@ -290,7 +290,7 @@ public class FishingGear : MonoBehaviour
             if (!_userDataDic[i].Equals(0))
             {
                 // 한개 이상 있다면 그 아이템의 정보를 슬롯으로 넘겨준다.
-                _slots[cnt].quantity = _userDataDic[i];
+                _slots[cnt].Quantity = _userDataDic[i];
                 _slots[cnt].UpdateSlot(floatList[i], _currentButtonNumber);
                 cnt++;
             }
@@ -304,7 +304,7 @@ public class FishingGear : MonoBehaviour
             if (!_userDataDic[i].Equals(0))
             {
                 // 한개 이상 있다면 그 아이템의 정보를 슬롯으로 넘겨준다.
-                _slots[cnt].quantity = _userDataDic[i];
+                _slots[cnt].Quantity = _userDataDic[i];
                 _slots[cnt].UpdateSlot(sinkerList[i], _currentButtonNumber);
                 cnt++;
             }

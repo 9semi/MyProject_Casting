@@ -27,10 +27,6 @@ public class BLEControl : MonoBehaviour
     public Text[] ReelAddressTextArray { get { return _reelAddressTextArray; } }
     [SerializeField] Sprite[] _bluetoothStateImageArray;
     public Sprite[] BluetoothStateImageArray { get { return _bluetoothStateImageArray; } }
-
-    // 데이터 보내기 테스트
-    [SerializeField] GameObject testButtons;  // Canvas -> TestButtons
-
     // 스캔 애니메이션
     [SerializeField] Animator _scanButtonAnimator; public Animator ScanButtonAnimator {  get { return _scanButtonAnimator; } }
     bool _reelOn = false; public bool ReelOn { set { _reelOn = value; } }
@@ -43,15 +39,6 @@ public class BLEControl : MonoBehaviour
             //reelAnim.SetActive(false);
             _reelOn = false;
         }
-    }
-
-    // testButtons On, Off(버튼에 삽입안되어 있음)
-    public void OnTest()
-    {
-        if (testButtons.activeSelf)
-            testButtons.SetActive(false);
-        else
-            testButtons.SetActive(true);
     }
     
     #region 이전 코드 ChecksumButtonTest

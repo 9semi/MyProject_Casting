@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class BaitSellCheckUI : MonoBehaviour
 {
-    public Text _titleText;
-    public Text _beforeQuantityText;
-    public Text _afterQuantityText;
+    [SerializeField] Text _titleText;
+    [SerializeField] Text _beforeQuantityText;
+    [SerializeField] Text _afterQuantityText;
 
     StringBuilder _sb;
     UserData _userData;

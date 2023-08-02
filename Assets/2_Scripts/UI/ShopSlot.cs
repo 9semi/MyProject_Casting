@@ -3,23 +3,14 @@ using UnityEngine.UI;
 
 public class ShopSlot : MonoBehaviour
 {
-    public Shop shop;
-    //아이템 정보
-    [HideInInspector] public Item _item;
+    Item _item; public void SetItem(Item item) { _item = item; }
 
-    //아이템 이름
-    public Text _itemName;
-
-    //아이템 가격
-    public Text _costText;
-
-    //슬롯안에 삽입될 이미지
-    public Image _itemImage;
-
-    // 재화 이미지
-    public Image _costImage;
-
-    public BuyPopUP buyPop;
+    [SerializeField] Shop shop;
+    [SerializeField] Text _itemName;
+    [SerializeField] Text _costText;
+    [SerializeField] Image _itemImage;
+    [SerializeField] Image _costImage;
+    [SerializeField] BuyPopUP buyPop;
 
     //아이템을 최신화하는 함수 
     public void UpdateSlot()

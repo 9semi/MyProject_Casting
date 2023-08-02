@@ -12,14 +12,14 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     BLETotal bleTotal;
     WaitForSeconds _delay = PublicDefined._02secDelay;
 
-    public FishControl fishControl;
-    bool _isReeling = false; public bool _IsReeling { get { return _isReeling; } set { _isReeling = value; } }
-    public Animator myAnim; // 릴 애니메이션
-    public Coroutine _reelingCoroutine = null;   // reeling 유지 코루틴
+    [SerializeField] FishControl fishControl;
+    [SerializeField] Animator _ani; public Animator Ani { get { return _ani; } }
+    [SerializeField] Coroutine _reelingCoroutine = null;   // reeling 유지 코루틴
 
     BoxCollider _needleCollider;
 
     bool _isConnectedReel = false;
+    bool _isReeling = false; public bool _IsReeling { get { return _isReeling; } set { _isReeling = value; } }
 
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     void Start()
     {
-        myAnim = GetComponent<Animator>();
+        _ani = GetComponent<Animator>();
         // 블루투스가 있으면 연결시켜줌
 
         if (GameObject.FindGameObjectWithTag("Bluetooth"))
@@ -56,7 +56,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         if (_gameManager.NeedleInWater)
         {
             _isReeling = true;
-            myAnim.SetFloat("Speed", 1);
+            _ani.SetFloat("Speed", 1);
 
             if (!fishControl.IsBite)
                 OnReeling();
@@ -68,7 +68,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         _isReeling = false;
         //_needleCollider.isTrigger = false;
-        myAnim.SetFloat("Speed", 0);
+        _ani.SetFloat("Speed", 0);
 
         if (!fishControl.IsBite)
             OnReeling();
@@ -122,7 +122,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             _isReeling = true;
             //_needleCollider.isTrigger = true;
-            myAnim.SetFloat("Speed", 1);
+            _ani.SetFloat("Speed", 1);
 
             if (!fishControl.IsBite)
                 OnReeling();
@@ -132,7 +132,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         _isReeling = false;
         //_needleCollider.isTrigger = false;
-        myAnim.SetFloat("Speed", 0);
+        _ani.SetFloat("Speed", 0);
 
         if (!fishControl.IsBite)
             OnReeling();

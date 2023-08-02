@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class PackageOverUI : MonoBehaviour
 {
-    public GameObject _firstObject;
-    public Text _firstNotice;
-    public GameObject _secondObject;
-    public Text _secondNotice;
+    [SerializeField] GameObject _firstObject;
+   [SerializeField] Text _firstNotice;
+   [SerializeField] GameObject _secondObject;
+   [SerializeField] Text _secondNotice;
 
     public void Init(List<string> list)
     {

@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class RandomBaitSlot : MonoBehaviour
 {
-    public Image _itemImage;
-    public GameObject _itemInfoObject;
-    public Text _itemText;
-    public Text _itemInfoText;
+    [SerializeField] Image _itemImage;
+    [SerializeField] GameObject _itemInfoObject;
+    [SerializeField] Text _itemText;
+    [SerializeField] Text _itemInfoText;
 
     public void Init(Sprite sprite, string name, string quantity, string info)
     {

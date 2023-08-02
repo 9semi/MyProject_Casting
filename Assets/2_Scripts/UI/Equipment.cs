@@ -11,25 +11,36 @@ public class Equipment : MonoBehaviour
         get { return _uniqueInstance; }
     }
     
-    public bool _isBaitChange = false;
+    [SerializeField] bool _isBaitChange; public bool IsBaitChange { get { return _isBaitChange; } set { _isBaitChange = value; } }
+    [SerializeField] Image _rodImage;
+    [SerializeField] Image _reelImage;
+    [SerializeField] Image _baitImage;
+    [SerializeField] Text _baitQuantity;
+    [SerializeField] Image _pastebaitImage;
+    [SerializeField] Text _pastebaitQuantity;
+    [SerializeField] Image _floatImage;
+    [SerializeField] Image _sinkerImage;
+    [SerializeField] FishingGear _fishingGear;
+    [SerializeField] Text[] _currentEquipmentText;
 
-    public Image _rodImage;
-    public Image _reelImage;
-    public Image _baitImage;
-    public Text _baitQuantity;
-    public Image _pastebaitImage;
-    public Text _pastebaitQuantity;
-    public Image _floatImage;
-    public Image _sinkerImage;
-    public FishingGear _fishingGear;
-    public Text[] _currentEquipmentText;
-
-    [HideInInspector] public Item _currentRodItem = null;
-    [HideInInspector] public Item _currentReelItem = null;
-    [HideInInspector] public Item _currentBaitItem = null;
-    [HideInInspector] public Item _currentPastebaitItem = null;
-    [HideInInspector] public Item _currentFloatItem = null;
-    [HideInInspector] public Item _currentSinkerItem = null;
+    Item _currentRodItem;
+    public Item GetCurrentRodItem() { return _currentRodItem; }
+    public void SetCurrentRodItem(Item item) { _currentRodItem = item; }
+    Item _currentReelItem;
+    public Item GetCurrentReelItem() { return _currentReelItem; }
+    public void SetCurrentReelItem(Item item) { _currentReelItem = item; }
+    Item _currentBaitItem;
+    public Item GetCurrentBaitItem() { return _currentBaitItem; }
+    public void SetCurrentBaitItem(Item item) { _currentBaitItem = item; }
+    Item _currentPastebaitItem;
+    public Item GetCurrentPastebaitItem() { return _currentPastebaitItem; }
+    public void SetCurrentPastebaitItem(Item item) { _currentPastebaitItem = item; }
+    Item _currentFloatItem;
+    public Item GetCurrentFloatItem() { return _currentFloatItem; }
+    public void SetCurrentFloatItem(Item item) { _currentFloatItem = item; }
+    Item _currentSinkerItem;
+    public Item GetCurrentSinkerItem() { return _currentSinkerItem; }
+    public void SetCurrentSinkerItem(Item item) { _currentSinkerItem = item; }
 
     Dictionary<string, int> _currentEquipmentDictionary;
     UserData _userData = null;
@@ -174,8 +185,8 @@ public class Equipment : MonoBehaviour
                 _floatImage.sprite = _currentFloatItem.itemImage;
                 _floatImage.enabled = true;
                 _currentEquipmentText[4].text = _currentFloatItem.korName;
-                _fishingGear._depthLengthInput.interactable = true;
-                _fishingGear._depthLengthInput.text = DataManager.INSTANCE._depthLength.ToString();
+                _fishingGear.GetDepthLengthInput().interactable = true;
+                _fishingGear.GetDepthLengthInput().text = DataManager.INSTANCE._depthLength.ToString();
 
                 DataManager.INSTANCE.UpdateEquipmentFloatOn();
                 break;
@@ -230,16 +241,16 @@ public class Equipment : MonoBehaviour
 
         if (_currentEquipmentDictionary["float"].Equals(-1))
         {
-            _fishingGear._depthLengthInput.interactable = false;
+            _fishingGear.GetDepthLengthInput().interactable = false;
         }
         else
         {
-            _fishingGear._depthLengthInput.interactable = true;
+            _fishingGear.GetDepthLengthInput().interactable = true;
 
             if (DataManager.INSTANCE._depthLength > 0)
-                _fishingGear._depthLengthInput.text = DataManager.INSTANCE._depthLength.ToString();
+                _fishingGear.GetDepthLengthInput().text = DataManager.INSTANCE._depthLength.ToString();
             else
-                _fishingGear._depthLengthInput.text = 5.ToString();
+                _fishingGear.GetDepthLengthInput().text = 5.ToString();
 
             _currentFloatItem = ItemData.Instance.floatItemDB[_currentEquipmentDictionary["float"]];
             _floatImage.sprite = _currentFloatItem.itemImage;
@@ -362,8 +373,8 @@ public class Equipment : MonoBehaviour
                 _userData.GetCurrentEquipmentDictionary()["float"] = -1;
                 _currentFloatItem = null;
                 _floatImage.enabled = false;
-                _fishingGear._depthLengthInput.text = string.Empty;
-                _fishingGear._depthLengthInput.interactable = false;
+                _fishingGear.GetDepthLengthInput().text = string.Empty;
+                _fishingGear.GetDepthLengthInput().interactable = false;
                 DataManager.INSTANCE.UpdateEquipmentFloatOff();
                 break;
             case 5:

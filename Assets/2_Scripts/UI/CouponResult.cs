@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CouponResult : MonoBehaviour
 {
-    public Text _noticeText;
+    [SerializeField] Text _noticeText;
 
     public void Init(string text)
     {

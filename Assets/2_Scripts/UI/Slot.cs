@@ -8,29 +8,17 @@ using TMPro;
 
 public class Slot : MonoBehaviour
 {
-    // 아이템 정보( 로컬 전용 아이템 변수)
-    [HideInInspector] public Item item;
+    Item item;
+    int _quantity; public int Quantity { set { _quantity = value; } }
 
-    // 아이템 수량
-    [HideInInspector] public int quantity;
-
-    //슬롯안에 삽입될 이미지
-    public Image itemImage;
-
-    // 수량 나타낼 텍스트
-    public Text quantityText;
-
-    // 아이템 이름 나타낼 텍스트
-    public Text nameText;
-
-    // 장착 중인 슬롯의 스크립트
-    public Equipment _eq;
-    public FishingGearEquipUI _eqUI;
-
-    // 현재 유저가 누르고 있는 버튼의 번호
+    [SerializeField] Image itemImage;
+    [SerializeField] Text quantityText;
+    [SerializeField] Text nameText;
+    [SerializeField] Equipment _eq;
+    [SerializeField] FishingGearEquipUI _eqUI;
+    
     int _currentButtonNumber = 0;
-
-    //아이템을 최신화하는 함수(로컬방식
+    
     public void UpdateSlot(Item i, int currentButtonNumber)
     {
         item = i;
@@ -47,7 +35,7 @@ public class Slot : MonoBehaviour
 
         if(item.Type.Equals(PublicDefined.eItemType.Bait) || item.Type.Equals(PublicDefined.eItemType.Pastebait))
         {
-            quantityText.text = quantity.ToString();
+            quantityText.text = _quantity.ToString();
         }
         else
         {

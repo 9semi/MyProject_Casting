@@ -16,10 +16,11 @@ public class GoogleManager : MonoBehaviour
     [SerializeField] GameObject _gameStartButton;
     [SerializeField] Button _loginButton;
     [SerializeField] Text _stateText; // 테스트용 Text
-    [SerializeField] GameObject _createNicknameUI;
+    [SerializeField] GameObject _createNicknameUIObject;
     [SerializeField] GameObject _updatePlzUI;
 
     FirebaseAuth auth;
+    CreateNicknameUI _createNicknameUI;
 
     string ID;
     bool _isLogin;
@@ -62,6 +63,7 @@ public class GoogleManager : MonoBehaviour
 
     void Start()
     {
+        _createNicknameUI = _createNicknameUIObject.GetComponent<CreateNicknameUI>();
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().RequestIdToken().RequestEmail().Build();
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.DebugLogEnabled = true;
@@ -243,17 +245,18 @@ public class GoogleManager : MonoBehaviour
         _gameStartButton.SetActive(true);
     }
 
-    //public void SelectRodReelUI()
-    //{
-    //    _stateText.text = string.Empty;
-    //    _selectRodReelUI.transform.localPosition = Vector3.zero;
-    //}
-
     public void CreateNicknameUI()
     {
-        //_createNicknameUI.SetActive(true);
-        //Instantiate(_createNicknameUI);
-        _createNicknameUI.transform.localPosition = Vector3.zero;
+        _createNicknameUIObject.transform.localPosition = Vector3.zero;
+    }
+    public void TheNameAlreadyExists()
+    {
+        _createNicknameUI.TheNameAlreadyExists();
+    }
+
+    public void TheNameIsAvailable()
+    {
+        _createNicknameUI.TheNameIsAvailable();
     }
     public void StateTextUpdate(string text)
     {

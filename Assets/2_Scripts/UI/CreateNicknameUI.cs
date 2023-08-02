@@ -6,12 +6,6 @@ using System;
 
 public class CreateNicknameUI : MonoBehaviour
 {
-    static CreateNicknameUI _uniqueInstance;
-    static public CreateNicknameUI INSTANCE
-    {
-        get { return _uniqueInstance; }
-    }
-
     public enum eStateType
     { 
         First,
@@ -22,25 +16,20 @@ public class CreateNicknameUI : MonoBehaviour
     readonly Color _redColor = new Color(1, 0.4f, 0.4f);
     readonly Color _greenColor = new Color(0, 0.8f, 0);
 
-    public Button _nextButton;
-    public Animator _nextButtonAni;
-    public Transform _createNicknameObject;
-    public Transform _createNicknameObjectRightPos;
-    public Transform _welcomeObject;
-    public Transform _zeroPos;
-    public Text _stateText;
-    public Text _userNicknameText;
-    public InputField _nicknameInput;
+    [SerializeField] Button _nextButton;
+    [SerializeField] Animator _nextButtonAni;
+    [SerializeField] Transform _createNicknameObject;
+    [SerializeField] Transform _createNicknameObjectRightPos;
+    [SerializeField] Transform _welcomeObject;
+    [SerializeField] Transform _zeroPos;
+    [SerializeField] Text _stateText;
+    [SerializeField] Text _userNicknameText;
+    [SerializeField] InputField _nicknameInput;
 
     bool _isAllow = false;
     string _name = string.Empty;
 
     eStateType _currentState = eStateType.First;
-
-    private void Awake()
-    {
-        _uniqueInstance = this;
-    }
 
     IEnumerator MakeDelay(int delayNumber, Action action)
     {
@@ -125,6 +114,8 @@ public class CreateNicknameUI : MonoBehaviour
             }
         }
     }
+
+
 
     public void InputFieldUpdate()
     {

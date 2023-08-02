@@ -231,45 +231,45 @@ public class FishingGearEquipUI : MonoBehaviour
         {
             case 0:
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.equipRod).GetComponent<AudioPoolObject>().Init();
-                if (_eq._currentRodItem == null)
+                if (_eq.GetCurrentRodItem() == null)
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
-                else if (_eq._currentRodItem.Equals(_currentItem))
+                else if (_eq.GetCurrentRodItem().Equals(_currentItem))
                     return;
                 else
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
                 break;
             case 1:
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.equipReel).GetComponent<AudioPoolObject>().Init();
-                if (_eq._currentReelItem == null)
+                if (_eq.GetCurrentReelItem() == null)
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
-                else if (_eq._currentReelItem.Equals(_currentItem))
+                else if (_eq.GetCurrentReelItem().Equals(_currentItem))
                     return;
                 else
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
                 break;
             case 2:
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.equipBait).GetComponent<AudioPoolObject>().Init();
-                if (_eq._currentBaitItem == null)
+                if (_eq.GetCurrentBaitItem() == null)
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
-                else if (_eq._currentBaitItem.Equals(_currentItem))
+                else if (_eq.GetCurrentBaitItem().Equals(_currentItem))
                     return;
                 else
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
                 break;
             case 3:
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.equipLureBait).GetComponent<AudioPoolObject>().Init();
-                if (_eq._currentBaitItem == null)
+                if (_eq.GetCurrentBaitItem() == null)
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
-                else if (_eq._currentBaitItem.Equals(_currentItem))
+                else if (_eq.GetCurrentBaitItem().Equals(_currentItem))
                     return;
                 else
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
                 break;
             case 4:
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.equipPastebait).GetComponent<AudioPoolObject>().Init();
-                if (_eq._currentPastebaitItem == null)
+                if (_eq.GetCurrentPastebaitItem() == null)
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
-                else if (_eq._currentPastebaitItem.Equals(_currentItem))
+                else if (_eq.GetCurrentPastebaitItem().Equals(_currentItem))
                     return;
                 else
                     _eq.ChangeItem(_currentItem, _currentButtonNumber);
@@ -278,9 +278,9 @@ public class FishingGearEquipUI : MonoBehaviour
                 if (_currentItem.Type.Equals(PublicDefined.eItemType.Float))
                 {
                     AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.equipFloat).GetComponent<AudioPoolObject>().Init();
-                    if (_eq._currentFloatItem == null)
+                    if (_eq.GetCurrentFloatItem() == null)
                         _eq.ChangeItem(_currentItem, _currentButtonNumber);
-                    else if (_eq._currentFloatItem.Equals(_currentItem))
+                    else if (_eq.GetCurrentFloatItem().Equals(_currentItem))
                         return;
                     else
                         _eq.ChangeItem(_currentItem, _currentButtonNumber);
@@ -289,9 +289,9 @@ public class FishingGearEquipUI : MonoBehaviour
                 else
                 {
                     AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.equipSinker).GetComponent<AudioPoolObject>().Init();
-                    if (_eq._currentSinkerItem == null)
+                    if (_eq.GetCurrentSinkerItem() == null)
                         _eq.ChangeItem(_currentItem, 6);
-                    else if (_eq._currentSinkerItem.Equals(_currentItem))
+                    else if (_eq.GetCurrentSinkerItem().Equals(_currentItem))
                         return;
                     else
                         _eq.ChangeItem(_currentItem, 6);

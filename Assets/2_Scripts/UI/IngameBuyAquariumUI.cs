@@ -5,25 +5,25 @@ using UnityEngine.UI;
 
 public class IngameBuyAquariumUI : MonoBehaviour
 {
-    public GameObject _moneyObject;
-    public GameObject _cashObject;
+    [SerializeField] GameObject _moneyObject;
+    [SerializeField]GameObject _cashObject;
 
-    public GameObject[] _cashBuyButtonObject;
+    [SerializeField] GameObject[] _cashBuyButtonObject;
 
-    public Text _costText;
-    public Text _cashCostText;
-    public Text _currentMoneyText;
-    public Text _aquariumNameText;
+    [SerializeField] Text _costText;
+    [SerializeField] Text _cashCostText;
+    [SerializeField] Text _currentMoneyText;
+    [SerializeField] Text _aquariumNameText;
 
-    public Sprite _goldSprite;
-    public Sprite _cashSprite;
+    [SerializeField] Sprite _goldSprite;
+    [SerializeField] Sprite _cashSprite;
 
-    public Image _moneyImage;
-    public Image _aquariumImage;
+    [SerializeField] Image _moneyImage;
+   [SerializeField] Image _aquariumImage;
 
-    public Button _buyButton;
+    [SerializeField] Button _buyButton;
 
-    public GameObject _buyCheckUI;
+    [SerializeField] GameObject _buyCheckUI;
 
     UserData _userData;
     int _aquariumNumber;

@@ -7,11 +7,11 @@ public class FishingBot : MonoBehaviour
     // 테스트를 위해 각 코루틴 함수를 수정
     readonly int totalTime = 300;
 
-    public MatchManager _matchManager;
+    [SerializeField] MatchManager _matchManager;
 
-    public FishObjectManager _jeongdongjin;
-    public FishObjectManagerSkyway _skyway;
-    public FishObjectManagerHomerspit _homerspit;
+    [SerializeField] FishObjectManager _jeongdongjin;
+    [SerializeField] FishObjectManagerSkyway _skyway;
+    [SerializeField] FishObjectManagerHomerspit _homerspit;
 
     // jeongdongjin 물고기 리스트
     List<Fish> _jeongdongjinSundryList;

@@ -550,26 +550,26 @@ public class BLETotal : MonoBehaviour
 				count -= 0.2f;
 			}
 			second = first;
-			reeling.myAnim.SetFloat("Speed", count);
+			reeling.Ani.SetFloat("Speed", count);
 			yield return delay;
 			if (first.Equals(second) && count >= 0.2f)
 			{
 				count -= 0.2f;
 			}
 			second = first;
-			reeling.myAnim.SetFloat("Speed", count);
+			reeling.Ani.SetFloat("Speed", count);
 			yield return delay;
 			if (first.Equals(second) && count >= 0.2f)
 			{
 				count -= 0.2f;
 			}
 			second = first;
-			reeling.myAnim.SetFloat("Speed", count);
+			reeling.Ani.SetFloat("Speed", count);
 			yield return delay;
 		}
 		isAnim = false;
 		count = 0;
-		reeling.myAnim.SetFloat("Speed", 0);
+		reeling.Ani.SetFloat("Speed", 0);
 		StopCoroutine(animCor);
 	}
 

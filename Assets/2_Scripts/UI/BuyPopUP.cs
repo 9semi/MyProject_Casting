@@ -6,22 +6,22 @@ using Newtonsoft.Json;
 public class BuyPopUP : MonoBehaviour
 {
     [Header("캐시인지 아닌지에 따른 필요 금액 오브젝트")]
-    public GameObject _cashObject;
-    public GameObject _goldpearlObject;
+    [SerializeField] GameObject _cashObject;
+    [SerializeField] GameObject _goldpearlObject;
 
     [Header("아이템 이름과 이미지")]
-    public Text _itemNameText; // 아이템 이름
-    public Image _itemImage; //아이템 이미지
-    public Text _itemInfoText;
+    [SerializeField] Text _itemNameText; // 아이템 이름
+    [SerializeField] Image _itemImage; //아이템 이미지
+    [SerializeField] Text _itemInfoText;
 
     [Header("필요한 금액과 보유 금액")]
-    public Image costImage; // 재화 이미지
-    public Text _costText; // 필요 금액
-    public Text _haveMoneyText; // 현재 보유 금액
+    [SerializeField] Image costImage; // 재화 이미지
+    [SerializeField] Text _costText; // 필요 금액
+    [SerializeField] Text _haveMoneyText; // 현재 보유 금액
 
     [Header("보유 여부에 따른 텍스트")]
-    public GameObject _haveMoneyObject;
-    public GameObject _alreadHaveObject;
+    [SerializeField] GameObject _haveMoneyObject;
+    [SerializeField] GameObject _alreadHaveObject;
 
     // 드롭다운과 키보드 사용하지 않아도 된다.
     //[Header("Dropdown")]
@@ -32,14 +32,14 @@ public class BuyPopUP : MonoBehaviour
     [SerializeField] GameObject _keyboard;
 
     [Header("구매 확인 UI")]
-    public GameObject _buyCheckUI;
-    public GameObject _baitBuyCheckUI;
+    [SerializeField] GameObject _buyCheckUI;
+    [SerializeField] GameObject _baitBuyCheckUI;
 
     [Header("--------------------")]
-    public Button _buyButton;
-    public Button _baitBuyButton;
-    public GameObject _baitBuyObject;
-    public GameObject _itemInfoObject;
+    [SerializeField] Button _buyButton;
+    [SerializeField] Button _baitBuyButton;
+    [SerializeField] GameObject _baitBuyObject;
+    [SerializeField] GameObject _itemInfoObject;
 
     int _currentCost;
     int _currentHaveGold;
@@ -50,7 +50,7 @@ public class BuyPopUP : MonoBehaviour
     bool _isInfoOn = false;
 
     //아이템 정보를 받아올 변수
-    [HideInInspector] public Item item;
+    Item item;
 
     public void PopupSetItem(Item i)
     {

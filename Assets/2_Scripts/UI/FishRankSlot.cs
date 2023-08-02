@@ -5,14 +5,13 @@ using UnityEngine.UI;
 
 public class FishRankSlot : MonoBehaviour
 {
-    public Image[] _bgImages;
-    public Image _fishImage;
-    public Text _nameText;
-    public Text _lengthText;
-    public Text _weightText;
-
-    public GameObject _trueObject;
-    public GameObject _falseObject;
+    [SerializeField] Image[] _bgImages;
+    [SerializeField] Image _fishImage;
+    [SerializeField] Text _nameText;
+    [SerializeField] Text _lengthText;
+    [SerializeField] Text _weightText;
+    [SerializeField] GameObject _trueObject;
+    [SerializeField] GameObject _falseObject;
 
     public void InitTrue(Color c, Sprite fishSprite, string n, float l, float w)
     {

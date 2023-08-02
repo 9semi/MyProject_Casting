@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class BookListUI : MonoBehaviour
 {
-    public GameObject _jeongdongjinBookObject;
-    public GameObject _homerspitBookObject;
-    public GameObject _skywayBookObject;
+    [SerializeField] GameObject _jeongdongjinBookObject;
+    [SerializeField] GameObject _homerspitBookObject;
+    [SerializeField] GameObject _skywayBookObject;
+
+    public GameObject GetBookObject(int number)
+    {
+        switch(number)
+        {
+            case 0: return _jeongdongjinBookObject;
+            case 1: return _skywayBookObject;
+            case 2: return _homerspitBookObject;
+            default: return null;
+        }
+    }
 
     public void ClickBook(int number)
     {
