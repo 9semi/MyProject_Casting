@@ -103,10 +103,13 @@ public class Shop : MonoBehaviour
 
             // 활성화가 됐다면
             if (isExist)
+            {
                 slots[i].SetItem(items[i]); // 슬롯 아이템에 아이템을 넣음
 
-            // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
-            slots[i].UpdateSlot();
+                // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
+                slots[i].UpdateSlot();
+            }
+
         }
     }
     void SetSlot2(List<Item> floatList, List<Item> sinkerList)
@@ -122,10 +125,14 @@ public class Shop : MonoBehaviour
 
             // 활성화가 됐다면
             if (isExist)
+            {
                 slots[i].SetItem(floatList[i]); // 슬롯 아이템에 아이템을 넣음
+                // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
+                slots[i].UpdateSlot();
+            }
+                
 
-            // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
-            slots[i].UpdateSlot();
+
         }
 
         for (int i = floatList.Count; i < slots.Length; i++)
@@ -138,10 +145,13 @@ public class Shop : MonoBehaviour
 
             // 활성화가 됐다면
             if (isExist)
+            {
                 slots[i].SetItem(sinkerList[i - floatList.Count]); // 슬롯 아이템에 아이템을 넣음
 
-            // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
-            slots[i].UpdateSlot();
+                // 슬롯을 업데이트(사진, 가격표시, 재화이밎, 아이템이미지)함
+                slots[i].UpdateSlot();
+            }
+
         }
     }
     /// <summary>
