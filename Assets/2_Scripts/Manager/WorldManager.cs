@@ -71,8 +71,8 @@ public class WorldManager : MonoBehaviour
         if(go != null)
         {
             BLETotal bleTotal = go.transform.GetComponent<BLETotal>();
-            bleTotal._isInGame_Main = false;
-            bleTotal._isInGame_Reel = false;
+            bleTotal.IsInGame_Main = false;
+            bleTotal.IsInGame_Reel = false;
             bleTotal.MotorResetCheck();
         }
 

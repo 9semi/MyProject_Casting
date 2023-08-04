@@ -286,7 +286,7 @@ public class TensionUI : MonoBehaviour
         {
             gageProgress = 0;
 
-            if (!_reeling._IsReeling && !_tutorialReelOffStop) // 안 누르고 있다.
+            if (!_reeling.IsReeling && !_tutorialReelOffStop) // 안 누르고 있다.
             {
                 time = Time.deltaTime;
                 //Debug.Log(time);
@@ -423,7 +423,7 @@ public class TensionUI : MonoBehaviour
         float time1 = 0, time2;
         while (_fishControl.IsBite)
         {
-            if (_reeling._IsReeling)
+            if (_reeling.IsReeling)
             {
                 // 활성화된 게이지 안에서만 reeling 함수 On
                 if (_redGageBarRectTransform.sizeDelta.x >= _minX && _redGageBarRectTransform.sizeDelta.x <= _maxX)

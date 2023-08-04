@@ -128,11 +128,11 @@ public class FishControl : FishBase
         {
             _bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
 
-            if (_bleTotal._connectedMain)
+            if (_bleTotal.ConnectedMain)
             {
                 _isConnectedToBluetooth = true;
                 _reelData = new ReelBlueToothData();
-                _bleTotal.fishControl = this;
+                _bleTotal.SetFishControl(this);
             }
         }
     }

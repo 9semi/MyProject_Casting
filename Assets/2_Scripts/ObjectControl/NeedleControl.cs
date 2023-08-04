@@ -80,7 +80,7 @@ public class NeedleControl : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("Bluetooth"))
         {
             bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
-            bleTotal.needleControl = this;
+            bleTotal.SetNeedleControl(this);
         }
     }
     private void OnTriggerEnter(Collider collider)
@@ -225,7 +225,7 @@ public class NeedleControl : MonoBehaviour
             {
                 _rigidbody.AddForce(new Vector3(0, 3.5f /*+ (DataManager._sinkerWeight * 0.05f)*/, 0));
 
-                if (!_ingameUIManager._Reeling._IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
+                if (!_ingameUIManager._Reeling.IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
                     gameMgr.NeedleStopMoving();
             }
 
@@ -242,7 +242,7 @@ public class NeedleControl : MonoBehaviour
                 {
                     _rigidbody.AddForce(new Vector3(0, 2f, 0));
 
-                    if (!_ingameUIManager._Reeling._IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
+                    if (!_ingameUIManager._Reeling.IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
                         gameMgr.NeedleStopMoving();
                 }
                 else

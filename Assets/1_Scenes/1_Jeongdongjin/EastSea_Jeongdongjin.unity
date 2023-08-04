@@ -238,12 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62173de96bfe6740855672cd983721d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPause: 0
-  _jeongdongjinFishManager: {fileID: 4948892370984909488}
-  _skywayFishManager: {fileID: 0}
-  _homerspitFishManager: {fileID: 0}
-  _baitspatulaControl: {fileID: 500688379}
-  _nullSprite: {fileID: 21300000, guid: e87b1cd426ab33c4f90063ac59a9b12d, type: 3}
   _blackporgySprite: {fileID: 21300000, guid: c48c02364511b1f4ca6b6ce5a24d36f9, type: 3}
   _largescaleblackfishSprite: {fileID: 21300000, guid: a8f44b0cbd522e347bfb40972e20a648,
     type: 3}
@@ -268,20 +262,14 @@ MonoBehaviour:
   _salmonshark: {fileID: 0}
   _halibut: {fileID: 0}
   _chinooksalmon: {fileID: 0}
-  petAnimator: {fileID: 2306122}
-  gameMgr: {fileID: 1743065888}
-  _ingameUI: {fileID: 1791244222}
-  fishControl: {fileID: 466204911}
-  characterMgr: {fileID: 297396350155174085}
+  _baitspatulaControl: {fileID: 500688379}
+  _nullSprite: {fileID: 21300000, guid: e87b1cd426ab33c4f90063ac59a9b12d, type: 3}
   landingNet: {fileID: 848457981}
   baitSpatulaula: {fileID: 1823684008}
   _baitBundle: {fileID: 370877794}
   _itemOption: {fileID: 1417629630}
   _itemOptionButton: {fileID: 204869225}
   _lampButton: {fileID: 230639990}
-  isLightOn: 0
-  isCatch: 0
-  progress: 0
   _pastebaitIsNullObject: {fileID: 1234648651}
   fishingLamp: {fileID: 752680127}
   radarParticle: {fileID: 408526068}
@@ -317,8 +305,6 @@ MonoBehaviour:
   - {fileID: 91952694}
   - {fileID: 1318828350}
   _canvasRect: {fileID: 103555332}
-  _itemUIState: 1
-  _tutorialThrowStop: 0
 --- !u!95 &2306122
 Animator:
   serializedVersion: 3
@@ -954,9 +940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca64ce51d664d408a3a24d69600054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dataLoadSuccess: 0
-  _dataLoadProgress: 0
-  _isTest: 1
 --- !u!1 &103555328
 GameObject:
   m_ObjectHideFlags: 0
@@ -11859,8 +11842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7dde39b4b652043b9ab08b5fbbad0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMgr: {fileID: 1743065888}
-  inGameUiMgr: {fileID: 1791244222}
+  _gameManager: {fileID: 0}
+  _ingameUIManager: {fileID: 0}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38560,11 +38543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3c76704530d41479308c16ae37e0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tutorialThrowStop: 1
-  _tutorialRotateStop: 1
-  _tutorialGageStop: 0
-  _currentState: 0
-  style: 1
   _reel_45: {fileID: 6908049902854800035, guid: b6555bc799e1cc74b8fb3e5c001e42d2,
     type: 3}
   _reel_67: {fileID: 5878243962880993563, guid: 82bf12eeef62a784b8c7f4aa07ed5cc7,
@@ -38644,22 +38622,6 @@ MonoBehaviour:
   rodPos: {fileID: 297396350155174087}
   _rodMeshPos: {fileID: 1896140485}
   _reellinePos: {fileID: 445528152}
-  cameraMgr: {fileID: 963194230}
-  _jeongdongjinFishManager: {fileID: 4948892370984909488}
-  _skywayFishManager: {fileID: 0}
-  _homerspitFishManager: {fileID: 0}
-  needleControl: {fileID: 0}
-  fishControl: {fileID: 466204911}
-  characterMgr: {fileID: 297396350155174085}
-  objectMgr: {fileID: 1583956892}
-  petMgr: {fileID: 2306121}
-  _reeling: {fileID: 2023142477}
-  bleTotal: {fileID: 0}
-  _reel: {fileID: 0}
-  _mapType: 0
-  _isConnectedToBluettooth_Main: 0
-  _isConnectedToBluettooth_Reel: 0
-  _castingPermission: 0
 --- !u!4 &1743065889
 Transform:
   m_ObjectHideFlags: 0
@@ -39005,7 +38967,7 @@ MonoBehaviour:
   _gameGuideUI: {fileID: 934755770}
   _questContentObject: {fileID: 2144791910}
   _currentContentText: {fileID: 1667375033}
-  _currentStateText: {fileID: 325660649}
+  CurrentStateText: {fileID: 0}
   _currentPassObject: {fileID: 1589912670}
   _allClearObject: {fileID: 229765347}
   _notClearButtonSprite: {fileID: 21300000, guid: 5390e7688859eb8479f41f87dc38ae86,
@@ -42889,7 +42851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishControl: {fileID: 466204911}
-  myAnim: {fileID: 0}
+  _ani: {fileID: 0}
 --- !u!114 &2023142478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49263,7 +49225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2092116288
 Transform:
   m_ObjectHideFlags: 0

@@ -259,18 +259,18 @@ public class GameManager : MonoBehaviour
         {
             _bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
 
-            if (_bleTotal._connectedMain)
+            if (_bleTotal.ConnectedMain)
             {
-                _bleTotal.gameMgr = this;
-                _bleTotal._isInGame_Main = true;
+                _bleTotal.SetGameManager(this);
+                _bleTotal.IsInGame_Main = true;
                 _isConnectedToBluetooth_Main = true;
             }
 
-            if (_bleTotal._connectedMain)
+            if (_bleTotal.ConnectedReel)
             {
                 _reelData = new ReelBlueToothData();
-                _bleTotal.gameMgr = this;
-                _bleTotal._isInGame_Reel = true;
+                _bleTotal.SetGameManager(this);
+                _bleTotal.IsInGame_Reel = true;
                 _isConnectedToBluetooth_Reel = true;
             }
         }
@@ -734,7 +734,7 @@ public class GameManager : MonoBehaviour
             rodPoint2.localPosition = resetPointPos2;
             _needleControl.isWater = false;
 
-            _reeling._IsReeling = false;
+            _reeling.IsReeling = false;
 
             if (GameStyleSstate.Equals(eGameStyle.Bobber))
             {

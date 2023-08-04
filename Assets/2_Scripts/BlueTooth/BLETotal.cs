@@ -1,16 +1,8 @@
-﻿using JetBrains.Annotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
 using System;
-using System.CodeDom;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data.SqlTypes;
 using System.Text;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ReelBlueToothData
@@ -30,37 +22,37 @@ public class BLETotal : MonoBehaviour
     readonly int _scanningHash = Animator.StringToHash("Scanning");
 
     // 스크립트 연결
-    public GameManager gameMgr;
-	public InGameUIManager inGameUIMgr;	
-	public Reeling reeling;
-	public NeedleControl needleControl;
-	public FishControl fishControl;
-	public BLEControl bleControl;
+    GameManager _gameManager; public void SetGameManager(GameManager instance) { _gameManager = instance; }
+    InGameUIManager _ingameUIManager; public void SetIngameUIManager(InGameUIManager instance) { _ingameUIManager = instance; }
+    Reeling _reeling; public void SetReeling(Reeling instance) { _reeling = instance; }
+    NeedleControl _needleControl; public void SetNeedleControl(NeedleControl instance) { _needleControl = instance; }
+    FishControl _fishControl; public void SetFishControl(FishControl instance) { _fishControl = instance; }
+    BLEControl _bleControl; public void SetBELControl(BLEControl instance) { _bleControl = instance; }
+    ReelBlueToothData __reelData;
 
-	public bool _scanning = false;
-	//private Dictionary<string, CentralPeripheralButtonScript> _peripheralList;
+    bool _scanning = false; public bool Scanning { get { return _scanning; } }
 
-	// Main장비 변수
-	public bool _connectedMain = false;	// Main 연결?
-	public bool _connectingMain = false;	// Main 연결중?
-	private bool _readFoundMain = false;	// Main 읽기? 
-	private bool _writeFoundMain = false;	// Main 쓰기?
-	public bool isMain = false; // Main 연결?(내가 사용할 용도로 집어넣음)
-	private string _connectedIDMain = null;	// Main address 판별용
-	public string nameMain = null;	//	Main 이름 저장
-	public string addressMain = null;	// Main 주소 저장
-	private float _subscribingTimeoutMain = 0f;	// Main 송, 수신 통신시간
+    // Main장비 변수
+    bool _connectedMain;
+	bool _connectingMain;
+	bool _readFoundMain;
+	bool _writeFoundMain;
+	bool _isMain;
+	string _connectedIDMain;
+	string _nameMain; public string NameMain { get { return _nameMain; } set { _nameMain = value; } }
+	string _addressMain; public string AddressMain { get { return _addressMain; } set { _addressMain = value; } }
+	float _subscribingTimeoutMain;
 
 	// Reel장비 변수
-	public bool _connectedReel = false;	// Reel 연결?
-	public bool _connectingReel = false;	// Reel 연결중?
-	private bool _readFoundReel = false;	// Reel 읽기?
-	private bool _writeFoundReel = false;	// Reel 쓰기?
-	public bool isReel = false; // Reel 연결?(내가 사용할 용도로 집어넣음)
-	private string _connectedIDReel = null;	// address 판별용
-	public string nameReel = null;	// Reel 이름 저장
-	public string addressReel = null;	// Reel 주소 저장
-	private float _subscribingTimeoutReel = 0f; // Reel 송, 수신 통신시간
+	bool _connectedReel;
+	bool _connectingReel;
+	bool _readFoundReel;
+	bool _writeFoundReel;
+	bool _isReel;
+	string _connectedIDReel;
+	string _nameReel; public string NameReel { get { return _nameReel; } set { _nameReel = value; } }
+	string _addressReel; public string AddressReel { get { return _addressReel; } set { _addressReel = value; } }
+	float _subscribingTimeoutReel;
 
 	/// <summary>
 	/// UUID(Universally Unique Identifiers) 128비트의 숫자조합
@@ -68,44 +60,35 @@ public class BLETotal : MonoBehaviour
 	/// 0000 XXXX - 0000 - 1000 - 8000 - 000000000000
 	/// XXXX에 예약된 UUID와 충돌하지 않는 숫자나 맞는 특성으로 생성하여 삽입
 	/// 개발자가 설정해서 준 값, 수정없이 사용 중
-	private string _serviceUUID = "0001";
-	private string _writeCharacteristicUUID = "0002";
-	private string _readCharacteristicUUID = "0003";
+	string _serviceUUID = "0001";
+	string _writeCharacteristicUUID = "0002";
+	string _readCharacteristicUUID = "0003";
 
 	// 릴 애니메이션용 변수
-	private float count = 0;	// reel UI 애니메이션 속도
-	private byte[] first, second;	// 첫 데이터, 두번째 데이터
-	private Coroutine animCor;	// reel 애니메이션 코루틴
-	private bool isAnim = false;	// reel 애니메이션 도는중?
+	float _count = 0;
+	byte[] _first, _second;
+	Coroutine _aniCoroutine;
+    Coroutine _connectingAniCoroutine;
+    Coroutine _reelOnCoroutine;
+    bool _isAni = false;
+	bool _isOn = false; 
+	bool _isFail = false;
+	float _scanTimeLimit = 0;
+	float _searchTimeLimit = 0;
+	int _error = 0;
+	byte[] _checkSum;
 
-	public bool isOn = false;	// 지금 사용 X
-	public bool isFail = false;	// 지금 사용 X
-	public float time = 0;	// Scan용 시간
-	public float time1 = 0;	// 연결용 시간
-	private int error = 0;	// CheckSum error 확인
-	private byte[] checkSum;	// CheckSum 변수
-	private Coroutine connectingAnimCor;	// 연결중 UI 코루틴
-
-	// 릴 down, up
-	private Coroutine _reelOnCoroutine;	// reel 코루틴 저장용
-	private byte[] reelData;    // 수신된 reelData 저장용
-
-	// lobbyscene, 맵선택씬, 수족관씬 등등 게임이 진행 중이지 않을 때 bldc, dc가 0이 아니라면 블루투스가 작동 중이라는 의미이다.
-	int _bldcForce; // 당기는 힘
-	int _dcForce; // 흔드는 힘
-
+	byte[] _reelData;
+	int _bldcForce;
+	int _dcForce;
 	float _testTime = 0;
-
-	// 자이로 블루투스 
-	public ReelBlueToothData _reelData;
 	int _preH = 0;
 	float _reelOffDelayTime = 0;
+	bool _isInGame_Main = false; public bool IsInGame_Main { set { _isInGame_Main = value; } }
+    bool _isInGame_Reel = false; public bool IsInGame_Reel { set { _isInGame_Reel = value; } }
 
-	public bool _isInGame_Main = false;
-	public bool _isInGame_Reel = false;
-
-	// Main 장비 연결? _connetedMain(true) : _connectedMain(false)
-	public bool ConnectedMain
+    // Main 장비 연결? _connetedMain(true) : _connectedMain(false)
+    public bool ConnectedMain
 	{
 		get 
 		{
@@ -152,53 +135,53 @@ public class BLETotal : MonoBehaviour
 	void Start()
 	{
 		gameObject.tag = "Bluetooth";
-		reelData = null;
-		first = null;
-		second = null;
+		_reelData = null;
+		_first = null;
+		_second = null;
 
-		_reelData = new ReelBlueToothData();
+		__reelData = new ReelBlueToothData();
 	}
 
 	void Update()
 	{
 		if (_scanning)
 		{
-			time += Time.deltaTime;
-			if (time > 10)
+            _scanTimeLimit += Time.deltaTime;
+			if (_scanTimeLimit > 10)
 			{
 				OnScan();
 			}
 		}
 		// Main 연결 실패시
-		if (isMain && !ConnectedMain)
+		if (_isMain && !ConnectedMain)
 		{
-			time1 += Time.deltaTime;
-			if (time1 > 7)
+			_searchTimeLimit += Time.deltaTime;
+			if (_searchTimeLimit > 7)
 			{
-				for (int i = 0; i < bleControl.BluetoothMainArray.Length; i++)
+				for (int i = 0; i < _bleControl.BluetoothMainArray.Length; i++)
 				{
-					bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
-					bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
-					bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
-					bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
+					_bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
+					_bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
+					_bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+					_bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				}
-				isMain = false;
+				_isMain = false;
 			}
 		}
 		// Reel 연결 실패시
-		if (isReel && !ConnectedReel)
+		if (_isReel && !ConnectedReel)
 		{
-			time1 += Time.deltaTime;
-			if (time1 > 7)
+			_searchTimeLimit += Time.deltaTime;
+			if (_searchTimeLimit > 7)
 			{
-				for (int i = 0; i < bleControl.BluetoothMainArray.Length; i++)
+				for (int i = 0; i < _bleControl.BluetoothMainArray.Length; i++)
 				{
-					bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
-					bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
-					bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
-					bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
+					_bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
+					_bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = true;
+					_bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+					_bleControl.BluetoothMainArray[i].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 0, 0);
 				}
-				isReel = false;
+				_isReel = false;
 			}
 		}
 		// Main 연결성공시 _readFoundMain(true), _writeFoundMain(true)
@@ -231,17 +214,17 @@ public class BLETotal : MonoBehaviour
                     if (CheckIsInGame(deviceAddress2))
                     {
                         byte[] bytes = data;
-                        checkSum = data;
-                        if (checkSum[2] == 1)
+                        _checkSum = data;
+                        if (_checkSum[2] == 1)
                         {
-                            error = 0;
+                            _error = 0;
                         }
-                        else if (error < 10 && checkSum[2] == 2)
+                        else if (_error < 10 && _checkSum[2] == 2)
                         {
-                            error++;
-                            fishControl.FishBLDC = 0;
-                            fishControl.NormalBLDC = 0;
-                            fishControl.DcValue = 0;
+                            _error++;
+                            _fishControl.FishBLDC = 0;
+                            _fishControl.NormalBLDC = 0;
+                            _fishControl.DcValue = 0;
                             Motor(0, 0);
                         }
                     }
@@ -268,27 +251,27 @@ public class BLETotal : MonoBehaviour
                             if (_isInGame_Reel)
                             {
                                 string jsonString = Encoding.Default.GetString(data);
-                                _reelData = JsonConvert.DeserializeObject<ReelBlueToothData>(jsonString);
-                                gameMgr.ReelData = _reelData;
-                                fishControl.SetReelData(_reelData);
+                                __reelData = JsonConvert.DeserializeObject<ReelBlueToothData>(jsonString);
+                                _gameManager.ReelData = __reelData;
+                                _fishControl.SetReelData(__reelData);
 
-                                if (!_preH.Equals(_reelData.H) && gameMgr.NeedleInWater)
+                                if (!_preH.Equals(__reelData.H) && _gameManager.NeedleInWater)
                                 {
-                                    if ( gameMgr.NeedleInWater)
+                                    if ( _gameManager.NeedleInWater)
                                     {
                                         ReelOn2();
                                     }
 
-                                    if (count < 1 && gameMgr.NeedleInWater)
+                                    if (_count < 1 && _gameManager.NeedleInWater)
                                     {
-                                        count += 0.22f;
+                                        _count += 0.22f;
                                     }
 
-                                    first = data;
+                                    _first = data;
 
-                                    if (!isAnim && gameMgr.NeedleInWater)
+                                    if (!_isAni && _gameManager.NeedleInWater)
                                     {
-                                        animCor = StartCoroutine(AnimSpeed());
+                                        _aniCoroutine = StartCoroutine(AnimSpeed());
                                     }
 
                                     _reelOffDelayTime = 0;
@@ -300,10 +283,10 @@ public class BLETotal : MonoBehaviour
 
                                 if (_reelOffDelayTime > 0.07f)
                                 {
-                                    reeling._IsReeling = false;
+                                    _reeling.IsReeling = false;
                                 }
 
-                                _preH = _reelData.H;
+                                _preH = __reelData.H;
                             }
                         }
                     }
@@ -314,190 +297,61 @@ public class BLETotal : MonoBehaviour
 
 	public void ReelOn2()
     {
-		reeling._IsReeling = true;
+		_reeling.IsReeling = true;
 
-		if (!fishControl.IsBite)
-			reeling.OnReeling();
+		if (!_fishControl.IsBite)
+			_reeling.OnReeling();
 	}
 
 	// 릴 데이터 수신시
 	private IEnumerator ReelOn()
 	{
-		reeling._IsReeling = true;
+		_reeling.IsReeling = true;
 
-		if (!fishControl.IsBite)
-			reeling.OnReeling();
+		if (!_fishControl.IsBite)
+			_reeling.OnReeling();
 
 		//yield return PublicDefined._01secDelay;
 		yield return PublicDefined._02secDelay;
 
         StopCoroutine(_reelOnCoroutine);
 		_reelOnCoroutine = null;
-		reeling._IsReeling = false;
+		_reeling.IsReeling = false;
 		yield return null;
 
-		if (!fishControl.IsBite)
-			reeling.OnReeling();
+		if (!_fishControl.IsBite)
+			_reeling.OnReeling();
 	}
 
 	// 연결되어있다는것을 표시할 때 사용하면 됨
 	public void IsConnecting()
 	{
-		if (nameMain != null)
+		if (_nameMain != null)
 		{
-			bleControl.BluetoothMainArray[0].SetActive(true);
-			bleControl.ReelNameTextArray[0].text = nameMain;
-			bleControl.MainAddressTextArray[0].text = addressMain;
-			bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[0];
-			bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
+			_bleControl.BluetoothMainArray[0].SetActive(true);
+			_bleControl.ReelNameTextArray[0].text = _nameMain;
+			_bleControl.MainAddressTextArray[0].text = _addressMain;
+			_bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[0];
+			_bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
 
 		}
-		if (nameReel != null)
+		if (_nameReel != null)
 		{
-			bleControl.BluetoothReelArray[0].SetActive(true);
-			bleControl.ReelNameTextArray[0].text = nameReel;
-			bleControl.ReelAddressTextArray[0].text = addressReel;
-			bleControl.BluetoothReelArray[0].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[0];
-			bleControl.BluetoothReelArray[0].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
+			_bleControl.BluetoothReelArray[0].SetActive(true);
+			_bleControl.ReelNameTextArray[0].text = _nameReel;
+			_bleControl.ReelAddressTextArray[0].text = _addressReel;
+			_bleControl.BluetoothReelArray[0].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[0];
+			_bleControl.BluetoothReelArray[0].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
 		}
 	}
 
-
-	#region 이전 코드(string방식)
-	public void Btn1()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@300");
-		SendBytes(bytes);
-	}
-	public void Btn2()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@205");
-		SendBytes(bytes);
-	}
-	public void Btn3()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@310");
-		SendBytes(bytes);
-	}
-	public void Btn4()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@340");
-		SendBytes(bytes);
-	}
-	public void Btn5()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@370");
-		SendBytes(bytes);
-	}
-	public void Btn6()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@400");
-		SendBytes(bytes);
-	}
-	public void Btn7()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@520");
-		SendBytes(bytes);
-	}
-	public void Btn8()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@508");
-		SendBytes(bytes);
-	}
-	public void Btn9()
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes("@@599");
-		SendBytes(bytes);
-	}
-	public void Btn90(string data)
-	{
-		byte[] bytes = ASCIIEncoding.UTF8.GetBytes(data);
-		SendBytes(bytes);
-	}
-	#endregion
-	#region ChecksumButtonTest
-	public void BLDC0DC0()
-	{
-		byte[] bytes = { 1, 1, 0, 0, 2 };
-		SendBytes(bytes);
-	}
-	public void BLDC30DC0()
-	{
-		byte[] bytes = { 1, 1, 30, 0, 32 };
-		SendBytes(bytes);
-	}
-	public void BLDC60DC0()
-	{
-		byte[] bytes = { 1, 1, 60, 0, 62 };
-		SendBytes(bytes);
-	}
-	public void BLDC90DC0()
-	{
-		byte[] bytes = { 1, 1, 90, 0, 92 };
-		SendBytes(bytes);
-	}
-	public void BLDC30DC30()
-	{
-		byte[] bytes = { 1, 1, 30, 30, 62 };
-		SendBytes(bytes);
-	}
-	public void BLDC60DC60()
-	{
-		byte[] bytes = { 1, 1, 60, 60, 122 };
-		SendBytes(bytes);
-	}
-	public void BLDC90DC90()
-	{
-		byte[] bytes = { 1, 1, 90, 90, 182 };
-		SendBytes(bytes);
-	}
-	public void BLDC0DC0X()
-	{
-		byte[] bytes = { 1, 1, 0, 0, 0 };
-		SendBytes(bytes);
-	}
-	public void BLDC30DC0X()
-	{
-		byte[] bytes = { 1, 1, 30, 0, 0 };
-		SendBytes(bytes);
-	}
-	public void BLDC60DC0X()
-	{
-		byte[] bytes = { 1, 1, 60, 0, 0 };
-		SendBytes(bytes);
-	}
-	public void BLDC90DC0X()
-	{
-		byte[] bytes = { 1, 1, 90, 0, 0 };
-		SendBytes(bytes);
-	}
-	public void BLDC30DC30X()
-	{
-		byte[] bytes = { 1, 1, 30, 30, 0 };
-		SendBytes(bytes);
-	}
-	public void BLDC60DC60X()
-	{
-		byte[] bytes = { 1, 1, 60, 60, 0 };
-		SendBytes(bytes);
-	}
-	public void BLDC90DC90X()
-	{
-		byte[] bytes = { 1, 1, 90, 90, 0 };
-		SendBytes(bytes);
-	}
-	#endregion
-	#region 사용중인 코드(byte방식)
 	public void Motor(int bldc, int dc)
 	{
 		_bldcForce = bldc;
 		_dcForce = dc;
-		//Debug.Log("현재 Motor()로 들어오는 bldc : " + bldc + ", dc : " + dc);
-		//Debug.Log("BLETotal/Motor()/bldc : " + bldc);
 		byte[] bytes = { 1, 1, (byte)_bldcForce, (byte)_dcForce, (byte)(2 + bldc + dc) };
 		SendBytes(bytes);
 	}
-	#endregion
 
 	public void MotorResetCheck()
     {
@@ -526,14 +380,14 @@ public class BLETotal : MonoBehaviour
 	// 이전 Anim돌리던 방식
 	private void OnAnim()
 	{
-		if(animCor == null)
+		if(_aniCoroutine == null)
 		{
-			animCor = StartCoroutine(AnimSpeed());
+			_aniCoroutine = StartCoroutine(AnimSpeed());
 		}
 		else
 		{
-			StopCoroutine(animCor);
-			animCor = null;
+			StopCoroutine(_aniCoroutine);
+			_aniCoroutine = null;
 		}
 	}
 
@@ -542,60 +396,60 @@ public class BLETotal : MonoBehaviour
 	{
 		WaitForSeconds delay = new WaitForSeconds(0.12f);
 
-		isAnim = true;
-		while (count >= 0.2f && gameMgr.NeedleInWater)
+		_isAni = true;
+		while (_count >= 0.2f && _gameManager.NeedleInWater)
 		{
-			if (first.Equals(second) && count >= 0.2f)
+			if (_first.Equals(_second) && _count >= 0.2f)
 			{
-				count -= 0.2f;
+                _count -= 0.2f;
 			}
-			second = first;
-			reeling.Ani.SetFloat("Speed", count);
+			_second = _first;
+			_reeling.Ani.SetFloat("Speed", _count);
 			yield return delay;
-			if (first.Equals(second) && count >= 0.2f)
+			if (_first.Equals(_second) && _count >= 0.2f)
 			{
-				count -= 0.2f;
+                _count -= 0.2f;
 			}
-			second = first;
-			reeling.Ani.SetFloat("Speed", count);
+			_second = _first;
+			_reeling.Ani.SetFloat("Speed", _count);
 			yield return delay;
-			if (first.Equals(second) && count >= 0.2f)
+			if (_first.Equals(_second) && _count >= 0.2f)
 			{
-				count -= 0.2f;
+                _count -= 0.2f;
 			}
-			second = first;
-			reeling.Ani.SetFloat("Speed", count);
+			_second = _first;
+			_reeling.Ani.SetFloat("Speed", _count);
 			yield return delay;
 		}
-		isAnim = false;
-		count = 0;
-		reeling.Ani.SetFloat("Speed", 0);
-		StopCoroutine(animCor);
+		_isAni = false;
+        _count = 0;
+		_reeling.Ani.SetFloat("Speed", 0);
+		StopCoroutine(_aniCoroutine);
 	}
 
 	public void Initialize0()
 	{
 		BluetoothLEHardwareInterface.Initialize(true, false, () => {
 
-		}, (error) => {
+		}, (_error) => {
 		});
 	}
 
 	// 주변 블루투스 탐색 후 데이터 받아와서 보여줌
 	public void OnScan()
 	{
-		bleControl.IsBlueToothOn = true;
+		_bleControl.IsBlueToothOn = true;
 		if (_scanning)
 		{
-			time = 0;
+            _scanTimeLimit = 0;
 			_scanning = false;
-			bleControl.ScanButtonAnimator.SetBool(_scanningHash, false);
+			_bleControl.ScanButtonAnimator.SetBool(_scanningHash, false);
 			BluetoothLEHardwareInterface.StopScan();
 		}
 		else // 멈추기 -> 찾기
 		{
-			bleControl.ResetButton();
-			bleControl.ScanButtonAnimator.SetBool(_scanningHash, true);
+			_bleControl.ResetButton();
+			_bleControl.ScanButtonAnimator.SetBool(_scanningHash, true);
 			BluetoothLEHardwareInterface.ScanForPeripheralsWithServices(null, (address, name) =>
 			{
 				AddPeripheral(name, address);
@@ -604,7 +458,7 @@ public class BLETotal : MonoBehaviour
 				if (advertisingInfo != null)
 					BluetoothLEHardwareInterface.Log(string.Format("Device: {0} RSSI: {1} Data Length: {2} Bytes: {3}", name, rssi, advertisingInfo.Length, BytesToString(advertisingInfo)));
 			});
-		    bleControl.ReelOn = true;
+		    _bleControl.ReelOn = true;
 			_scanning = true;
 		}
 	}
@@ -614,7 +468,7 @@ public class BLETotal : MonoBehaviour
 	{
 		float addColor = 0;
 		bool isDown = false;
-		while (isMain && !ConnectedMain)
+		while (_isMain && !ConnectedMain)
 		{
 			if (addColor < 0.9 && !isDown)
 				addColor += 0.01f;
@@ -624,11 +478,11 @@ public class BLETotal : MonoBehaviour
 				addColor -= 0.01f;
 			else if (addColor <= 0.1f && isDown)
 				isDown = false;
-			bleControl.BluetoothMainArray[index].transform.GetChild(0).Rotate(0, 0, -15);
-			bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(addColor, addColor, 1);
+			_bleControl.BluetoothMainArray[index].transform.GetChild(0).Rotate(0, 0, -15);
+			_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(addColor, addColor, 1);
 			yield return null;
 		}
-		while (isReel && !ConnectedReel)
+		while (_isReel && !ConnectedReel)
 		{
 			if (addColor < 0.9 && !isDown)
 				addColor += 0.01f;
@@ -638,12 +492,12 @@ public class BLETotal : MonoBehaviour
 				addColor -= 0.01f;
 			else if (addColor <= 0.1f && isDown)
 				isDown = false;
-			bleControl.BluetoothReelArray[index].transform.GetChild(0).Rotate(0, 0, -15);
-			bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(addColor, addColor, 1);
+			_bleControl.BluetoothReelArray[index].transform.GetChild(0).Rotate(0, 0, -15);
+			_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(addColor, addColor, 1);
 			yield return null;
 		}
-		bleControl.BluetoothMainArray[index].transform.GetChild(0).rotation = new Quaternion(0, 0, 0, 0);
-		bleControl.BluetoothReelArray[index].transform.GetChild(0).rotation = new Quaternion(0, 0, 0, 0);
+		_bleControl.BluetoothMainArray[index].transform.GetChild(0).rotation = new Quaternion(0, 0, 0, 0);
+		_bleControl.BluetoothReelArray[index].transform.GetChild(0).rotation = new Quaternion(0, 0, 0, 0);
 	}
 	
 	// 탐색 완료된 Main장비 클릭시
@@ -655,28 +509,28 @@ public class BLETotal : MonoBehaviour
 			DisconnectMain(Address =>
 			{
 				ConnectedMain = false;	// 연결 false
-				isMain = false;	// 연결 false
-				nameMain = null;	// 이름 비움
-				addressMain = null;	// 주소 비움
+				_isMain = false;	// 연결 false
+				_nameMain = null;	// 이름 비움
+				_addressMain = null;	// 주소 비움
 				// 연결 해제 UI
-				bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[2];
-				bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
+				_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[2];
+				_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
 				// 스캔 중? 처음부터 스캔 : 스캔시작
 				if (!_scanning)
 					OnScan();
 				else
-					time = 0;
+                    _scanTimeLimit = 0;
 			});
 		}
 		// 연결 시도
 		else
 		{
-			isMain = true;
-			time1 = 0;
-			for (int i = 0; i < bleControl.BluetoothMainArray.Length; i++)
+			_isMain = true;
+			_searchTimeLimit = 0;
+			for (int i = 0; i < _bleControl.BluetoothMainArray.Length; i++)
 			{
-				bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = false;
-				//bleControl.bluetoothReel[i].GetComponent<Button>().interactable = false;
+				_bleControl.BluetoothMainArray[i].GetComponent<Button>().interactable = false;
+				//_bleControl.bluetoothReel[i].GetComponent<Button>().interactable = false;
 			}
 
 			//Debug.LogError("메인 연결");
@@ -686,11 +540,11 @@ public class BLETotal : MonoBehaviour
 			_writeFoundMain = false;
 
 			// 연결 중 UI 
-			bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[1];
-			bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 1);
-			connectingAnimCor = StartCoroutine(ConnectingAnim(index));
+			_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[1];
+			_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 1);
+			_connectingAniCoroutine = StartCoroutine(ConnectingAnim(index));
 
-			BluetoothLEHardwareInterface.ConnectToPeripheral(addressMain, (address) => {
+			BluetoothLEHardwareInterface.ConnectToPeripheral(_addressMain, (address) => {
 			},
 			(address, serviceUUID) => {
 			},
@@ -701,8 +555,8 @@ public class BLETotal : MonoBehaviour
 				{
 					_connectedIDMain = address;
 					ConnectedMain = true;
-					bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[0];
-					bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
+					_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[0];
+					_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
 
 					if (IsEqual(characteristicUUID, _readCharacteristicUUID))
 					{
@@ -714,14 +568,14 @@ public class BLETotal : MonoBehaviour
 					}
 				}
 			}, (address) => {
-				if (address == addressMain)
+				if (address == _addressMain)
 				{
 					ConnectedMain = false;	// 연결실패시에 초기화
-					isMain = false;			// 연결실패시에 초기화
-					nameMain = null;		// 연결실패시에 초기화
-					addressMain = null;		// 연결실패시에 초기화
-					bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[2];
-					bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
+					_isMain = false;			// 연결실패시에 초기화
+					_nameMain = null;		// 연결실패시에 초기화
+					_addressMain = null;		// 연결실패시에 초기화
+					_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[2];
+					_bleControl.BluetoothMainArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
 				}
 			});
 		}
@@ -730,7 +584,7 @@ public class BLETotal : MonoBehaviour
 	// 연결 해제(연결해제만 넣어놓은 함수, 지금은 사용 X)
 	public void OffConnectMain()
 	{
-		BluetoothLEHardwareInterface.ConnectToPeripheral(addressMain, (address) =>
+		BluetoothLEHardwareInterface.ConnectToPeripheral(_addressMain, (address) =>
 		{
 		},
 		(address, serviceUUID) =>
@@ -740,14 +594,14 @@ public class BLETotal : MonoBehaviour
 		{
 		}, (address) =>
 		{
-			if (address == addressMain)
+			if (address == _addressMain)
 			{
 				ConnectedMain = false;
-				isMain = false;
-				nameMain = null;
-				addressMain = null;
-				bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[2];
-				bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
+				_isMain = false;
+				_nameMain = null;
+				_addressMain = null;
+				_bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[2];
+				_bleControl.BluetoothMainArray[0].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
 			}
 		});
 	}
@@ -757,16 +611,16 @@ public class BLETotal : MonoBehaviour
 	{
 		if (ConnectedReel)
 		{
-			if (bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite == bleControl.BluetoothStateImageArray[0])
+			if (_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite == _bleControl.BluetoothStateImageArray[0])
 			{
 				DisconnectReel((Address) =>
 				{
 					ConnectedReel = false;
-					isReel = false;
-					nameReel = null;
-					addressReel = null;
-					bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[2];
-					bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
+					_isReel = false;
+					_nameReel = null;
+					_addressReel = null;
+					_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[2];
+					_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
 					if (!_scanning)
 						OnScan();
 					else
@@ -779,20 +633,20 @@ public class BLETotal : MonoBehaviour
 		}
 		else
 		{
-			isReel = true;
-			time1 = 0;
-			for (int i = 0; i < bleControl.BluetoothMainArray.Length; i++)
+			_isReel = true;
+			_searchTimeLimit = 0;
+			for (int i = 0; i < _bleControl.BluetoothMainArray.Length; i++)
 			{
-				//bleControl.bluetoothMain[i].GetComponent<Button>().interactable = false;
-				bleControl.BluetoothReelArray[i].GetComponent<Button>().interactable = false;
+				//_bleControl.bluetoothMain[i].GetComponent<Button>().interactable = false;
+				_bleControl.BluetoothReelArray[i].GetComponent<Button>().interactable = false;
 			}
 			_readFoundReel = false;
 			_writeFoundReel = false;
-			bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[1];
-			bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 1);
-			connectingAnimCor = StartCoroutine(ConnectingAnim(index));
+			_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[1];
+			_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 0, 1, 1);
+			_connectingAniCoroutine = StartCoroutine(ConnectingAnim(index));
 
-			BluetoothLEHardwareInterface.ConnectToPeripheral(addressReel, (address) => {
+			BluetoothLEHardwareInterface.ConnectToPeripheral(_addressReel, (address) => {
 			},
 			(address, serviceUUID) => {
 			},
@@ -805,8 +659,8 @@ public class BLETotal : MonoBehaviour
 
 					_connectedIDReel = address;
 					ConnectedReel = true;
-					bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[0];
-					bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
+					_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[0];
+					_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(0, 1, 0, 1);
 
 					if (IsEqual(characteristicUUID, _readCharacteristicUUID))
 					{
@@ -816,11 +670,11 @@ public class BLETotal : MonoBehaviour
 					{
 						_writeFoundReel = true;
 					}
-					for (int i = 0; i < bleControl.BluetoothReelArray.Length; i++)
+					for (int i = 0; i < _bleControl.BluetoothReelArray.Length; i++)
 					{
-						bleControl.BluetoothReelArray[i].GetComponent<Button>().interactable = true;
+						_bleControl.BluetoothReelArray[i].GetComponent<Button>().interactable = true;
 						if (i == index)
-							bleControl.BluetoothReelArray[i].GetComponent<Button>().interactable = true;
+							_bleControl.BluetoothReelArray[i].GetComponent<Button>().interactable = true;
 					}
 				}
 			}, (address) => {
@@ -829,14 +683,14 @@ public class BLETotal : MonoBehaviour
 				// be aware that this will also get called when the disconnect
 				// is called above. both methods get call for the same action
 				// this is for backwards compatibility
-				if (address == addressReel)
+				if (address == _addressReel)
 				{
 					ConnectedReel = false;
-					isReel = false;
-					nameReel = null;
-					addressReel = null;
-					bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = bleControl.BluetoothStateImageArray[2];
-					bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
+					_isReel = false;
+					_nameReel = null;
+					_addressReel = null;
+					_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().sprite = _bleControl.BluetoothStateImageArray[2];
+					_bleControl.BluetoothReelArray[index].transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
 				}
 			});
 		}
@@ -845,12 +699,12 @@ public class BLETotal : MonoBehaviour
 	// Main 연결 해제
 	void DisconnectMain(Action<string> action)
 	{
-		BluetoothLEHardwareInterface.DisconnectPeripheral(addressMain, action);
+		BluetoothLEHardwareInterface.DisconnectPeripheral(_addressMain, action);
 	}
 	// Reel 연결 해제
 	void DisconnectReel(Action<string> action)
 	{
-		BluetoothLEHardwareInterface.DisconnectPeripheral(addressReel, action);
+		BluetoothLEHardwareInterface.DisconnectPeripheral(_addressReel, action);
 	}
 
 	// UUID 확인(uuid 비교하여 bool형으로 반환)
@@ -888,7 +742,7 @@ public class BLETotal : MonoBehaviour
 		{
 			//Debug.Log("함수(AddPeripheral) 속 메인 장치 address : " + address + " , name : " + name);
 			Debug.Log("메인 기기 주소와 이름  " + address + " , " + name);
-			bleControl.ActiveMainBtn(name, address);
+			_bleControl.ActiveMainBtn(name, address);
 		}
 		// 또는 MMFishing 있을 때
 		else if (/*!_peripheralList.ContainsKey(address) && */ name.Contains(reelString))
@@ -901,7 +755,7 @@ public class BLETotal : MonoBehaviour
 
             //Debug.Log("함수(AddPeripheral) 속 릴 address : " + address + " , name : " + name);
             //Debug.Log("릴 주소와 이름  " + address + " , " + name);
-			bleControl.ActiveReelBtn(name, address);
+			_bleControl.ActiveReelBtn(name, address);
 		}
 		/// <summary>주소를 확인하는 이유</summary>
 		/// 이름은 변경가능한 부분이지만

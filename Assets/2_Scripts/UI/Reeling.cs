@@ -19,7 +19,7 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     BoxCollider _needleCollider;
 
     bool _isConnectedReel = false;
-    bool _isReeling = false; public bool _IsReeling { get { return _isReeling; } set { _isReeling = value; } }
+    bool _isReeling = false; public bool IsReeling { get { return _isReeling; } set { _isReeling = value; } }
 
     private void Awake()
     {
@@ -38,12 +38,12 @@ public class Reeling : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
 
-            if(bleTotal._connectedReel)
+            if(bleTotal.ConnectedReel)
             {
                 _isConnectedReel = true;
             }
             
-            bleTotal.reeling = this;
+            bleTotal.SetReeling(this);
         }
 
         _ingameUIManager._Reeling = this;

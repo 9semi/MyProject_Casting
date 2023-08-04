@@ -111,7 +111,7 @@ public class InGameUIManager : MonoBehaviour
         if (GameObject.FindGameObjectWithTag("Bluetooth"))
         {
             bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
-            bleTotal.inGameUIMgr = this;
+            bleTotal.SetIngameUIManager(this);
         }
 
         if (DataManager.INSTANCE._matchGameIsInProgress || DataManager.INSTANCE._tutorialIsInProgress)
