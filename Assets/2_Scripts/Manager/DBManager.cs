@@ -59,6 +59,12 @@ public class DBManager : MonoBehaviour
 
     UserData _userData;
     StringBuilder _sb = new StringBuilder();
+    GoogleManager _googleManager;
+    public void GetGoogleManager()
+    {
+        if (_googleManager == null)
+            _googleManager = GameObject.FindGameObjectWithTag("GoogleManager").GetComponent<GoogleManager>();
+    }
 
     bool _dataLoadSuccess; public bool DataLoadSuccess { set { _dataLoadSuccess = value; } }
     int _dataLoadProgress; public int DataLoadProgress { set { _dataLoadProgress = value; } }
@@ -98,9 +104,7 @@ public class DBManager : MonoBehaviour
     IEnumerator DataLoadCoroutine()
     {
         WaitForSeconds delay = PublicDefined._2secDelay;
-
-        //UserDataLoad();
-        //OptionXmlLoad();
+        GetGoogleManager();
 
         while (!_dataLoadSuccess)
         {
@@ -137,10 +141,8 @@ public class DBManager : MonoBehaviour
         }
         else
         {
-            //LogoVideoControl.INSTANCE.LoadScene_IfVideoDone();
-
-            GoogleManager.INSTANCE.StateTextOnOff(false);
-            GoogleManager.INSTANCE.EverythingIsReadyUntilStart();
+            _googleManager.StateTextOnOff(false);
+            _googleManager.EverythingIsReadyUntilStart();
 
         }
     }
@@ -166,13 +168,13 @@ public class DBManager : MonoBehaviour
     public IEnumerator VersionCheck(GoogleManager.UserInformation userinfo)
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.GetReference("Version");
-        Debug.Log("버전체크합니다.");
+        GetGoogleManager();
         reference.GetValueAsync().ContinueWith(task =>
         {
             if(task.IsFaulted || task.IsCanceled)
             {
                 Debug.Log("실패 이유: " + task.Result.ToString());
-                GoogleManager.INSTANCE.SomethingsWrong();
+                _googleManager.SomethingsWrong();
             }
 
             if(task.IsCompleted)
@@ -189,8 +191,7 @@ public class DBManager : MonoBehaviour
                 }
                 else
                 {
-                    //StartCoroutine(ExistUId(userinfo));
-                    GoogleManager.INSTANCE.UpdatePlz();
+                    _googleManager.UpdatePlz();
                 }
             }
         });
@@ -200,12 +201,13 @@ public class DBManager : MonoBehaviour
     public IEnumerator ExistUId(GoogleManager.UserInformation userinfo)
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString);
+        GetGoogleManager();
         reference.GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
             {
                 Debug.Log("실패 이유: " + task.Result.ToString());
-                GoogleManager.INSTANCE.SomethingsWrong();
+                _googleManager.SomethingsWrong();
             }
 
             if (task.IsCompleted)
@@ -213,12 +215,11 @@ public class DBManager : MonoBehaviour
                 DataSnapshot snapshot = task.Result;
                 if (snapshot.HasChild(userinfo.GetUId()))
                 {
-                    GoogleManager.INSTANCE.StateTextUpdate("정보를 확인했습니다.");
+                    _googleManager.StateTextUpdate("정보를 확인했습니다.");
                     StartCoroutine(HaveNickname(userinfo));
                 }
                 else
                 {
-                    //Debug.Log("아이디 새로 생성합니다.");
                     StartCoroutine(CreateNewAddress(userinfo));
                 }
             }
@@ -230,14 +231,14 @@ public class DBManager : MonoBehaviour
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString);
         string json = JsonUtility.ToJson(userinfo);
         reference.Child(userinfo.GetUId()).SetRawJsonValueAsync(json);
-        //Debug.Log("현재 사용자 UID : " + userinfo.GetUId());
-        GoogleManager.INSTANCE.CreateNicknameUI();
+        GetGoogleManager();
+        _googleManager.CreateNicknameUI();
         yield return null;
     }
     public IEnumerator HaveNickname(GoogleManager.UserInformation userinfo)
     {
-        DatabaseReference reference =
-            FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(userinfo.GetUId());
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(userinfo.GetUId());
+        GetGoogleManager();
 
         reference.GetValueAsync().ContinueWith(task =>
         {
@@ -252,17 +253,14 @@ public class DBManager : MonoBehaviour
 
                 if (snapshot.HasChild("data"))
                 {
-                    // 아이디가 존재하고 닉네임까지 가지고 있다면 게임을 시작한다.
-                    GoogleManager.INSTANCE.StateTextUpdate("데이터가 확인되었습니다.");
-                    // 정보를 로드하고 게임을 시작한다.
-                    //UserDataLoad();
+                    _googleManager.StateTextUpdate("데이터가 확인되었습니다.");
                     StartCoroutine(DataLoadCoroutine());
                 }
                 else
                 {
                     // 닉네임이 없다면
-                    GoogleManager.INSTANCE.StateTextUpdate("데이터가 없습니다.");
-                    GoogleManager.INSTANCE.CreateNicknameUI();
+                    _googleManager.StateTextUpdate("데이터가 없습니다.");
+                    _googleManager.CreateNicknameUI();
                 }
             }
         });
@@ -270,8 +268,8 @@ public class DBManager : MonoBehaviour
     }
     public IEnumerator ExistNickname(string nickname)
     {
-        //Debug.Log(nickname + "1");
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.GetReference(_NicknameString);
+        GetGoogleManager();
         reference.GetValueAsync().ContinueWith(task =>
         {
             if (task.IsFaulted)
@@ -285,12 +283,12 @@ public class DBManager : MonoBehaviour
                 if (snapshot.HasChild(nickname))
                 { 
                     // 중복되는 닉네임이 있다.
-                    GoogleManager.INSTANCE.TheNameAlreadyExists();
+                    _googleManager.TheNameAlreadyExists();
                 }
                 else
                 { 
                     // 중복되는 닉네임이 없다.
-                    GoogleManager.INSTANCE.TheNameIsAvailable();
+                    _googleManager.TheNameIsAvailable();
                 }
             }
         });
@@ -1232,10 +1230,9 @@ public class DBManager : MonoBehaviour
         reference.Child("homerspitPassAboutAction").SetRawJsonValueAsync(json);
 
         _userData.CheckAquariumCount();
-       // Debug.Log("새로운 유저 데이터 저장 완료");
-
-        GoogleManager.INSTANCE.StateTextOnOff(false);
-        GoogleManager.INSTANCE.EverythingIsReadyUntilStart();
+        GetGoogleManager();
+        _googleManager.StateTextOnOff(false);
+        _googleManager.EverythingIsReadyUntilStart();
 
     }
     void NicknameRenewal()

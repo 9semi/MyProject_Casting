@@ -7,15 +7,9 @@ using UnityEngine.UI;
 
 public class GoogleManager : MonoBehaviour
 {
-    static GoogleManager _unqueInstance;
-    static public GoogleManager INSTANCE
-    {
-        get { return _unqueInstance; }
-    }
-
     [SerializeField] GameObject _gameStartButton;
     [SerializeField] Button _loginButton;
-    [SerializeField] Text _stateText; // 테스트용 Text
+    [SerializeField] Text _stateText;
     [SerializeField] GameObject _createNicknameUIObject;
     [SerializeField] GameObject _updatePlzUI;
 
@@ -34,7 +28,6 @@ public class GoogleManager : MonoBehaviour
 
         public UserInformation(string email, string uid, bool emailVerified)
         {
-            // 초기화하기 쉽게 생성자 사용
             this.email = email;
             this.uid = uid;
             this.emailVerified = emailVerified;
@@ -57,7 +50,6 @@ public class GoogleManager : MonoBehaviour
     }
     private void Awake()
     {
-        _unqueInstance = this;
         _isLogin = true;
     }
 
@@ -84,75 +76,16 @@ public class GoogleManager : MonoBehaviour
                 TryGoogleLogin();
         }
     }
-
-    //IEnumerator CheckForUpdate()
-    //{
-    //    yield return PublicDefined._1secDelay;
-
-    //    //Debug.Log("CheckForUpdate");
-
-    //    PlayAsyncOperation <AppUpdateInfo, AppUpdateErrorCode> appUpdateInfoOperation = _appUpdateManager.GetAppUpdateInfo();
-
-    //    //Debug.Log("appUpdateInfoOperation : " + appUpdateInfoOperation);
-
-    //    yield return appUpdateInfoOperation;
-
-    //    if (appUpdateInfoOperation.IsSuccessful)
-    //    {
-    //        // 업데이트가 가능한지 확인
-    //        var appUpdateInfoResult = appUpdateInfoOperation.GetResult();
-
-    //        bool test = appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateAvailable;
-    //        //Debug.Log("업데이트 하나요: " + test);
-
-    //        // 업데이트가 필요하다면 업데이트를 한다.
-    //        if (appUpdateInfoResult.UpdateAvailability == UpdateAvailability.UpdateAvailable)
-    //        {
-    //            _stateText.text = "업데이트가 필요합니다.";
-    //            yield return PublicDefined._2secDelay;
-
-    //            _updateNecessity = true;
-
-    //            var appUpdateOptions = AppUpdateOptions.ImmediateAppUpdateOptions();
-    //            StartCoroutine(StartImmediateUpdate(appUpdateInfoResult, appUpdateOptions));
-    //        }
-    //        // 업데이트가 필요없다면 바로 로그인한다.
-    //        else
-    //        {
-    //            _stateText.text = "최신 버전입니다.";
-    //            _updateNecessity = false;
-    //            DataManager.INSTANCE._updateCheck = true;
-
-    //            _loginButton.gameObject.SetActive(false);
-    //            // 구글로 로그인을 한다.
-
-    //            yield return PublicDefined._1secDelay;
-
-    //            if (!Application.platform.Equals(RuntimePlatform.WindowsEditor))
-    //                TryGoogleLogin();
-    //        }
-    //    }
-    //}
-    //IEnumerator StartImmediateUpdate(AppUpdateInfo appUpdateInfoOp_i, AppUpdateOptions appUpdateOptions_i)
-    //{
-    //    Debug.Log("StartImmediateUpdate");
-    //    var startUpdateRequest = _appUpdateManager.StartUpdate(appUpdateInfoOp_i, appUpdateOptions_i);
-    //    yield return startUpdateRequest;
-    //}
-
     public void ClickLoginButton()
     {
         _loginButton.gameObject.SetActive(false);
         _stateText.gameObject.SetActive(true);
-
-        // 구글로 로그인을 한다.
+        
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().RequestIdToken().RequestEmail().Build();
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.DebugLogEnabled = true;
-        PlayGamesPlatform.Activate(); // Activate: 작동시키다..
-        auth = FirebaseAuth.DefaultInstance; // Firebase 액세스 //using Firebase.Auth
-
-        //
+        PlayGamesPlatform.Activate();
+        auth = FirebaseAuth.DefaultInstance;
         TryGoogleLogin();
     }
 
@@ -182,18 +115,16 @@ public class GoogleManager : MonoBehaviour
 
     public void TryGoogleLogout()
     {
-        if (Social.localUser.authenticated) // 로그인 되어 있다면
+        if (Social.localUser.authenticated)
         {
-            PlayGamesPlatform.Instance.SignOut(); // Google 로그아웃         // using GooglePlayGames.BasicApi 
-            auth.SignOut(); // Firebase 로그아웃
+            PlayGamesPlatform.Instance.SignOut(); 
+            auth.SignOut();
             _isLogin = false;
             _loginButton.gameObject.SetActive(true);
             _gameStartButton.SetActive(false);
             DBManager.INSTANCE.DataLoadSuccess = false;
             DBManager.INSTANCE.DataLoadProgress = 0;
             DBManager.INSTANCE.UserDataInit();
-
-            //Debug.Log("로그아웃");
         }
     }
 
@@ -240,7 +171,7 @@ public class GoogleManager : MonoBehaviour
     }
 
     public void EverythingIsReadyUntilStart()
-    { // 데이터를 로드하고 게임 시작 버튼을 킨다.
+    { 
         _stateText.text = string.Empty;
         _gameStartButton.SetActive(true);
     }
