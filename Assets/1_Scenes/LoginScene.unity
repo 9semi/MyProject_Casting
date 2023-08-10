@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3708985, g: 0.3783704, b: 0.35722548, a: 1}
+  m_IndirectSpecularColor: {r: 0.37294164, g: 0.38055754, b: 0.35860202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4742,12 +4742,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369776596}
   m_CullTransparentMesh: 1
---- !u!1 &1385075611 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9149051799003686089, guid: b4b9882ec97a9004aa8586ac0ba6fde3,
-    type: 3}
-  m_PrefabInstance: {fileID: 53242957}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1385075612 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5516089669380775089, guid: b4b9882ec97a9004aa8586ac0ba6fde3,
@@ -7039,7 +7033,7 @@ GameObject:
   - component: {fileID: 2092503408}
   m_Layer: 0
   m_Name: GoogleManager
-  m_TagString: Untagged
+  m_TagString: GoogleManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7059,7 +7053,7 @@ MonoBehaviour:
   _gameStartButton: {fileID: 1135166540}
   _loginButton: {fileID: 304878085}
   _stateText: {fileID: 1719359195}
-  _createNicknameUI: {fileID: 1385075611}
+  _createNicknameUIObject: {fileID: 0}
   _updatePlzUI: {fileID: 413966680}
 --- !u!4 &2092503409
 Transform:
@@ -7214,9 +7208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ca64ce51d664d408a3a24d69600054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dataLoadSuccess: 0
-  _dataLoadProgress: 0
-  _isTest: 0
 --- !u!4 &2112776417
 Transform:
   m_ObjectHideFlags: 0

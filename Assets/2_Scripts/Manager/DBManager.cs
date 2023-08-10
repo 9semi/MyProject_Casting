@@ -446,14 +446,11 @@ public class DBManager : MonoBehaviour
 
     public void UserDataLoad()
     {
-        //Debug.Log("데이터 로드 시작");
-        // 한번에 받아와서 가끔 데이터가 누락되는 느낌이다. 나눠서 하자.
         LoadPublicData();
     }
 
     void LoadPublicData()
     {
-        //Debug.Log("퍼블릭");
         DatabaseReference reference;
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {
@@ -472,8 +469,7 @@ public class DBManager : MonoBehaviour
             else if (t.IsCompleted)
             {
                 DataSnapshot ss = t.Result;
-
-                // 닉네임, 골드, 진주 
+                
                 _userData._nickname = ss.Child(_nicknameString).Value.ToString();
                 _userData._gold = int.Parse(ss.Child(_goldString).Value.ToString());
                 _userData._pearl = int.Parse(ss.Child(_pearlString).Value.ToString());
@@ -486,8 +482,7 @@ public class DBManager : MonoBehaviour
                 _userData._havePlatinumPackage = bool.Parse(ss.Child("_havePlatinumPackage").Value.ToString());
                 _userData._haveDiamondPackage = bool.Parse(ss.Child("_haveDiamondPackage").Value.ToString());
                 DataManager.INSTANCE._tutorialIsDone = bool.Parse(ss.Child("_isTutorialDone").Value.ToString());
-
-                // ulseomlove 쿠폰을 한번이라도 받은 적이 있다면
+                
                 if(ss.HasChild("_isGetUlseomCoupon"))
                 {
                     _userData._isGetUlseomCoupon = bool.Parse(ss.Child("_isGetUlseomCoupon").Value.ToString());
@@ -521,26 +516,17 @@ public class DBManager : MonoBehaviour
                     dic.Add("_isGetGStarCoupon", false);
                     reference.UpdateChildrenAsync(dic);
                 }
-
-                //Debug.Log("골드: " + _userData._gold);
-                //Debug.Log("진주: " + _userData._pearl);
-
+                
                 if (_userData._haveRepresentFish)
                 {
                     Dictionary<string, object> d = ObjectToDictionary2(ss.Child("representFish").Value);
                     int number = int.Parse(d[_fishNumberString].ToString());
                     int type = int.Parse(d[_fishTypeString].ToString());
-                    float length = float.Parse(d[_lengthString].ToString());
-                    string name = d[_nameString].ToString();
                     int price = int.Parse(d[_priceString].ToString());
+                    float length = float.Parse(d[_lengthString].ToString());
                     float weight = float.Parse(d[_weightString].ToString());
+                    string name = d[_nameString].ToString();
                     string key = d[_keyString].ToString();
-                    //Debug.Log(number);
-                    //Debug.Log(type);
-                    //Debug.Log(length);
-                    //Debug.Log(name);
-                    //Debug.Log(weight);
-                    //Debug.Log(key);
 
                     _userData.InitRepresentFish(number, name, length, weight, price, type, key);
                 }
@@ -553,7 +539,6 @@ public class DBManager : MonoBehaviour
 
                     foreach (DataSnapshot data in ss.Child(_platinumPackage).Children)
                     {
-                        //Debug.Log("data.Key = " + data.Key + ", data.Value = " + data.Value);
                         packageDic[data.Key] = bool.Parse(data.Value.ToString());
                     }
                 }
@@ -566,13 +551,9 @@ public class DBManager : MonoBehaviour
 
                     foreach (DataSnapshot data in ss.Child(_diamondPackage).Children)
                     {
-                        //Debug.Log("data.Key = " + data.Key + ", data.Value = " + data.Value);
                         packageDic[data.Key] = bool.Parse(data.Value.ToString());
                     }
                 }
-
-
-                // Debug.Log("퍼블릭 데이터 로드 완료");
                 _dataLoadProgress = 1;
                 LoadAquariumData();
             }

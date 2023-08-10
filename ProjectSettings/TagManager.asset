@@ -45,6 +45,7 @@ TagManager:
   - AdMob
   - Tension
   - FishObjectManager
+  - GoogleManager
   layers:
   - Default
   - TransparentFX

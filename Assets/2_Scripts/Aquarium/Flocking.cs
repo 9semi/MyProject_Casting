@@ -50,25 +50,21 @@ public class Flocking : MonoBehaviour
 
     public void InitFishs(int aquariumNumber, Dictionary<int, List<PublicDefined.stFishInfo>> dic)
     {
-        // Dictionary에 아무것도 없다면 배경만 보여준다.
         if (dic.Count.Equals(0))
         {
             _parents[aquariumNumber].gameObject.SetActive(true);
             return;
         }
-        // 현재 오브젝트로 생성된 오브젝트 카운트
         int objectSize = 0;
         for (int i = 0; i < _parents[aquariumNumber].childCount; i++)
         {
             objectSize += _parents[aquariumNumber].GetChild(i).childCount;
         }
-        // 딕셔너리에 저장된 물고기 카운트
         int flockSize = 0;
         foreach (List<PublicDefined.stFishInfo> value in dic.Values)
         {
             flockSize += value.Count;
         }
-        // 만약 이미 물고기들이 있다면 활성화 시키고 return
         if (_aquariumManamger.CheckExistFishs[aquariumNumber])
         {
             _parents[aquariumNumber].gameObject.SetActive(true);
@@ -95,7 +91,6 @@ public class Flocking : MonoBehaviour
 
         foreach (List<PublicDefined.stFishInfo> data in dic.Values)
         {
-            // PublicDefined.stFishInfo> : 번호, 이름, 길이, 무게, 타입
             if (data.Count <= 0)
                 continue;
 
@@ -103,8 +98,7 @@ public class Flocking : MonoBehaviour
 
             Transform p = _parents[aquariumNumber].Find(_aquariumManamger.AquariumFishDB[fishNumber]._engName);
             bool isExist = p == null ? false : true;
-
-            // 물고기 부모가 없다면 만든다.
+            
             if (isExist)
             {
                 for (int i = 0; i < data.Count; i++)
@@ -122,7 +116,6 @@ public class Flocking : MonoBehaviour
                     cnt++;
                 }
             }
-            // 물고기 부모가 이미 있다면 부모 아래에 생성한다.
             else
             {
                 GameObject parent = new GameObject();
@@ -152,15 +145,11 @@ public class Flocking : MonoBehaviour
 
     public void UpdateAllFishObject(int aquariumNumber)
     {
-        // 현재 오브젝트로 생성된 오브젝트 카운트
         int objectSize = 0;
         for (int i = 0; i < _parents[aquariumNumber].childCount; i++)
         {
             objectSize += _parents[aquariumNumber].GetChild(i).childCount;
         }
-        //Debug.Log(" objectSize = " + objectSize);
-        // 만약 이미 물고기들이 있다면 활성화 시키고 return
-        //if (_parents[aquariumNumber].childCount > 0)
 
         _parents[aquariumNumber].gameObject.SetActive(true);
         _allFishObject = new FlockUnit[objectSize];
