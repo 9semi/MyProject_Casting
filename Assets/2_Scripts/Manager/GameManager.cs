@@ -680,42 +680,33 @@ public class GameManager : MonoBehaviour
         equipMent.transform.parent = pos;
         equipMent.SetActive(isSetActive);
     }
-
-    // 물고기가 물지않은 상태의 낚시대 휨처리
+    
     private void NoBiteRod()
-    {// Update 안에 있는 함수
+    {
 
         _isNoBite = false;
         rodPoint0.localPosition = resetPointPos0;
         rodPoint1.localPosition = resetPointPos1;
         rodPoint2.localPosition = resetPointPos2;
     }
-
-    // 낚시대 초기화
+    
     public void ResetAction()
     {
-        //Debug.Log("리셋액션" + isReset);
         if (_isReset)
         {
             if(_isPlayingBGM)
             {
                 PlayBGM(false);
             }
-
-            // 물속 움직임 중지
+            
             _needleInWater = false;
             _isReset = false;
-            // 훅셋 코루틴 중지
             StopHookSet();
-            // 낚시대 방향 첫위치로 되돌려 놓기
             rodPos.rotation = new Quaternion(0, 0, 0, 0);
-            // 시간 더해졌으니 reset하면 0으로 초기화
             _progress = 0;
-            // 낚시바늘 포지션 초기화
-            _needleControl.myTr.eulerAngles = _reelPoint3ResetRot;
-
-            //needleControl.myTr.GetChild(0).GetChild(0).localEulerAngles = _needleResetRotate;
-            _needleControl.myTr.GetChild(0).localEulerAngles = _needleResetRot;
+            _needleControl.transform.eulerAngles = _reelPoint3ResetRot;
+            
+            _needleControl.transform.GetChild(0).localEulerAngles = _needleResetRot;
 
             needlePos.localPosition = _needleResetPos;
 
@@ -732,7 +723,7 @@ public class GameManager : MonoBehaviour
             rodPoint0.localPosition = resetPointPos0;
             rodPoint1.localPosition = resetPointPos1;
             rodPoint2.localPosition = resetPointPos2;
-            _needleControl.isWater = false;
+            _needleControl.IsWater = false;
 
             _reeling.IsReeling = false;
 
@@ -744,10 +735,10 @@ public class GameManager : MonoBehaviour
             }
 
             // 수심 움직임 끄기
-            if(_needleControl.needleCor != null)
+            if(_needleControl.NeedleCoroutine != null)
             {
-                _needleControl.StopCoroutine(_needleControl.needleCor);
-                _needleControl.needleCor = null;
+                _needleControl.StopCoroutine(_needleControl.NeedleCoroutine);
+                _needleControl.NeedleCoroutine = null;
             }
             
             // 현재 상태 idle로 
@@ -761,8 +752,8 @@ public class GameManager : MonoBehaviour
     public void NeedleReset()
     {
         needlePos.localPosition = Vector3.zero;
-        _needleControl.myTr.eulerAngles = _reelPoint3ResetRot;
-        _needleControl.myTr.GetChild(0).localEulerAngles = _needleResetRot;
+        _needleControl.transform.eulerAngles = _reelPoint3ResetRot;
+        _needleControl.transform.GetChild(0).localEulerAngles = _needleResetRot;
     }
 
     //블루투스 초기화

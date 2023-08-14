@@ -303,18 +303,16 @@ public class FishControl : FishBase
         }
         _isDeath = false;
         _isFighting = true;
-        fishSkin.SetActive(true);   // 물고기 그래픽 On
-        _gameManager.FishCaught = _fishTransform.GetChild(0).GetChild(0).transform;   // 낚시대 휘어지게 만들어줄려고
-        //_needleControl.myRd.constraints = RigidbodyConstraints.None;
-        _needleControl.StopCoroutine(_needleControl.needleCor); // 바늘 가라앉기 중지
-        _needleControl.needleCor = null;
+        fishSkin.SetActive(true);
+        _gameManager.FishCaught = _fishTransform.GetChild(0).GetChild(0).transform;
+        _needleControl.StopCoroutine(_needleControl.NeedleCoroutine); 
+        _needleControl.NeedleCoroutine = null;
         _tensionUI.WeightGage(_fishData._weight, _userData);
 
         OnDie();
-
-        // #블루투스
-        if (_bleTotal != null && _bleTotal.ConnectedMain) // 블루투스와 연결이 되어있는지 확인한다.
-        { // 블루투스와 연결이 잘 되어 있다면 기기?의 명령을 수행한다.
+        
+        if (_bleTotal != null && _bleTotal.ConnectedMain)
+        { 
             _fishBLDC = (int)(_fishData._weight * 10) + 20;
 
             if (_fishBLDC > 85)
@@ -364,8 +362,7 @@ public class FishControl : FishBase
         x = 0; y = 0; z = 0;
 
         _fishTransform.eulerAngles = new Vector3(0, 180, 0);
-
-        // 물고기가 가는 방향의 파워와 물고기의 각도 설정
+        
         if (randX.Equals(0))
         {
             x = UnityEngine.Random.Range(-35, -25);
@@ -375,12 +372,12 @@ public class FishControl : FishBase
             x = UnityEngine.Random.Range(25, 35);
         }
 
-        yPower = UnityEngine.Random.Range(5, 7); // 5 ~ 20이었음
+        yPower = UnityEngine.Random.Range(5, 7);
         zPower = UnityEngine.Random.Range(25, 45);
 
         switch (type)
         {
-            case 0: // 기본
+            case 0: 
                 if (randY < 4)
                 {
                     y = yPower - 2;
@@ -501,13 +498,11 @@ public class FishControl : FishBase
                 }
                 break;
         }
-
-        // 특수공격 처리
-        Vector3 cross = Vector3.Cross(Vector3.forward.normalized, _needleControl.myTr.position.normalized);
+        
+        Vector3 cross = Vector3.Cross(Vector3.forward.normalized, _needleControl.transform.position.normalized);
 
         float xPower = 0;
-
-        // 왼쪽으로 간다면
+        
         if (randX.Equals(0))
             xPower = x * power - _target.position.z;
         else
@@ -522,24 +517,19 @@ public class FishControl : FishBase
             _gameManager.AddForceToNeedle(xPower, y * power, z * power);
 
         _powerCount++;
-
-        // 물고기가 앞으로 나아간다면 특수공격은 하지 않는다.
-        // 물고기가 너무 가까우면 안한다.
-        if (z > 0 || _isSpecialAttack || _needleControl.myTr.position.z < 9.5f)
+        
+        if (z > 0 || _isSpecialAttack || _needleControl.transform.position.z < 9.5f)
             return;
-
-        // 물고기가 아래로 내려가거나 물고기가 기준선 가운데에 있다면 위로
-        if ((y < 0) || (_needleControl.myTr.position.x > -0.25f && _needleControl.myTr.position.x < 0.25f))
+    
+        if ((y < 0) || (_needleControl.transform.position.x > -0.25f && _needleControl.transform.position.x < 0.25f))
         {
             SpecialAttack(0);
         }
-        // 물고기가 오른쪽에 있다면
         else if (cross.y > 0)
         {
-            // 오른쪽에 있지만 기준선에 가깝고 왼쪽으로 움직인다면
-            if(_needleControl.myTr.position.z < 20)
+            if(_needleControl.transform.position.z < 20)
             {
-                if (_needleControl.myTr.position.x < 1.5f && x < 0)
+                if (_needleControl.transform.position.x < 1.5f && x < 0)
                 {
                     // 오
                     SpecialAttack(1);
@@ -552,7 +542,7 @@ public class FishControl : FishBase
             }
             else
             {
-                if (_needleControl.myTr.position.x < 0.5f && x < 0)
+                if (_needleControl.transform.position.x < 0.5f && x < 0)
                 {
                     // 오
                     SpecialAttack(1);
@@ -564,13 +554,11 @@ public class FishControl : FishBase
                 }
             }
         }
-        // 물고기가 왼쪽에 있다면
         else if(cross.y < 0)
         {
-            // 왼쪽에 있지만 기준선에 가깝고 오른쪽으로 움직인다면
-            if (_needleControl.myTr.position.z < 20)
+            if (_needleControl.transform.position.z < 20)
             {
-                if (_needleControl.myTr.position.x > -1.5f && x > 0)
+                if (_needleControl.transform.position.x > -1.5f && x > 0)
                 {
                     // 왼
 
@@ -585,7 +573,7 @@ public class FishControl : FishBase
             }
             else
             {
-                if (_needleControl.myTr.position.x > -0.5f && x > 0)
+                if (_needleControl.transform.position.x > -0.5f && x > 0)
                 {
                     // 왼
 
@@ -604,8 +592,7 @@ public class FishControl : FishBase
     {
         _specialAttackCoroutine = StartCoroutine(_specialAttackCoroutineoutine(direct));
     }
-
-    // 특수공격 코루틴(가속도 센서로 구현되어 있음) 
+    
     public IEnumerator _specialAttackCoroutineoutine(int direct)
     {
         float specialAttackGageX = 0;
@@ -637,7 +624,6 @@ public class FishControl : FishBase
                         {
                             if (_reelData.Xa > 700 && !_isPause)
                             {
-                                // 캐릭터 애니메이션(Center:true)
                                 if (successCount.Equals(0))
                                 {
                                     _gameManager.SettingCharacterAnimator(_centerHash, true);
@@ -645,7 +631,7 @@ public class FishControl : FishBase
                                     _isCenter = true;
                                 }
 
-                                if (successCount >= 2f) // 특수 공격 성공
+                                if (successCount >= 2f)
                                 {
                                     _isSpecialAttackSuccess = true;
                                     _tensionUI.Success_SpecialAttack(direct);
@@ -658,7 +644,6 @@ public class FishControl : FishBase
                     {
                         if ((Input.acceleration.y < successStandard || Input.GetKey(KeyCode.W)) && !_isPause)
                         {
-                            // 캐릭터 애니메이션(Center:true)
                             if (successCount.Equals(0))
                             {
                                 _gameManager.SettingCharacterAnimator(_centerHash, true);
@@ -668,7 +653,7 @@ public class FishControl : FishBase
 
                             successCount += Time.deltaTime;
 
-                            if (successCount >= 2f) // 특수 공격 성공
+                            if (successCount >= 2f)
                             {
                                 _isSpecialAttackSuccess = true;
                                 _tensionUI.Success_SpecialAttack(direct);
@@ -738,7 +723,6 @@ public class FishControl : FishBase
                         {
                             if (_reelData.Za < -500 && !_isPause)
                             {
-                                //Debug.Log("600보다 커야한다. " + _bleTotal._reelData.Za);
                                 _gameManager.IsPause = true;
 
                                 successCount += Time.deltaTime;
@@ -851,7 +835,6 @@ public class FishControl : FishBase
                         {
                             if (_reelData.Za > 500 && !_isPause)
                             {
-                                //Debug.Log("-650보다 작아야한다. " + _bleTotal._reelData.Za);
                                 _gameManager.IsPause = true;
                                 if (successCount.Equals(0))
                                 {
@@ -982,7 +965,6 @@ public class FishControl : FishBase
         switch (direct)
         {
             case 0:
-                // 캐릭터 애니메이션(Center:false)
                 _gameManager.SettingCharacterAnimator(_centerHash, false);
                 _isCenter = false;
                 arrowUp.SetActive(false);
@@ -1011,17 +993,16 @@ public class FishControl : FishBase
 
         yield return null;
     }
-
-    // bitting 단계(챔질 chance1 나머지 chance2, 6초 지나면 놓침)
+    
     public IEnumerator Bitting(int second1, int second2, int chance1, int chance2)
     {
-        float vib = 0;  // 진동
+        float vib = 0;
         int randChance;
 
         _gameManager.StopHookSet();
 
-        _isStart = true; // 챔질 시작
-        _isOver = false; // 챔질 끝
+        _isStart = true;
+        _isOver = false;
         _ingameUIManager.FishingState(2);
         _ingameUIManager.HidePassContent();
         
@@ -1036,14 +1017,11 @@ public class FishControl : FishBase
         AudioManager.INSTANCE.SaveBGMPlayerCurrentTime();
         AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.bitting, true);
         _bittingGageCoroutine = StartCoroutine(_tensionUI.BittingGage(second1, second2));
-        //_tensionUI._gageEffect.SetActive(false);
         _tensionUI.ResetColor_SpecialAttack();
         _tensionUI.ResetGuide();
-
-
-        // #블루투스
-        if (_bleTotal != null && _bleTotal.ConnectedMain) // 블루투스와 연결이 되어있는지 확인한다.
-        { // 블루투스와 연결이 잘 되어 있다면 기기?의 명령을 수행한다.
+        
+        if (_bleTotal != null && _bleTotal.ConnectedMain)
+        {
             _fishBLDC = (int)(_fishData._weight * 10) + 20;
 
             if (_fishBLDC > 85)
@@ -1051,7 +1029,7 @@ public class FishControl : FishBase
 
             _bleTotal.Motor(_fishBLDC, 0);
         }
-        while (_tensionUI._RedGageBarRectTransform.sizeDelta.x < 900 && _isStart && !_isPause) // 빨간색 게이지가 꽉 차지 않았다면
+        while (_tensionUI._RedGageBarRectTransform.sizeDelta.x < 900 && _isStart && !_isPause)
         {
             // 블루투스 O
             if (_isConnectedToBluetooth)
@@ -1062,8 +1040,7 @@ public class FishControl : FishBase
                     {
                         _gameManager.SettingCharacterAnimator(_hooksetHash);
                         randChance = UnityEngine.Random.Range(0, 10);
-
-                        // 빨간색 텐션게이지가 노란색 텐션게이지 안에 있는지 확인
+                        
                         if (_tensionUI._RedGageBarRectTransform.sizeDelta.x >= _tensionUI._MinX && _tensionUI._RedGageBarRectTransform.sizeDelta.x <= _tensionUI._MaxX)
                         {
                             // 성공
@@ -1077,8 +1054,7 @@ public class FishControl : FishBase
                                 _fishMoveToNeedleCoroutine = StartCoroutine(FishMovetoNeedle());
                                 OnFight();
                                 OnShutInEdge();
-
-                                // 미끼 제거
+                                
                                 if (!_userData.GetCurrentEquipmentDictionary()["bait"].Equals(-1))
                                 {
                                     DataManager.INSTANCE.RemoveBaitWhenBaitUse();
@@ -1147,8 +1123,7 @@ public class FishControl : FishBase
                 {
                     _gameManager.SettingCharacterAnimator(_hooksetHash);
                     randChance = UnityEngine.Random.Range(0, 10);
-
-                    // 빨간색 텐션게이지가 노란색 텐션게이지 안에 있는지 확인
+                    
                     if (_tensionUI._RedGageBarRectTransform.sizeDelta.x >= _tensionUI._MinX && _tensionUI._RedGageBarRectTransform.sizeDelta.x <= _tensionUI._MaxX)
                     {
                         // 성공
@@ -1223,19 +1198,17 @@ public class FishControl : FishBase
             }
             if (_tensionUI._GageCondition >= vib && DataManager.INSTANCE._vibration)
             {
-                Vibration.Vibrate(100); // drehzr.tistory.com/751 유니티 진동 관련된 함수 사용법
+                Vibration.Vibrate(100); 
                 vib += 64f;
             }
             yield return null;
         }
-
-        // 미끼 제거
+        
         if (!_userData.GetCurrentEquipmentDictionary()["bait"].Equals(-1))
         {
             DataManager.INSTANCE.RemoveBaitWhenBaitUse();
         }
-
-        // 시간이 지나서 물고기를 놓쳤다.
+        
         StopCoroutine(_bittingGageCoroutine);
         _bittingGageCoroutine = null;
         _isStart = false;
@@ -1245,7 +1218,6 @@ public class FishControl : FishBase
 
         if (!_isBite)
         {
-            // #블루투스
             if (_bleTotal != null && _bleTotal.ConnectedMain)
             {
                 _bleTotal.Motor(_normalBLDC, _dcValue);
@@ -1294,17 +1266,14 @@ public class FishControl : FishBase
         {
             if (_isDeath)
             {
-                //Debug.Log("FishControl/Dying/_isDeath : " + _isDeath);
                 _gameManager.CurrentState = GameManager.eIngameState.idle;
                 _gameManager.HideBait();
                 _gameManager.IsPause = true;
-
-                // #블루투스
+                
                 if (_bleTotal != null && _bleTotal.ConnectedMain)
                 {
                      MotorStop();
                 }
-                // 특수공격 중이였다면 종료
                 if (_isSpecialAttack)
                 {
                     StopSpecialAttack();
@@ -1320,16 +1289,14 @@ public class FishControl : FishBase
                 else
                     _fishObject.transform.eulerAngles = _diedFishRotate;
                 _gameManager.IsPlayingBGM = false;
-
-                // 게이지는 안 켠다.
+                
                 _gameManager.IsReset = true;
                 _gameManager.ResetAction();
             }
-            //잡기 실패했을 때(파이팅 중이 아니라면)
             else if (!_isFighting)
             {
                 _gameManager.CurrentState = GameManager.eIngameState.casting;
-                // #블루투스
+                
                 if (_bleTotal != null && _bleTotal.ConnectedMain)
                 {
                     if (_dcCoroutine != null)
@@ -1337,8 +1304,6 @@ public class FishControl : FishBase
                         StopCoroutine(_dcCoroutine);
                         _dcCoroutine = null;
                     }
-                    // DC: 물고기 흔들림
-                    // BLDC: 낚싯줄 땡김
                     _dcValue = 0;
                     _bleTotal.Motor(_normalBLDC, _dcValue);
                 }
@@ -1355,14 +1320,14 @@ public class FishControl : FishBase
                 else
                     _ingameUIManager.ShowPassContent();
 
-                _ingameUIManager.FishingState(1);   // 낚시실패 UI 활성화
+                _ingameUIManager.FishingState(1); 
                 _gameManager.IsPause = false;
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.specialAttackFail).GetComponent<AudioPoolObject>().Init();
                 _isBite = false;
                 _isStart = false;
                 _isFind = false;
 
-                if (_needleControl.needleCor == null)
+                if (_needleControl.NeedleCoroutine == null)
                 {
                     _needleControl.NeedleMoveRestart();
                     
@@ -1386,9 +1351,9 @@ public class FishControl : FishBase
                     _fishMoveToNeedleCoroutine = null;
                 }
 
-                fishSkin.SetActive(false);  // 물고기 비활성화
+                fishSkin.SetActive(false); 
                 _gameManager.IsPlayingBGM = false;
-                PlayBGMWhenBittingFail();  // 게임 재시작 할 수 있도록 리셋
+                PlayBGMWhenBittingFail();
             }
             yield return null;
         }
@@ -1396,7 +1361,7 @@ public class FishControl : FishBase
         StopCoroutine(dieCor);
 
     }
-    // DC, BLDC모터 동시에 멈추기 X
+
     public void MotorStop()
     {
         _motorStopCoroutine = StartCoroutine(MotorStopCoroutine());
@@ -1404,9 +1369,6 @@ public class FishControl : FishBase
 
     IEnumerator MotorStopCoroutine()
     {
-        // DC: 물고기 흔들림
-        // BLDC: 낚싯줄 땡김
-
         if (_dcCoroutine != null)
         {
             StopCoroutine(_dcCoroutine);
@@ -1414,8 +1376,7 @@ public class FishControl : FishBase
         }
 
         float timer = 0;
-
-        // 모터가 흔들리는 중에 멈춘다.
+        
         if (_isDCing)
         {
             int temp = _dcValue;
@@ -1459,7 +1420,6 @@ public class FishControl : FishBase
 
     public void RestartDCCoroutine()
     {
-        //bldc = (int)(fishData.weight * 10) + 20;
         if(_dcCoroutine == null)
         {
             _dcCoroutine = StartCoroutine(DC());
@@ -1467,7 +1427,6 @@ public class FishControl : FishBase
     }
     public void Catching()
     {
-        // 물 밖으로 건져낼 때
         if (_isCatch && _isDeath)
         {
             _gameManager.SettingCharacterAnimator(_raiseHash);
@@ -1508,7 +1467,6 @@ public class FishControl : FishBase
             }
             else
             {
-                // 낚시 바늘로 이동
                 if (_fishData._fishDBNumber.Equals(28))
                 {
                     _fishTransform.localPosition = _caughtFIshPos;
@@ -1541,14 +1499,11 @@ public class FishControl : FishBase
 
             StartCoroutine(MakeDelay(2, () =>
             {
-                // 낚시 성공 UI 활성화
                 _ingameUIManager.FishingState(0);
-
-                // 성공 효과음 재생
+                
                 AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishCatchSuccess).GetComponent<AudioPoolObject>().Init();
 
                 AudioManager.INSTANCE.StopBGM();
-                // 물고기 손으로 드는 애니메이션 재생
 
                 _gameManager.SettingCharacterAnimator(_raiseHash, false);
 
@@ -1618,7 +1573,6 @@ public class FishControl : FishBase
 
     IEnumerator MakeDelay(int delayNumber, Action action)
     {
-        // 1: 0.5f , 2: 1f, 3: 1.5f, 4: 2f
         switch (delayNumber)
         {
             case 1:

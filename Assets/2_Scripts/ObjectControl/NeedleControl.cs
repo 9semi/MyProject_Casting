@@ -14,33 +14,23 @@ public class NeedleControl : MonoBehaviour
     float _castingPowerX;
     float _castingPowerY;
     float _castingPowerZ;
-
-    Rigidbody _rigidbody;
     
     InGameUIManager _ingameUIManager;
-    public CameraManager cameraMgr;
-    public GameManager gameMgr;
-    public FishControl fishControl;
-
-
-    private GameObject lureSplash;
-    public GameObject lureSplashObj;
-    public Transform myTr;
-    public bool isWater = false;
-    public Coroutine needleCor;
-    public Transform _centerPos;
-    
-    [HideInInspector] public GameObject particleObject;
-    private CharacterManager characterMgr;
-    private PetManager petMgr;
-    
-    int _depthLength;
-
+    CameraManager _cameraManager;
+    GameManager _gameManager;
+    CharacterManager _characterManager;
+    PetManager _petManager;
+    FishControl _fishControl;
     UserData _userData;
-    
-    public BLETotal bleTotal;
-    
-    [HideInInspector] public bool _isPause = false;
+    BLETotal _bleTotal;
+
+    Coroutine _needleCoroutine; public Coroutine NeedleCoroutine { get { return _needleCoroutine; } set { _needleCoroutine = value; } }
+    Transform _centerPos;
+    GameObject _particleObject;
+    Rigidbody _rigidbody;
+    bool _isWater = false; public bool IsWater { set { _isWater = value; } }
+    bool _isPause = false; public bool IsPause { set { _isPause = value; } }
+    int _depthLength;
 
     void Awake()
     {
@@ -49,27 +39,26 @@ public class NeedleControl : MonoBehaviour
 
     public void Init()
     {
-        myTr = transform;
         _rigidbody = GetComponent<Rigidbody>();
 
         _ingameUIManager = GameObject.FindGameObjectWithTag("UI").GetComponent<InGameUIManager>();
-        cameraMgr = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraManager>();
-        gameMgr = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        gameMgr.NeedleControl = GetComponent<NeedleControl>();
+        _cameraManager = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraManager>();
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        _gameManager.NeedleControl = GetComponent<NeedleControl>();
 
-        fishControl = GameObject.FindGameObjectWithTag("FishControl").GetComponent<FishControl>();
-        fishControl.SetNeedleControlInstance(GetComponent<NeedleControl>());
-        fishControl.Target = myTr;
-        fishControl.NeedleCenterPos = _centerPos;
-        particleObject = GameObject.FindGameObjectWithTag("Object").GetComponent<ObjectManager>()._splashObject;
+        _fishControl = GameObject.FindGameObjectWithTag("FishControl").GetComponent<FishControl>();
+        _fishControl.SetNeedleControlInstance(GetComponent<NeedleControl>());
+        _fishControl.Target = transform;
+        _fishControl.NeedleCenterPos = _centerPos;
+        _particleObject = GameObject.FindGameObjectWithTag("Object").GetComponent<ObjectManager>()._splashObject;
 
-        characterMgr = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterManager>();
-        petMgr = GameObject.FindGameObjectWithTag("Pet").GetComponent<PetManager>();
+        _characterManager = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterManager>();
+        _petManager = GameObject.FindGameObjectWithTag("Pet").GetComponent<PetManager>();
 
         if (GameObject.FindGameObjectWithTag("Bluetooth"))
         {
-            bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
-            bleTotal.SetNeedleControl(this);
+            _bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
+            _bleTotal.SetNeedleControl(this);
         }
     }
     private void OnTriggerEnter(Collider collider)
@@ -77,23 +66,23 @@ public class NeedleControl : MonoBehaviour
         if (_userData == null)
             _userData = DBManager.INSTANCE.GetUserData();
 
-        if (collider.CompareTag("Water") && !isWater && !_isPause)
+        if (collider.CompareTag("Water") && !_isWater && !_isPause)
         {
-            if (characterMgr.GetReelAudioObject() != null)
+            if (_characterManager.GetReelAudioObject() != null)
             {
-                characterMgr.GetReelAudioObject().GetComponent<AudioSource>().loop = false;
-                characterMgr.GetReelAudioObject().GetComponent<AudioPoolObject>().ReturnThis();
-                characterMgr.SetReelAudioObject(null);
+                _characterManager.GetReelAudioObject().GetComponent<AudioSource>().loop = false;
+                _characterManager.GetReelAudioObject().GetComponent<AudioPoolObject>().ReturnThis();
+                _characterManager.SetReelAudioObject(null);
             }
 
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.sinkerReachesTheSurface).GetComponent<AudioPoolObject>().Init();
 
-            particleObject.transform.position = new Vector3(myTr.position.x, -1.5f, myTr.position.z);
-            particleObject.SetActive(true);
+            _particleObject.transform.position = new Vector3(transform.position.x, -1.5f, transform.position.z);
+            _particleObject.SetActive(true);
 
-            isWater = true;
-            gameMgr.NeedleReset();
-            fishControl.IsCatch = false;
+            _isWater = true;
+            _gameManager.NeedleReset();
+            _fishControl.IsCatch = false;
 
             transform.eulerAngles = Vector3.zero;
             transform.GetChild(0).localEulerAngles = Vector3.zero;
@@ -103,32 +92,32 @@ public class NeedleControl : MonoBehaviour
             _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
 
-            gameMgr.IsFly = false;
-            gameMgr.NeedleInWater = true;
+            _gameManager.IsFly = false;
+            _gameManager.NeedleInWater = true;
 
-            if (gameMgr.UserData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
+            if (_gameManager.UserData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
             {
-                gameMgr.SetSinkerObjectActive(false);
+                _gameManager.SetSinkerObjectActive(false);
             }
 
             Vibration.Cancel();
 
-            needleCor = StartCoroutine(NeedleMove());
+            _needleCoroutine = StartCoroutine(NeedleMove());
             StartCoroutine(MakeDelay(2, () =>
             {
-                particleObject.SetActive(false);
-                cameraMgr.ResetCamera();
+                _particleObject.SetActive(false);
+                _cameraManager.ResetCamera();
                 _ingameUIManager.DistanceDepthTextOn();
 
             }));
             
 
-            fishControl.IsFind = false;
+            _fishControl.IsFind = false;
             
-            gameMgr.SettingCharacterAnimator(_throwHash, false);
+            _gameManager.SettingCharacterAnimator(_throwHash, false);
 
 
-            if (bleTotal != null && bleTotal.ConnectedMain && !DataManager.INSTANCE._tutorialIsInProgress)
+            if (_bleTotal != null && _bleTotal.ConnectedMain && !DataManager.INSTANCE._tutorialIsInProgress)
             {
 
                 if(_userData.GetCurrentEquipmentDictionary()["sinker"] != -1)
@@ -136,38 +125,38 @@ public class NeedleControl : MonoBehaviour
                     switch(_userData.GetCurrentEquipmentDictionary()["sinker"])
                     {
                         case 0:
-                            fishControl.NormalBLDC = 10 + 2;
+                            _fishControl.NormalBLDC = 10 + 2;
                             break;
                         case 1:
-                            fishControl.NormalBLDC = 10 + 4;
+                            _fishControl.NormalBLDC = 10 + 4;
                             break;
                         case 2:
-                            fishControl.NormalBLDC = 10 + 6;
+                            _fishControl.NormalBLDC = 10 + 6;
                             break;
                         case 3:
-                            fishControl.NormalBLDC = 10 + 8;
+                            _fishControl.NormalBLDC = 10 + 8;
                             break;
                         case 4:
-                            fishControl.NormalBLDC = 10 + 10;
+                            _fishControl.NormalBLDC = 10 + 10;
                             break;
 
                     }
                 }
                 else
                 {
-                    fishControl.NormalBLDC = 10;
+                    _fishControl.NormalBLDC = 10;
                 }
 
-                fishControl.BldcMax = 25;
-                fishControl.DcValue = 0;
-                bleTotal.Motor(fishControl.NormalBLDC, fishControl.DcValue);
+                _fishControl.BldcMax = 25;
+                _fishControl.DcValue = 0;
+                _bleTotal.Motor(_fishControl.NormalBLDC, _fishControl.DcValue);
             }
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Sand"))
-            gameMgr.NeedleStopMoving();
+            _gameManager.NeedleStopMoving();
     }
     IEnumerator MakeDelay(int delayNumber, Action action)
     {
@@ -200,11 +189,11 @@ public class NeedleControl : MonoBehaviour
         int currentBait = DBManager.INSTANCE.GetUserData().GetCurrentEquipmentDictionary()["bait"];
         _depthLength = DataManager.INSTANCE._depthLength * -1;
         
-        gameMgr.NeedleStartMoving();
+        _gameManager.NeedleStartMoving();
 
-        while (gameMgr.GameStyleSstate == GameManager.eGameStyle.Bobber && !fishControl.IsBite)
+        while (_gameManager.GameStyleSstate == GameManager.eGameStyle.Bobber && !_fishControl.IsBite)
         {
-            if (myTr.position.y > _depthLength - 1.5f)
+            if (transform.position.y > _depthLength - 1.5f)
             {
                 _rigidbody.AddForce(new Vector3(0, -5f + (sinkerWeight * -0.1f), 0));
             }
@@ -212,23 +201,23 @@ public class NeedleControl : MonoBehaviour
             {
                 _rigidbody.AddForce(new Vector3(0, 3.5f, 0));
 
-                if (!_ingameUIManager._Reeling.IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
-                    gameMgr.NeedleStopMoving();
+                if (!_ingameUIManager._Reeling.IsReeling && !_gameManager.IsEging && _gameManager.IsNeedleMoving)
+                    _gameManager.NeedleStopMoving();
             }
 
             yield return waitTime;
         }
 
-        while (gameMgr.GameStyleSstate == GameManager.eGameStyle.Onetwo && !fishControl.IsBite)
+        while (_gameManager.GameStyleSstate == GameManager.eGameStyle.Onetwo && !_fishControl.IsBite)
         {
             if(currentBait.Equals(53) || currentBait.Equals(54))
             {
-                if (myTr.position.y < -2)
+                if (transform.position.y < -2)
                 {
                     _rigidbody.AddForce(new Vector3(0, 2f, 0));
 
-                    if (!_ingameUIManager._Reeling.IsReeling && !gameMgr.IsEging && gameMgr.IsNeedleMoving)
-                        gameMgr.NeedleStopMoving();
+                    if (!_ingameUIManager._Reeling.IsReeling && !_gameManager.IsEging && _gameManager.IsNeedleMoving)
+                        _gameManager.NeedleStopMoving();
                 }
                 else
                 {
@@ -245,7 +234,7 @@ public class NeedleControl : MonoBehaviour
 
     public void NeedleMoveRestart()
     {
-        needleCor = StartCoroutine(NeedleMove());
+        _needleCoroutine = StartCoroutine(NeedleMove());
     }
 
     public void CastingPowerSetting(float powerX, float powerY, float powerZ)

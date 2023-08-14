@@ -165,7 +165,7 @@ public class MatchManager : MonoBehaviour
 
         _ingameUIManager._ingameUIManager_isPause = true;
         _fishControl.IsPause = true;
-        _gameManager.NeedleControl._isPause = true;
+        _gameManager.NeedleControl.IsPause = true;
         _gameManager.IsPause = true;
         _gameManager.IsReset = true;
         _gameManager.IsPlayingBGM = false;
