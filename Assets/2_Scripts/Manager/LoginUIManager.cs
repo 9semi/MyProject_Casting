@@ -19,8 +19,6 @@ public class LoginUIManager : MonoBehaviour
     public void Click()
     {
         DataManager.INSTANCE._mapType = PublicDefined.eMapType.lobby;
-        //SoundManager.instance.EffectPlay("Click");
-        //AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.gameStartButton).GetComponent<AudioPoolObject>().Init();
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
         AudioManager.INSTANCE.StopBGM();
 

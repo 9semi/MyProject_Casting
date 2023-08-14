@@ -16,7 +16,6 @@ public class LoadingSceneManager : MonoBehaviour
     
     private void Start()
     {
-        // 혹시 실행되고 있는 이펙트 소리가 있다면 찾아서 끈다.
         AudioManager.INSTANCE.StopAllEffect();
 
         randNum = Random.Range(0, 1);

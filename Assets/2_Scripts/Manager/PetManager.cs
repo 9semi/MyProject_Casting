@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Linq;
-//using Boo.Lang.Environments;
 
 public class PetManager : MonoBehaviour
 {
@@ -96,8 +95,7 @@ public class PetManager : MonoBehaviour
 
         _userData = DBManager.INSTANCE.GetUserData();
         _itemOptionAni = _itemOption.GetComponent<Animator>();
-
-        // 회전을 위해 스크립트가 보유한 트랜스폼 참조
+        
         _petAni = GetComponent<Animator>();
 
         baitCor = null;
@@ -121,7 +119,7 @@ public class PetManager : MonoBehaviour
         _ingameUIManager = GameObject.FindGameObjectWithTag("UI").GetComponent<InGameUIManager>();
         _fishControl = GameObject.FindGameObjectWithTag("FishControl").GetComponent<FishControl>();
     }
-    // 레이더 이미지 클릭
+
     public void Fishfinder()
     {
         if (!_radarInUse)
@@ -137,8 +135,7 @@ public class PetManager : MonoBehaviour
         int cnt = 0;
 
         yield return PublicDefined._05secDelay;
-
-        //SoundManager.instance.EffectPlay("Rader");
+        
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.radar).GetComponent<AudioPoolObject>().Init();
 
         yield return PublicDefined._1secDelay;
@@ -152,8 +149,7 @@ public class PetManager : MonoBehaviour
                 {
                     Vector3 temp = _jeongdongjinFishManager._RareFishList[i].transform.position;
                     temp.y = (temp.z * 0.05f) - 1f;
-
-                    // 거리에 따른 크기 설정
+                    
                     _fishIcon[cnt].sizeDelta = new Vector2(temp.z + 1.5f, temp.z + 1.5f);
 
                     Vector3 fishPos = Camera.main.WorldToViewportPoint(temp);
@@ -187,8 +183,7 @@ public class PetManager : MonoBehaviour
                 {
                     Vector3 temp = _skywayFishManager._rareFishList[i].transform.position;
                     temp.y = (temp.z * 0.05f) - 1f;
-
-                    // 거리에 따른 크기 설정
+                    
                     _fishIcon[cnt].sizeDelta = new Vector2(temp.z + 1.5f, temp.z + 1.5f);
 
                     Vector3 fishPos = Camera.main.WorldToViewportPoint(temp);
@@ -221,8 +216,7 @@ public class PetManager : MonoBehaviour
                 {
                     Vector3 temp = _homerspitFishManager._rareFishList[i].transform.position;
                     temp.y = (temp.z * 0.05f) - 1f;
-
-                    // 거리에 따른 크기 설정
+                    
                     _fishIcon[cnt].sizeDelta = new Vector2(temp.z + 1.5f, temp.z + 1.5f);
 
                     Vector3 fishPos = Camera.main.WorldToViewportPoint(temp);
@@ -252,8 +246,7 @@ public class PetManager : MonoBehaviour
         }
         yield return null;
     }
-
-    // 떡밥 이미지 클릭
+    
     public void ClickBaitThrow()
     {
         if (_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting) || _radarInUse || _fishControl.IsFind || _gameManager.IsFly)
@@ -262,19 +255,16 @@ public class PetManager : MonoBehaviour
         if (_gameManager.BaitThrowMode)
         {
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
-
-            // 관련 코루틴 정지
+            
             _baitspatulaControl.StopRotateCoroutine();
             StopCoroutine(baitCor);
-
-            // 떡밥 주걱 off
+            
             baitSpatulaula.SetActive(false);
 
             _gameManager.BaitThrowMode = false;
 
             _ingameUIManager._Reeling.enabled = true;
-
-            // 게이지 바꾸고 초기화
+            
             _ingameUIManager.SetPetGage(false);
             _ingameUIManager.ResetCharacterGage();
             _gameManager.Progress = 0;
@@ -282,9 +272,7 @@ public class PetManager : MonoBehaviour
         }
 
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
-
-
-        // 떡밥이 없다면 없다고 알려주고 리턴
+        
         if (DBManager.INSTANCE.GetUserData().GetCurrentEquipmentDictionary()["pastebait"].Equals(-1))
         {
             _pastebaitIsNullObject.SetActive(true);
@@ -294,29 +282,22 @@ public class PetManager : MonoBehaviour
         else
         {
             _ingameUIManager._Reeling.enabled = false;
-            // bool형 변수 변경(사람 캐릭터가 못던지게 하기 위함)
             _gameManager.BaitThrowMode = true;
-
-            // 떡밥 주걱 회전 코루틴 시작
+            
             _baitspatulaControl.StartRotateCoroutine();
-
-            // 떡밥 던지기위한 코루틴 함수 실행
+            
             baitCor = StartCoroutine(BaitDirection());
             
-            // 떡밥 주걱 on
             baitSpatulaula.SetActive(true);
-
-            // 파워게이지 변경(펫 파워 활성, 사람 파워 비활성)
+            
             _ingameUIManager.ResetPetGage();
             _ingameUIManager.SetCharacterGage(false);
             _progress = 0;
         }
-        //Debug.LogError(_gameManager.BaitThrowMode);
     }
 
     IEnumerator MakeDelay(int delayNumber, Action action)
     {
-        // 1: 0.5f , 2: 1f, 3: 1.5f, 4: 2f
         switch(delayNumber)
         {
             case 1:
@@ -340,11 +321,8 @@ public class PetManager : MonoBehaviour
 
     public void BaitThrow()
     {
-        //Debug.LogError(1);
-
         _currentPasteBaitIndex = _userData.GetCurrentEquipmentDictionary()["pastebait"];
-
-        // 게이지 바꾸고 초기화
+        
         _ingameUIManager.ResetCharacterGage();
         _ingameUIManager.SetPetGage(false);
 
@@ -364,8 +342,7 @@ public class PetManager : MonoBehaviour
             _petAni.SetBool(_throwHash, false);
         }));
     }
-
-    // 애니메이션 이벤트로 있는 함수
+    
     public void BaitThrowOn()
     {
         if (DataManager.INSTANCE._vibration)
@@ -373,8 +350,7 @@ public class PetManager : MonoBehaviour
 
         _baitBundle.SetActive(true);
     }
-
-    // 램프 버튼 클릭
+    
     public void OnLamp()
     {
         _lampButton.interactable = false;
@@ -383,18 +359,15 @@ public class PetManager : MonoBehaviour
 
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.lamp).GetComponent<AudioPoolObject>().Init();
         Light();
-
-        // 뜰채 Off
+        
         landingNet.SetActive(false);
     }
-
-    // 불빛이 켜진다.
+    
     void Light()
     {
         _isLightOn = !_isLightOn;
         fishingLamp.enabled = _isLightOn;
-
-        // 라이트가 온/오프일 때에 따른 물고기들 서칭 범위 변경
+        
         if (_isLightOn)
         {
             switch (DataManager.INSTANCE._mapType)
@@ -427,8 +400,7 @@ public class PetManager : MonoBehaviour
         }
         
     }
-
-    // 캐스팅 전
+    
     public IEnumerator BaitDirection() 
     {
         float powerSpeed = 0.5f;
@@ -443,8 +415,8 @@ public class PetManager : MonoBehaviour
                 {
                     // 신형 릴
                     {
-                        while (_progress <= 1f) // 게이지가 1.0보다 작을때 반복
-                        {                    // 파워 게이지
+                        while (_progress <= 1f) 
+                        {                 
                             _progress += powerSpeed * Time.deltaTime;
                             _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
@@ -506,9 +478,8 @@ public class PetManager : MonoBehaviour
             #region
             if(Application.platform.Equals(RuntimePlatform.WindowsEditor))
             {
-                while (_progress <= 1f) // 게이지가 1.0보다 작을때 반복
+                while (_progress <= 1f)
                 {
-                    // 파워 게이지
                     _progress += powerSpeed * Time.deltaTime;
                     _ingameUIManager.ResetPetGage(Mathf.Lerp(0, 1, _progress));
 
@@ -540,8 +511,7 @@ public class PetManager : MonoBehaviour
     {
         if (_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting) && _itemUIState.Equals(eItemUIState._off))
             return;
-
-        // On -> Off
+        
         if (_itemUIState.Equals(eItemUIState._on))
         {
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.exit).GetComponent<AudioPoolObject>().Init();
@@ -552,7 +522,6 @@ public class PetManager : MonoBehaviour
             _itemOptionButton.interactable = false;
             StartCoroutine(MakeDelay(1, () => _itemOptionButton.interactable = true));
         }
-        // Off -> On
         else
         {
             AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.mainClick).GetComponent<AudioPoolObject>().Init();
@@ -563,22 +532,12 @@ public class PetManager : MonoBehaviour
             StartCoroutine(MakeDelay(1, () => _itemOptionButton.interactable = true));
         }
     }
-
-    // 낚시를 성공해서 뜰채를 들어올린다.
+    
     public void CatchFish()
     {
-        //landingNet.SetActive(true);
-        //_fishControl.fishTr.localScale = new Vector3(_fishControl.fishData.lenth * 0.5f, _fishControl.fishData.lenth * 0.5f, _fishControl.fishData.lenth * 0.5f);
-        //_fishControl.fishTr.parent = landingNet.transform.GetChild(0);
-        //_fishControl.fishTr.localPosition = Vector3.zero;
-        //_fishControl.fishTr.localRotation = Quaternion.Euler(0f, -90f, 0f);
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.fishRaise).GetComponent<AudioPoolObject>().Init();
-        //_fishControl.fishTr.GetChild(0).GetChild(0).localPosition = Vector3.zero;
-
-        //StartCoroutine(MakeDelay(4, () => landingNet.SetActive(false)));
     }
-
-    // 떡밥에 의한 확률 증가
+    
     public void IncreaseProbility(float leftX, float rightX, float upZ, float downZ)
     {
         switch(DataManager.INSTANCE._mapType)

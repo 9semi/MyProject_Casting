@@ -46,7 +46,6 @@ public class WeatherManager : MonoBehaviour
     // 인게임 UI에 시간 관련
     [SerializeField] Text _hourText;
     [SerializeField] Text _minuteText;
-    [SerializeField] WeatherNotice _weatherNotice;
 
     void Start()
     {
@@ -97,16 +96,7 @@ public class WeatherManager : MonoBehaviour
         switch (worldTime)
         {
             case 0:
-                ///<summary>물고기가 잡히지 않았을 때 배경 교체</summary>
-                ///물고기가 잡혔을 때 시간이 바뀌면서 배경 교체? -> 
-                ///지금 잡고 있는 물고기가 그 다음시간에는 안나오는 물고기 종류 이거나 확률로 인해 나오지 않을 수 있음 ->
-                ///따라서 지금 물고기를 잡고 있지 않은 상태에서만 시간과 배경 교체가 이루어져야 하며
-                ///시간 및 다른 조건들은 BackGround()함수에서 처리 중
-                //if (fishControl.target != null)
                     NightOn();
-                ///<summary>Lighting 세팅</summary>
-                ///이전시간의 세팅에서 지금시간의 세팅으로 맞춰줌
-                ///일출, 일몰, 낮, 밤, 태양, 달, 별, 구름초기세팅
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 skyMat.SetFloat("_SunSize", sunSize);
                 skyMat.SetFloat("_SunSizeConvergence", sunSizeConvergence);
@@ -118,7 +108,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(270, 0, 0);
                 break;
             case 1:
-                //if (fishControl.target != null)
                     NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -131,7 +120,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(255, 0, 0);
                 break;
             case 2:
-                //if (fishControl.target != null)
                     NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -144,7 +132,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(240, 0, 0);                
                 break;
             case 3:
-                //if (fishControl.target != null)
                         NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -157,7 +144,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(225, 0, 0);
                 break;
             case 4:
-                //if (fishControl.target != null)
                         NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -170,7 +156,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(210, 0, 0);                
                 break;
             case 5:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 starBackground.SetActive(true);
@@ -180,13 +165,11 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(195, 0, 0);
                 break;
             case 6:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 sun.transform.localEulerAngles = new Vector3(180, 0, 0);
                 break;
             case 7:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -198,7 +181,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(165, 0, 0);
                 break;
             case 8:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -210,7 +192,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(150, 0, 0);
                 break;
             case 9:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -222,7 +203,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(135, 0, 0);
                 break;
             case 10:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -234,7 +214,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(120, 0, 0);                
                 break;
             case 11:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -246,8 +225,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(105, 0, 0);
                 break;
             case 12:
-                //Debug.LogError(fishControl.target);
-                //if (fishControl.target != null)
                     NightOff();
 
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
@@ -260,7 +237,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(90, 0, 0);
                 break;
             case 13:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -272,7 +248,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(75, 0, 0);
                 break;
             case 14:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -284,7 +259,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(60, 0, 0);
                 break;
             case 15:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -296,7 +270,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(45, 0, 0);
                 break;
             case 16:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.04f; sunSizeConvergence = 10; atmosphereThickness = 1;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -308,12 +281,10 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(30, 0, 0);                
                 break;
             case 17:
-                //if (fishControl.target != null)
                     NightOff();
                 sun.transform.localEulerAngles = new Vector3(15, 0, 0);               
                 break;
             case 18:
-                //if (fishControl.target != null)
                     NightOff();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 starBackground.SetActive(true);
@@ -323,12 +294,8 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(0, 0, 0);
                 break;
             case 19:
-                //if (fishControl.target != null)
                     NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
-                ///<summary>달 선택 및 초기화</summary>
-                ///달 9종류 중 하나를 랜덤으로 선택 ->
-                ///활성화 -> 포지션 초기화
                 if (moonSelect == 10)
                     moonSelect = Random.Range(0, 9);
                 moon.transform.GetChild(moonSelect).gameObject.SetActive(true);
@@ -343,7 +310,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(345, 0, 0);
                 break;
             case 20:
-                //if (fishControl.target != null)
                     NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 if (moonSelect == 10)
@@ -360,7 +326,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(330, 0, 0);
                 break;
             case 21:
-                //if (fishControl.target != null)
                     NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 if (moonSelect == 10)
@@ -377,7 +342,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(315, 0, 0);                
                 break;
             case 22:
-                //if (fishControl.target != null)
                     NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 if (moonSelect == 10)
@@ -393,7 +357,6 @@ public class WeatherManager : MonoBehaviour
                 sun.transform.localEulerAngles = new Vector3(300, 0, 0);
                 break;
             case 23:
-                //if (fishControl.target != null)
                     NightOn();
                 sunSize = 0.12f; sunSizeConvergence = 3.7f; atmosphereThickness = 2.5f;
                 skyMat.SetFloat("_SunSize", sunSize);
@@ -407,11 +370,9 @@ public class WeatherManager : MonoBehaviour
                 break;            
         }
         
-        // 초기설정 완료 후 코루틴 시작
         backgroundCor = StartCoroutine(BackGround());
     }
-
-    // 전체 배경 코루틴, 실제 시간 10분 = 게임시간 1시간
+    
     private IEnumerator BackGround()
     {
         int time = 0;
@@ -421,14 +382,8 @@ public class WeatherManager : MonoBehaviour
         float atmosphereThickness;
         float sunColorR, sunColorG, sunColorB;
         float cloudColorR, cloudColorG, cloudColorB, cloudAlpha;
-
-
-        //WaitForSeconds delay = new WaitForSeconds(4);
+        
         WaitForSeconds delay = PublicDefined._1secDelay;
-        //WaitForSeconds delay = new WaitForSeconds(0.0125f);
-        //WaitForSeconds delay = new WaitForSeconds(0.025f);
-        //WaitForSeconds delay = new WaitForSeconds(0.5f);
-        //Debug.Log(worldTime + "시가 되었습니다.");
 
         if(worldTime < 10)
         {
@@ -443,30 +398,6 @@ public class WeatherManager : MonoBehaviour
         {
             #region 0시 밤 셋팅
             case 0:
-                // 태양 각도
-                {
-                    //while (time < 150)
-                    //{
-                    //    sun.transform.Rotate(new Vector3(-0.1f, sun.transform.position.y, sun.transform.position.z));
-                    //    time++;
-                    //    //Debug.Log("BackGround / time : " + time);
-                    //    yield return delay;
-                    //}
-                    //// 조건 여부에 따라 시간++
-                    //while (worldTime.Equals(0))
-                    //{
-                    //    if (!fishControl.IsFind)
-                    //    {
-                    //        if (meteorCor != null)
-                    //            StopCoroutine(meteorCor);
-
-                    //        StopCoroutine(backgroundCor);
-                    //        worldTime++;
-                    //        BackGroundSetting();
-                    //    }
-                    //    yield return null;
-                    //}
-                }
                 {
                     while (time < 599)
                     {
@@ -485,7 +416,6 @@ public class WeatherManager : MonoBehaviour
 
                         yield return delay;
                     }
-                    // 조건 여부에 따라 시간++
                     while (worldTime.Equals(0))
                     {
                         if (!fishControl.IsFind)
@@ -495,7 +425,6 @@ public class WeatherManager : MonoBehaviour
 
                             StopCoroutine(backgroundCor);
                             worldTime++;
-                            //_weatherNotice.Init(worldTime);
                             BackGroundSetting();
                         }
                         yield return null;
@@ -530,7 +459,6 @@ public class WeatherManager : MonoBehaviour
                             StopCoroutine(meteorCor);
                         StopCoroutine(backgroundCor);
                         worldTime++;
-                        //_weatherNotice.Init(worldTime);
                         BackGroundSetting();
                     }
 
@@ -600,7 +528,6 @@ public class WeatherManager : MonoBehaviour
                             StopCoroutine(meteorCor);
                         StopCoroutine(backgroundCor);
                         worldTime++;
-                        //_weatherNotice.Init(worldTime);
                         BackGroundSetting();
                     }
                     yield return null;
