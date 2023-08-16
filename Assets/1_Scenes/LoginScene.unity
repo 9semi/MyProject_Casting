@@ -337,6 +337,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4b9882ec97a9004aa8586ac0ba6fde3, type: 3}
+--- !u!1 &53242958 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9149051799003686089, guid: b4b9882ec97a9004aa8586ac0ba6fde3,
+    type: 3}
+  m_PrefabInstance: {fileID: 53242957}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &55484126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7053,7 +7059,7 @@ MonoBehaviour:
   _gameStartButton: {fileID: 1135166540}
   _loginButton: {fileID: 304878085}
   _stateText: {fileID: 1719359195}
-  _createNicknameUIObject: {fileID: 0}
+  _createNicknameUIObject: {fileID: 53242958}
   _updatePlzUI: {fileID: 413966680}
 --- !u!4 &2092503409
 Transform:

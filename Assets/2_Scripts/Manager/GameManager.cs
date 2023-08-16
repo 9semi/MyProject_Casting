@@ -136,9 +136,6 @@ public class GameManager : MonoBehaviour
     Reel _reel;
     UserData _userData; public UserData UserData { get { return _userData; } set { _userData = value; } }
     ReelBlueToothData _reelData; public ReelBlueToothData ReelData { get { return _reelData; } set { _reelData = value; } }
-
-
-
     
     void Awake()
     {
@@ -198,20 +195,17 @@ public class GameManager : MonoBehaviour
                 _ingameUIManager.Pause();
             }
 
-            _angleGyro = gyroscope.rotationRate; // 회전율 받아온다.
+            _angleGyro = gyroscope.rotationRate;
         }
         
-        // 낚시대 휨
-        DrawQuadraticCurve(); // 이차 곡선을 그린다.(낚싯대) 여기서 rodborn의 위치를 잡고
-
-        // 여기서 rodborn의 위치를 넘겨주면서 곡선을 그리는 것 같다.
+        DrawQuadraticCurve();
+        
         for (int i = 0; i < rodborn.Length; i++)
         {
             spline.nodes[i].Position = new Vector3(rodborn[i].localPosition.x, rodborn[i].localPosition.y, rodborn[i].localPosition.z);
             spline.nodes[i].Direction = new Vector3(rodborn[i].localPosition.x, rodborn[i].localPosition.y, rodborn[i].localPosition.z);
         }
-
-        // 물고기 뭄? 낚시대 휨(많이) : 낚시대 휨(약간) 
+        
         if (_fishControl.IsBite)
         {
             fish = _fishCaught.position;
@@ -299,43 +293,23 @@ public class GameManager : MonoBehaviour
 
     void DoEquip() // 장비를 갖추는 함수
     {
-        // 낚시대
-        //public에 설정되어 있는 fishRod를 rodPos의 위치값, 회전값에 인스턴스 생성 
-        //fishRodOriginal = Instantiate(fishRodOriginal, new Vector3(rodPos.transform.position.x,
-        //    rodPos.transform.position.y, rodPos.transform.position.z),
-        //    rodPos.transform.rotation);
-
         fishRodOriginal = Instantiate(fishRodOriginal, rodPos.transform.position, rodPos.transform.rotation);
-
-        // 부모를 rodMeshPos로 지정해보자.
+        
         rodJoint = Instantiate(rodJoint, rodPos.transform.position, rodJoint.transform.rotation, _rodMeshPos);
-
-        //rodPos를 오른손 매쉬의 위치값의 자식으로 설정 (없어도 됨)
-        //rodPos.transform.parent = handR;
-
-        //아까 생성한 fishRod 오브젝트를 rodPos 오브젝트의 자식으로 설정
+        
         fishRodOriginal.transform.parent = rodPos.transform;
 
         // 조인트
-        joints = rodJoint.GetComponents<ConfigurableJoint>(); // ConfigurableJoint 컴포넌트가 2개여서 2개 들어가나보다.
+        joints = rodJoint.GetComponents<ConfigurableJoint>();
         joints[0].connectedBody = fishRodOriginal.GetComponent<Rigidbody>();
         joints[1].connectedBody = fishRodOriginal.GetComponent<Rigidbody>();
 
         // 낚시대 관련, 베지어 곡선 꺽임 포인트
         rodPoint0 = fishRodOriginal.transform.GetChild(17); // 낚싯대 합쳤을 때 맨 아래
         rodPoint1 = fishRodOriginal.transform.GetChild(18); // 낚싯대 합쳤을 때 3/2 지점
-        // FishRodOriginal에 19를 추가했는데 실수로 안 바꾼 것 같다. 일단 내가 바꿔서 테스트 한다. 되는 듯?
         rodPoint2 = fishRodOriginal.transform.GetChild(19); // 낚싯대 합쳤을 때 맨 위
         //rodPoint2 = rodJoint.transform.GetChild(17); // 낚싯대랑 합쳤을 때 맨 위
-
-        // 낚시대 포인트 임시저장소
-        //p1X = rodPoint1.position.x;
-        //p1Y = rodPoint1.position.y;
-        //p1Z = rodPoint1.position.z;
-        //p2X = rodPoint2.position.x;
-        //p2Y = rodPoint2.position.y;
-        //p2Z = rodPoint2.position.z;
-
+        
         // 낚시대 포인트 첫 트랜스폼
         resetPointPos0 = rodPoint0.localPosition;
         resetPointPos1 = rodPoint1.localPosition;
@@ -388,17 +362,9 @@ public class GameManager : MonoBehaviour
 
         _reel = reel.GetComponent<Reel>();
 
-        //_rodMeshPos.eulerAngles = new Vector3(0, 0, -90
-        //_reelPos123 = rodJoint.transform.GetChild(2).GetChild(0);
-        //reel = Instantiate(_reel_123, new Vector3(_reelPos123.position.x, _reelPos123.position.y, _reelPos123.position.z),
-        //    _reelPos123.rotation);
-        //reel.transform.parent = _reelPos123;
-        //_reel = reel.GetComponent<Reel>();
-
         lineRenderer = reel.GetComponent<LineRenderer>();
         lineRenderer.positionCount = reelNumPoints;
-
-        // 낚싯대 끝부터 물고기까지 낚싯줄
+        
         line = Instantiate(line, new Vector3(_reellinePos.position.x, _reellinePos.position.y, _reellinePos.position.z),
             line.transform.rotation, _reellinePos);
         reelMiddleObj = line.transform.GetChild(1);
@@ -413,9 +379,7 @@ public class GameManager : MonoBehaviour
 
         lineRenderer2.positionCount = reelNumPoints2;
         bobberPos = _reelPoint2.transform.GetChild(0);
-
-        // 찌
-        //CreateEquipmentSetPos(bobberPos, reelMiddleObj, bobber, true);
+        
         bobber = Instantiate(bobber, bobberPos.position, Quaternion.identity);
         bobberPos.parent = reelMiddleObj;
         bobber.transform.parent = bobberPos;
@@ -423,11 +387,9 @@ public class GameManager : MonoBehaviour
         bobber.SetActive(true);
 
         needlePos = _reelPoint3.transform.GetChild(0);
-       // _needleResetRot = needlePos.localEulerAngles;
         _needleResetPos = needlePos.localPosition;
         _fakeNeedle = _reelPoint3.transform.GetChild(3).gameObject;
-
-        // 바늘 - 미끼
+        
         CreateEquipmentSetPos(needlePos, reelEndObj, needle, true);
 
         for (int i = 0; i < baitNeedle.Length; i++)
@@ -1208,30 +1170,27 @@ public class GameManager : MonoBehaviour
             float t = i / (float)reelNumPoints2;
             _lineRendererPositions2[i] = CalculateQuadraticBezierPoint(t, _reelPoint2.position, _reelPoint1.position, _lineRendererPositions[9]);
         }
-
-        // reelPositions2의 첫번째는 낚시대의 릴장비 부분과 같은 위치
+        
         _lineRendererPositions2[0] = _reelPoint3.position;
         _lineRendererPositions2[49] = _lineRendererPositions[9];
         lineRenderer.SetPositions(_lineRendererPositions);
         lineRenderer2.SetPositions(_lineRendererPositions2);
     }
+    
 
-    // 낚시대 휘는 함수
     private void DrawQuadraticCurve()
     {
-        //                  뼈대: 15
         for (int i = 0; i < rodborn.Length; i++)
         {
             float t = i / (float)rodborn.Length;
-
-            // rodPoint0,1,2는 낚싯대 맨 아래, 중간, 맨 위
+            
             rodborn[i].position = CalculateQuadraticBezierPoint(t, rodPoint0.position, rodPoint1.position, rodPoint2.position);
         }
     }
-    // 베지에공식
+
     private Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
     {
-        //Lerp로 
+
         Vector3 a = Vector3.Lerp(p0, p1, t);
         Vector3 b = Vector3.Lerp(p1, p2, t);
         Vector3 c = Vector3.Lerp(a, b, t);
@@ -1239,7 +1198,7 @@ public class GameManager : MonoBehaviour
         return c;
     }
 
-    void InGameRandomEffectPlay() // seagull소리, 고양이 소리 랜덤 재생
+    void InGameRandomEffectPlay()
     {
         int random = UnityEngine.Random.Range(0, 2);
 

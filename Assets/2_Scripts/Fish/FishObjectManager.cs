@@ -9029,7 +9029,6 @@ public class FishObjectManager : MonoBehaviour
     }
     public void RadarSort()
     {
-        // z 거리에 따라서 정렬해둔다.
         _rareFishList.Sort(delegate (GameObject f1, GameObject f2)
         {
             return f2.transform.position.z.CompareTo(f1.transform.position.z);

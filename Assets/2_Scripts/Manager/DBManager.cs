@@ -63,7 +63,11 @@ public class DBManager : MonoBehaviour
     public void GetGoogleManager()
     {
         if (_googleManager == null)
-            _googleManager = GameObject.FindGameObjectWithTag("GoogleManager").GetComponent<GoogleManager>();
+        {
+            if(GameObject.FindGameObjectWithTag("GoogleManager"))
+                _googleManager = GameObject.FindGameObjectWithTag("GoogleManager").GetComponent<GoogleManager>();
+        }
+           
     }
 
     bool _dataLoadSuccess; public bool DataLoadSuccess { set { _dataLoadSuccess = value; } }

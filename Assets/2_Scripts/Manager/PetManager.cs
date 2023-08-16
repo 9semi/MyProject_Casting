@@ -509,6 +509,11 @@ public class PetManager : MonoBehaviour
 
     public void ClickItemButton()
     {
+        if (_gameManager == null)
+        {
+            _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        }
+        
         if (_gameManager.CurrentState.Equals(GameManager.eIngameState.fighting) && _itemUIState.Equals(eItemUIState._off))
             return;
         
