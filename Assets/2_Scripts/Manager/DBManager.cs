@@ -151,6 +151,692 @@ public class DBManager : MonoBehaviour
         }
     }
 
+    void LoadPublicData()
+    {
+        DatabaseReference reference;
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
+        }
+        else
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
+        }
+        reference.GetValueAsync().ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                Debug.Log("실패 이유: " + t.Result.ToString());
+            }
+            else if (t.IsCompleted)
+            {
+                DataSnapshot ss = t.Result;
+
+                _userData._nickname = ss.Child(_nicknameString).Value.ToString();
+                _userData._gold = int.Parse(ss.Child(_goldString).Value.ToString());
+                _userData._pearl = int.Parse(ss.Child(_pearlString).Value.ToString());
+                _userData._grade = int.Parse(ss.Child(_gradeString).Value.ToString());
+                _userData._star = float.Parse(ss.Child(_starString).Value.ToString());
+                _userData._win = int.Parse(ss.Child("_win").Value.ToString());
+                _userData._lose = int.Parse(ss.Child("_lose").Value.ToString());
+                _userData._draw = int.Parse(ss.Child("_draw").Value.ToString());
+                _userData._haveRepresentFish = bool.Parse(ss.Child("_haveRepresentFish").Value.ToString());
+                _userData._havePlatinumPackage = bool.Parse(ss.Child("_havePlatinumPackage").Value.ToString());
+                _userData._haveDiamondPackage = bool.Parse(ss.Child("_haveDiamondPackage").Value.ToString());
+                DataManager.INSTANCE._tutorialIsDone = bool.Parse(ss.Child("_isTutorialDone").Value.ToString());
+
+                if (ss.HasChild("_isGetUlseomCoupon"))
+                {
+                    _userData._isGetUlseomCoupon = bool.Parse(ss.Child("_isGetUlseomCoupon").Value.ToString());
+                }
+                else
+                {
+                    Dictionary<string, object> dic = new Dictionary<string, object>();
+                    dic.Add("_isGetUlseomCoupon", false);
+                    reference.UpdateChildrenAsync(dic);
+                }
+
+                if (ss.HasChild("_haveADBlock"))
+                {
+                    _userData._haveADBlock = bool.Parse(ss.Child("_haveADBlock").Value.ToString());
+                    DataManager.INSTANCE._isADBlock = _userData._haveADBlock;
+                }
+                else
+                {
+                    Dictionary<string, object> dic = new Dictionary<string, object>();
+                    dic.Add("_haveADBlock", false);
+                    reference.UpdateChildrenAsync(dic);
+                }
+
+                if (ss.HasChild("_isGetGStarCoupon"))
+                {
+                    _userData._isGetGStarCoupon = bool.Parse(ss.Child("_isGetGStarCoupon").Value.ToString());
+                }
+                else
+                {
+                    Dictionary<string, object> dic = new Dictionary<string, object>();
+                    dic.Add("_isGetGStarCoupon", false);
+                    reference.UpdateChildrenAsync(dic);
+                }
+
+                if (_userData._haveRepresentFish)
+                {
+                    Dictionary<string, object> d = ObjectToDictionary2(ss.Child("representFish").Value);
+                    int number = int.Parse(d[_fishNumberString].ToString());
+                    int type = int.Parse(d[_fishTypeString].ToString());
+                    int price = int.Parse(d[_priceString].ToString());
+                    float length = float.Parse(d[_lengthString].ToString());
+                    float weight = float.Parse(d[_weightString].ToString());
+                    string name = d[_nameString].ToString();
+                    string key = d[_keyString].ToString();
+
+                    _userData.InitRepresentFish(number, name, length, weight, price, type, key);
+                }
+
+                if (_userData._havePlatinumPackage)
+                {
+                    Dictionary<string, bool> packageDic = new Dictionary<string, bool>();
+
+                    packageDic = _userData.GetPlatinumPackage();
+
+                    foreach (DataSnapshot data in ss.Child(_platinumPackage).Children)
+                    {
+                        packageDic[data.Key] = bool.Parse(data.Value.ToString());
+                    }
+                }
+
+                if (_userData._haveDiamondPackage)
+                {
+                    Dictionary<string, bool> packageDic = new Dictionary<string, bool>();
+
+                    packageDic = _userData.GetDiamondPackage();
+
+                    foreach (DataSnapshot data in ss.Child(_diamondPackage).Children)
+                    {
+                        packageDic[data.Key] = bool.Parse(data.Value.ToString());
+                    }
+                }
+                _dataLoadProgress = 1;
+                LoadAquariumData();
+            }
+        });
+    }
+
+    void LoadItemData()
+    {
+        //Debug.Log("아이템");
+        DatabaseReference reference;
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
+        }
+        else
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
+        }
+
+        reference.GetValueAsync().ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                Debug.Log("실패 이유: " + t.Result.ToString());
+
+            }
+            else if (t.IsCompleted)
+            {
+
+                DataSnapshot ss = t.Result;
+
+                Dictionary<int, int> dic;
+
+                // 낚싯대, 릴, 미끼 등등 장비 아이템 정보 받아오기
+                dic = _userData.GetBaitDictionary();
+                for (int i = 0; i < ss.Child("bait").ChildrenCount; i++)
+                {
+                    dic[i] = int.Parse(ss.Child("bait").Child(i.ToString()).Value.ToString());
+                }
+                dic = _userData.GetRodDictionary();
+
+                for (int i = 0; i < ss.Child("rod").ChildrenCount; i++)
+                {
+                    dic[i] = int.Parse(ss.Child("rod").Child(i.ToString()).Value.ToString());
+                }
+                dic = _userData.GetReelDictionary();
+
+                for (int i = 0; i < ss.Child("reel").ChildrenCount; i++)
+                {
+                    dic[i] = int.Parse(ss.Child("reel").Child(i.ToString()).Value.ToString());
+                }
+                dic = _userData.GetFloatDictionary();
+
+                for (int i = 0; i < ss.Child("float").ChildrenCount; i++)
+                {
+                    dic[i] = int.Parse(ss.Child("float").Child(i.ToString()).Value.ToString());
+                }
+                dic = _userData.GetPasteBaitDictionary();
+
+                for (int i = 0; i < ss.Child("pastebait").ChildrenCount; i++)
+                {
+                    dic[i] = int.Parse(ss.Child("pastebait").Child(i.ToString()).Value.ToString());
+                }
+                dic = _userData.GetSinkerDictionary();
+
+                for (int i = 0; i < ss.Child("sinker").ChildrenCount; i++)
+                {
+                    dic[i] = int.Parse(ss.Child("sinker").Child(i.ToString()).Value.ToString());
+                }
+
+                Dictionary<string, int> dic3;
+                // 현재 끼고 있는 장비
+                dic3 = _userData.GetCurrentEquipmentDictionary();
+                foreach (DataSnapshot data in ss.Child("equipment").Children)
+                {
+                    // Debug.Log("data.Key = " + data.Key + ", data.Value = " + data.Value);
+                    dic3[data.Key] = int.Parse(data.Value.ToString());
+                }
+                DataManager.INSTANCE._depthLength = dic3["depthlength"];
+                _dataLoadProgress = 2;
+                // Debug.Log("장비 데이터 로드");
+                LoadRankData();
+            }
+        });
+    }
+
+    void LoadAquariumData()
+    {
+        //Debug.Log("아쿠아리움");
+        DatabaseReference reference;
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
+        }
+        else
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
+        }
+
+        reference.GetValueAsync().ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                Debug.Log("실패 이유: " + t.Result.ToString());
+            }
+            else if (t.IsCompleted)
+            {
+                DataSnapshot ss = t.Result;
+
+                Dictionary<int, List<PublicDefined.stFishInfo>> dic4;
+
+                // 수족관 정보 받아오기
+                // 수족관 보유 여부
+                _userData._haveFirstAquarium = bool.Parse(ss.Child("_haveFirstAquarium").Value.ToString());
+                _userData._haveSecondAquarium = bool.Parse(ss.Child("_haveSecondAquarium").Value.ToString());
+                _userData._haveThirdAquarium = bool.Parse(ss.Child("_haveThirdAquarium").Value.ToString());
+                _userData._haveFourthAquarium = bool.Parse(ss.Child("_haveFourthAquarium").Value.ToString());
+                _userData._haveFifthAquarium = bool.Parse(ss.Child("_haveFifthAquarium").Value.ToString());
+
+                _userData.InitAquarium();
+
+                // 각 수족관에 무슨 물고기가 있는지 로드해야 한다.
+                if (_userData._haveFirstAquarium && ss.HasChild(_aquariumString))
+                {
+                    if (ss.Child(_aquariumString).HasChild("first"))
+                    {
+                        dic4 = _userData.GetFirstAquariumDictionary();
+                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("first").Children)
+                        {
+                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                            int number = int.Parse(d[_fishNumberString].ToString());
+                            int type = int.Parse(d[_fishTypeString].ToString());
+                            float length = float.Parse(d[_lengthString].ToString());
+                            string name = d[_nameString].ToString();
+                            int price = int.Parse(d[_priceString].ToString());
+                            float weight = float.Parse(d[_weightString].ToString());
+                            string key = d[_keyString].ToString();
+                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
+                            fishInfo.SetKey(key);
+
+                            if (dic4.ContainsKey(number))
+                            {
+                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
+                                dic4[number].Add(fishInfo);
+                            }
+                            else
+                            {
+                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
+                                list.Add(fishInfo);
+                                dic4.Add(number, list);
+                            }
+                        }
+
+                    }
+                }
+
+                if (_userData._haveSecondAquarium && ss.HasChild(_aquariumString))
+                {
+                    if (ss.Child(_aquariumString).HasChild("second"))
+                    {
+                        dic4 = _userData.GetSecondAquariumDictionary();
+                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("second").Children)
+                        {
+                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                            int number = int.Parse(d[_fishNumberString].ToString());
+                            int type = int.Parse(d[_fishTypeString].ToString());
+                            float length = float.Parse(d[_lengthString].ToString());
+                            string name = d[_nameString].ToString();
+                            int price = int.Parse(d[_priceString].ToString());
+                            float weight = float.Parse(d[_weightString].ToString());
+                            string key = d[_keyString].ToString();
+                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
+                            fishInfo.SetKey(key);
+
+                            if (dic4.ContainsKey(number))
+                            {
+                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
+                                dic4[number].Add(fishInfo);
+                            }
+                            else
+                            {
+                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
+                                list.Add(fishInfo);
+                                dic4.Add(number, list);
+                            }
+                        }
+                    }
+                }
+                if (_userData._haveThirdAquarium && ss.HasChild(_aquariumString))
+                {
+                    if (ss.Child(_aquariumString).HasChild("third"))
+                    {
+                        dic4 = _userData.GetThirdAquariumDictionary();
+                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("third").Children)
+                        {
+                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                            int number = int.Parse(d[_fishNumberString].ToString());
+                            int type = int.Parse(d[_fishTypeString].ToString());
+                            float length = float.Parse(d[_lengthString].ToString());
+                            string name = d[_nameString].ToString();
+                            int price = int.Parse(d[_priceString].ToString());
+                            float weight = float.Parse(d[_weightString].ToString());
+                            string key = d[_keyString].ToString();
+                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
+                            fishInfo.SetKey(key);
+                            if (dic4.ContainsKey(number))
+                            {
+                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
+                                dic4[number].Add(fishInfo);
+                            }
+                            else
+                            {
+                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
+                                list.Add(fishInfo);
+                                dic4.Add(number, list);
+                            }
+                        }
+                    }
+
+                }
+
+                if (_userData._haveFourthAquarium && ss.HasChild(_aquariumString))
+                {
+                    if (ss.Child(_aquariumString).HasChild("fourth"))
+                    {
+                        dic4 = _userData.GetFourthAquariumDictionary();
+                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("fourth").Children)
+                        {
+                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                            int number = int.Parse(d[_fishNumberString].ToString());
+                            int type = int.Parse(d[_fishTypeString].ToString());
+                            float length = float.Parse(d[_lengthString].ToString());
+                            string name = d[_nameString].ToString();
+                            int price = int.Parse(d[_priceString].ToString());
+                            float weight = float.Parse(d[_weightString].ToString());
+                            string key = d[_keyString].ToString();
+                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
+                            fishInfo.SetKey(key);
+                            if (dic4.ContainsKey(number))
+                            {
+                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
+                                dic4[number].Add(fishInfo);
+                            }
+                            else
+                            {
+                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
+                                list.Add(fishInfo);
+                                dic4.Add(number, list);
+                            }
+                        }
+                    }
+                }
+
+                if (_userData._haveFifthAquarium && ss.HasChild(_aquariumString))
+                {
+                    if (ss.Child(_aquariumString).HasChild("fifth"))
+                    {
+                        dic4 = _userData.GetFifthAquariumDictionary();
+                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("fifth").Children)
+                        {
+                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                            int number = int.Parse(d[_fishNumberString].ToString());
+                            int type = int.Parse(d[_fishTypeString].ToString());
+                            float length = float.Parse(d[_lengthString].ToString());
+                            string name = d[_nameString].ToString();
+                            int price = int.Parse(d[_priceString].ToString());
+                            float weight = float.Parse(d[_weightString].ToString());
+                            string key = d[_keyString].ToString();
+                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
+                            fishInfo.SetKey(key);
+                            if (dic4.ContainsKey(number))
+                            {
+                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
+                                dic4[number].Add(fishInfo);
+                            }
+                            else
+                            {
+                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
+                                list.Add(fishInfo);
+                                dic4.Add(number, list);
+                            }
+                        }
+                    }
+                }
+
+                _userData.CheckAquariumCount();
+                // Debug.Log("아쿠아리움 데이터 로드");
+                _dataLoadProgress = 2;
+                LoadPassData();
+            }
+        });
+    }
+
+    void LoadPassData()
+    {
+
+        //Debug.Log("패스");
+        DatabaseReference reference;
+        if (Application.platform.Equals(RuntimePlatform.WindowsEditor))
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
+        }
+        else
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
+        }
+
+        reference.GetValueAsync().ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                Debug.Log("실패 이유: " + t.Result.ToString());
+            }
+            else if (t.IsCompleted)
+            {
+                DataSnapshot ss = t.Result;
+
+                Dictionary<int, int> dic;
+                Dictionary<int, bool> dic2;
+                Dictionary<int, Dictionary<int, int>> dic5;
+
+                // 패스 보유 여부
+                _userData._haveJeongdongjinPass = bool.Parse(ss.Child("_haveJeongdongjinPass").Value.ToString());
+                _userData._haveSkywayPass = bool.Parse(ss.Child("_haveSkywayPass").Value.ToString());
+                _userData._haveHomerspitPass = bool.Parse(ss.Child("_haveHomerspitPass").Value.ToString());
+
+                // 각 맵의 패스 인덱스
+                _userData._currentJeongdongjinPassIndex = int.Parse(ss.Child("_currentJeongdongjinPassIndex").Value.ToString());
+                _userData._currentSkywayPassIndex = int.Parse(ss.Child("_currentSkywayPassIndex").Value.ToString());
+                _userData._currentHomerspitPassIndex = int.Parse(ss.Child("_currentHomerspitPassIndex").Value.ToString());
+
+
+                // 패스 보상 수령 정보 받아오기
+                dic2 = _userData.GetCheckJeongdongjinPassFreeReward();
+
+                for (int i = 0; i < ss.Child(_jeongdongjinFreeReward).ChildrenCount; i++)
+                {
+                    dic2[i] = bool.Parse(ss.Child(_jeongdongjinFreeReward).Child(i.ToString()).Value.ToString());
+                }
+
+                dic2 = _userData.GetCheckSkywayPassFreeReward();
+
+                for (int i = 0; i < ss.Child(_skywayFreeReward).ChildrenCount; i++)
+                {
+                    dic2[i] = bool.Parse(ss.Child(_skywayFreeReward).Child(i.ToString()).Value.ToString());
+                }
+
+                dic2 = _userData.GetCheckHomerPassFreeReward();
+
+                for (int i = 0; i < ss.Child(_homerspitFreeReward).ChildrenCount; i++)
+                {
+                    dic2[i] = bool.Parse(ss.Child(_homerspitFreeReward).Child(i.ToString()).Value.ToString());
+                }
+
+                dic2 = _userData.GetCheckJeongdongjinPassPremiumReward();
+
+                for (int i = 0; i < ss.Child(_jeongdongjinPreReward).ChildrenCount; i++)
+                {
+                    dic2[i] = bool.Parse(ss.Child(_jeongdongjinPreReward).Child(i.ToString()).Value.ToString());
+                }
+
+                dic2 = _userData.GetCheckSkywayPassPremiumReward();
+
+                for (int i = 0; i < ss.Child(_skywayPreReward).ChildrenCount; i++)
+                {
+                    dic2[i] = bool.Parse(ss.Child(_skywayPreReward).Child(i.ToString()).Value.ToString());
+                }
+
+                dic2 = _userData.GetCheckHomerspitPassPremiumReward();
+
+                for (int i = 0; i < ss.Child(_homerspitPreReward).ChildrenCount; i++)
+                {
+                    dic2[i] = bool.Parse(ss.Child(_homerspitPreReward).Child(i.ToString()).Value.ToString());
+                }
+                //Debug.Log("1");
+                // 물고기와 관련된 패스 정보 받아오기
+                if (ss.HasChild(_passAboutFish_jeongdongjinString))
+                {
+                    // 자식이 있다면 안에 무슨 자료가 있긴 하니까 받아오자.
+                    dic5 = _userData.GetCurrentStateOfJeongdongjinPassAboutFish();
+                    Dictionary<string, object> fishDic;
+                    //Debug.Log(ss.Child(_passAboutFish_jeongdongjinString).ChildrenCount);
+
+                    foreach (DataSnapshot data in ss.Child(_passAboutFish_jeongdongjinString).Children)
+                    {
+                        //Debug.Log(data.Key);
+                        fishDic = ObjectToDictionary2(data.Value);
+
+                        Dictionary<int, int> dic55 = new Dictionary<int, int>();
+                        // Debug.Log("가");
+                        foreach (KeyValuePair<string, object> data2 in fishDic)
+                        {
+                            // Debug.Log("나");
+                            // Debug.Log("data2.Key : " + data2.Key + ", " + data2.Key.GetType());
+                            // Debug.Log("data2.Value : " + data2.Value + ", " + data2.Value.GetType());
+                            dic55.Add(int.Parse(data2.Key), int.Parse(data2.Value.ToString()));
+                        }
+                        dic5[int.Parse(data.Key)] = dic55;
+                    }
+                }
+                // Debug.Log("2");
+                if (ss.HasChild(_passAboutFish_skywayString))
+                {
+                    // 자식이 있다면 안에 무슨 자료가 있긴 하니까 받아오자.
+                    dic5 = _userData.GetCurrentStateOfSkywayPassAboutFish();
+                    Dictionary<string, object> fishDic;
+                    foreach (DataSnapshot data in ss.Child(_passAboutFish_skywayString).Children)
+                    {
+                        fishDic = ObjectToDictionary2(data.Value);
+                        Dictionary<int, int> dic55 = new Dictionary<int, int>();
+                        foreach (KeyValuePair<string, object> data2 in fishDic)
+                        {
+                            //Debug.Log("data.Key : " + key + ", " + data.Key.GetType());
+                            //Debug.Log("data2.Key : " + data2.Key + ", " + data2.Key.GetType());
+                            //Debug.Log("data2.Value : " + data2.Value + ", " + data2.Value.GetType());
+                            dic55.Add(int.Parse(data2.Key), int.Parse(data2.Value.ToString()));
+                        }
+                        dic5[int.Parse(data.Key)] = dic55;
+                    }
+                }
+                //Debug.Log("3");
+                if (ss.HasChild(_passAboutFish_homerspitString))
+                {
+                    // 자식이 있다면 안에 무슨 자료가 있긴 하니까 받아오자.
+                    dic5 = _userData.GetCurrentStateOfHomerspitPassAboutFish();
+                    Dictionary<string, object> fishDic;
+                    foreach (DataSnapshot data in ss.Child(_passAboutFish_homerspitString).Children)
+                    {
+                        fishDic = ObjectToDictionary2(data.Value);
+                        Dictionary<int, int> dic55 = new Dictionary<int, int>();
+                        foreach (KeyValuePair<string, object> data2 in fishDic)
+                        {
+                            dic55.Add(int.Parse(data2.Key), int.Parse(data2.Value.ToString()));
+                        }
+                        dic5[int.Parse(data.Key)] = dic55;
+                    }
+                }
+                // Debug.Log("5");
+                // 액션과 관련된 패스 정보 받아오기
+                if (ss.HasChild(_passAboutAction_jeongdongjinString))
+                {
+                    dic = _userData.GetCurrentStateOfJeongdongjinPassAboutAction();
+                    Dictionary<string, object> diczz = ObjectToDictionary2(ss.Child(_passAboutAction_jeongdongjinString).Value);
+
+                    foreach (KeyValuePair<string, object> datazz in diczz)
+                    {
+                        dic[int.Parse(datazz.Key)] = int.Parse(datazz.Value.ToString());
+                    }
+                }
+                //Debug.Log("6");
+                if (ss.HasChild(_passAboutAction_skywayString))
+                {
+                    dic = _userData.GetCurrentStateOfSkywayPassAboutAction();
+                    Dictionary<string, object> diczz = ObjectToDictionary2(ss.Child(_passAboutAction_skywayString).Value);
+                    foreach (KeyValuePair<string, object> datazz in diczz)
+                    {
+                        dic[int.Parse(datazz.Key)] = int.Parse(datazz.Value.ToString());
+                    }
+                }
+                //Debug.Log("7");
+                if (ss.HasChild(_passAboutAction_homerspitString))
+                {
+                    dic = _userData.GetCurrentStateOfHomerspitPassAboutAction();
+                    Dictionary<string, object> diczz = ObjectToDictionary2(ss.Child(_passAboutAction_homerspitString).Value);
+
+                    foreach (KeyValuePair<string, object> datazz in diczz)
+                    {
+                        dic[int.Parse(datazz.Key)] = int.Parse(datazz.Value.ToString());
+                    }
+                }
+                _dataLoadProgress = 3;
+                //  Debug.Log("패스 데이터 로드");
+                LoadItemData();
+            }
+        });
+    }
+
+    void LoadRankData()
+    {
+        //Debug.Log("랭크");
+        DatabaseReference reference;
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
+        }
+        else
+        {
+            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
+        }
+        reference.GetValueAsync().ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                Debug.Log("실패 이유: " + t.Result.ToString());
+            }
+            else if (t.IsCompleted)
+            {
+                DataSnapshot ss = t.Result;
+
+                Dictionary<int, PublicDefined.stRankFishInfo> dic5;
+
+                string key = "jeongdongjinRank";
+
+                // 각 수족관에 무슨 물고기가 있는지 로드해야 한다.
+                if (ss.HasChild(key))
+                {
+                    dic5 = _userData.GetJeongdongjinRankDictionary();
+
+                    foreach (DataSnapshot data in ss.Child(key).Children)
+                    {
+                        Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                        int number = int.Parse(d[_fishNumberString].ToString());
+                        int type = int.Parse(d[_fishTypeString].ToString());
+                        float length = float.Parse(d[_lengthString].ToString());
+                        string name = d[_nameString].ToString();
+                        float weight = float.Parse(d[_weightString].ToString());
+
+                        PublicDefined.stRankFishInfo fishInfo = new PublicDefined.stRankFishInfo(number, name, length, weight, (PublicDefined.eFishType)type);
+
+                        dic5.Add(number, fishInfo);
+                    }
+                }
+                key = "skywayRank";
+
+                if (ss.HasChild(key))
+                {
+                    dic5 = _userData.GetSkywayRankDictionary();
+
+                    foreach (DataSnapshot data in ss.Child(key).Children)
+                    {
+                        Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                        int number = int.Parse(d[_fishNumberString].ToString());
+                        int type = int.Parse(d[_fishTypeString].ToString());
+                        float length = float.Parse(d[_lengthString].ToString());
+                        string name = d[_nameString].ToString();
+                        float weight = float.Parse(d[_weightString].ToString());
+
+                        PublicDefined.stRankFishInfo fishInfo = new PublicDefined.stRankFishInfo(number, name, length, weight, (PublicDefined.eFishType)type);
+
+                        dic5.Add(number, fishInfo);
+                    }
+                }
+
+                key = "homerspitRank";
+
+                if (ss.HasChild(key))
+                {
+                    dic5 = _userData.GetHomerspitRankDictionary();
+
+                    foreach (DataSnapshot data in ss.Child(key).Children)
+                    {
+                        Dictionary<string, object> d = ObjectToDictionary2(data.Value);
+
+                        int number = int.Parse(d[_fishNumberString].ToString());
+                        int type = int.Parse(d[_fishTypeString].ToString());
+                        float length = float.Parse(d[_lengthString].ToString());
+                        string name = d[_nameString].ToString();
+                        float weight = float.Parse(d[_weightString].ToString());
+
+                        PublicDefined.stRankFishInfo fishInfo = new PublicDefined.stRankFishInfo(number, name, length, weight, (PublicDefined.eFishType)type);
+
+                        dic5.Add(number, fishInfo);
+                    }
+                }
+
+
+
+                _dataLoadSuccess = true;
+                _dataLoadProgress = 5;
+                Debug.Log("데이터 로드 끝");
+            }
+        });
+    }
+
     public UserData GetUserData()
     {
         return _userData;
@@ -452,692 +1138,7 @@ public class DBManager : MonoBehaviour
     {
         LoadPublicData();
     }
-
-    void LoadPublicData()
-    {
-        DatabaseReference reference;
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
-        }
-        else
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
-        }
-        reference.GetValueAsync().ContinueWith(t =>
-        {
-            if (t.IsFaulted)
-            {
-                Debug.Log("실패 이유: " + t.Result.ToString());
-            }
-            else if (t.IsCompleted)
-            {
-                DataSnapshot ss = t.Result;
-                
-                _userData._nickname = ss.Child(_nicknameString).Value.ToString();
-                _userData._gold = int.Parse(ss.Child(_goldString).Value.ToString());
-                _userData._pearl = int.Parse(ss.Child(_pearlString).Value.ToString());
-                _userData._grade = int.Parse(ss.Child(_gradeString).Value.ToString());
-                _userData._star = float.Parse(ss.Child(_starString).Value.ToString());
-                _userData._win = int.Parse(ss.Child("_win").Value.ToString());
-                _userData._lose = int.Parse(ss.Child("_lose").Value.ToString());
-                _userData._draw = int.Parse(ss.Child("_draw").Value.ToString());
-                _userData._haveRepresentFish = bool.Parse(ss.Child("_haveRepresentFish").Value.ToString());
-                _userData._havePlatinumPackage = bool.Parse(ss.Child("_havePlatinumPackage").Value.ToString());
-                _userData._haveDiamondPackage = bool.Parse(ss.Child("_haveDiamondPackage").Value.ToString());
-                DataManager.INSTANCE._tutorialIsDone = bool.Parse(ss.Child("_isTutorialDone").Value.ToString());
-                
-                if(ss.HasChild("_isGetUlseomCoupon"))
-                {
-                    _userData._isGetUlseomCoupon = bool.Parse(ss.Child("_isGetUlseomCoupon").Value.ToString());
-                }
-                else
-                {
-                    Dictionary<string, object> dic = new Dictionary<string, object>();
-                    dic.Add("_isGetUlseomCoupon", false);
-                    reference.UpdateChildrenAsync(dic);
-                }
-
-                if(ss.HasChild("_haveADBlock"))
-                {
-                    _userData._haveADBlock = bool.Parse(ss.Child("_haveADBlock").Value.ToString());
-                    DataManager.INSTANCE._isADBlock = _userData._haveADBlock;
-                }
-                else
-                {
-                    Dictionary<string, object> dic = new Dictionary<string, object>();
-                    dic.Add("_haveADBlock", false);
-                    reference.UpdateChildrenAsync(dic);
-                }
-
-                if(ss.HasChild("_isGetGStarCoupon"))
-                {
-                    _userData._isGetGStarCoupon = bool.Parse(ss.Child("_isGetGStarCoupon").Value.ToString());
-                }
-                else
-                {
-                    Dictionary<string, object> dic = new Dictionary<string, object>();
-                    dic.Add("_isGetGStarCoupon", false);
-                    reference.UpdateChildrenAsync(dic);
-                }
-                
-                if (_userData._haveRepresentFish)
-                {
-                    Dictionary<string, object> d = ObjectToDictionary2(ss.Child("representFish").Value);
-                    int number = int.Parse(d[_fishNumberString].ToString());
-                    int type = int.Parse(d[_fishTypeString].ToString());
-                    int price = int.Parse(d[_priceString].ToString());
-                    float length = float.Parse(d[_lengthString].ToString());
-                    float weight = float.Parse(d[_weightString].ToString());
-                    string name = d[_nameString].ToString();
-                    string key = d[_keyString].ToString();
-
-                    _userData.InitRepresentFish(number, name, length, weight, price, type, key);
-                }
-
-                if(_userData._havePlatinumPackage)
-                {
-                    Dictionary<string, bool> packageDic = new Dictionary<string, bool>();
-
-                    packageDic = _userData.GetPlatinumPackage();
-
-                    foreach (DataSnapshot data in ss.Child(_platinumPackage).Children)
-                    {
-                        packageDic[data.Key] = bool.Parse(data.Value.ToString());
-                    }
-                }
-
-                if(_userData._haveDiamondPackage)
-                {
-                    Dictionary<string, bool> packageDic = new Dictionary<string, bool>();
-
-                    packageDic = _userData.GetDiamondPackage();
-
-                    foreach (DataSnapshot data in ss.Child(_diamondPackage).Children)
-                    {
-                        packageDic[data.Key] = bool.Parse(data.Value.ToString());
-                    }
-                }
-                _dataLoadProgress = 1;
-                LoadAquariumData();
-            }
-        });
-    }
-
-    void LoadItemData()
-    {
-        //Debug.Log("아이템");
-        DatabaseReference reference;
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
-        }
-        else
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
-        }
-
-        reference.GetValueAsync().ContinueWith(t =>
-        {
-            if (t.IsFaulted)
-            {
-                Debug.Log("실패 이유: " + t.Result.ToString());
-
-            }
-            else if (t.IsCompleted)
-            {
-
-                DataSnapshot ss = t.Result;
-
-                Dictionary<int, int> dic;
-
-                // 낚싯대, 릴, 미끼 등등 장비 아이템 정보 받아오기
-                dic = _userData.GetBaitDictionary();
-                for (int i = 0; i < ss.Child("bait").ChildrenCount; i++)
-                {
-                    dic[i] = int.Parse(ss.Child("bait").Child(i.ToString()).Value.ToString());
-                }
-                dic = _userData.GetRodDictionary();
-
-                for (int i = 0; i < ss.Child("rod").ChildrenCount; i++)
-                {
-                    dic[i] = int.Parse(ss.Child("rod").Child(i.ToString()).Value.ToString());
-                }
-                dic = _userData.GetReelDictionary();
-
-                for (int i = 0; i < ss.Child("reel").ChildrenCount; i++)
-                {
-                    dic[i] = int.Parse(ss.Child("reel").Child(i.ToString()).Value.ToString());
-                }
-                dic = _userData.GetFloatDictionary();
-
-                for (int i = 0; i < ss.Child("float").ChildrenCount; i++)
-                {
-                    dic[i] = int.Parse(ss.Child("float").Child(i.ToString()).Value.ToString());
-                }
-                dic = _userData.GetPasteBaitDictionary();
-
-                for (int i = 0; i < ss.Child("pastebait").ChildrenCount; i++)
-                {
-                    dic[i] = int.Parse(ss.Child("pastebait").Child(i.ToString()).Value.ToString());
-                }
-                dic = _userData.GetSinkerDictionary();
-
-                for (int i = 0; i < ss.Child("sinker").ChildrenCount; i++)
-                {
-                    dic[i] = int.Parse(ss.Child("sinker").Child(i.ToString()).Value.ToString());
-                }
-
-                Dictionary<string, int> dic3;
-                // 현재 끼고 있는 장비
-                dic3 = _userData.GetCurrentEquipmentDictionary();
-                foreach (DataSnapshot data in ss.Child("equipment").Children)
-                {
-                   // Debug.Log("data.Key = " + data.Key + ", data.Value = " + data.Value);
-                    dic3[data.Key] = int.Parse(data.Value.ToString());
-                }
-                DataManager.INSTANCE._depthLength = dic3["depthlength"];
-                _dataLoadProgress = 2;
-               // Debug.Log("장비 데이터 로드");
-                LoadRankData();
-            }
-        });
-    }
-
-    void LoadAquariumData()
-    {
-        //Debug.Log("아쿠아리움");
-        DatabaseReference reference;
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
-        }
-        else
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
-        }
-
-        reference.GetValueAsync().ContinueWith(t =>
-        {
-            if (t.IsFaulted)
-            {
-                Debug.Log("실패 이유: " + t.Result.ToString());
-            }
-            else if (t.IsCompleted)
-            {
-                DataSnapshot ss = t.Result;
-
-                Dictionary<int, List<PublicDefined.stFishInfo>> dic4;
-
-                // 수족관 정보 받아오기
-                // 수족관 보유 여부
-                _userData._haveFirstAquarium = bool.Parse(ss.Child("_haveFirstAquarium").Value.ToString());
-                _userData._haveSecondAquarium = bool.Parse(ss.Child("_haveSecondAquarium").Value.ToString());
-                _userData._haveThirdAquarium = bool.Parse(ss.Child("_haveThirdAquarium").Value.ToString());
-                _userData._haveFourthAquarium = bool.Parse(ss.Child("_haveFourthAquarium").Value.ToString());
-                _userData._haveFifthAquarium = bool.Parse(ss.Child("_haveFifthAquarium").Value.ToString());
-
-                _userData.InitAquarium();
-
-                // 각 수족관에 무슨 물고기가 있는지 로드해야 한다.
-                if (_userData._haveFirstAquarium && ss.HasChild(_aquariumString))
-                {
-                    if (ss.Child(_aquariumString).HasChild("first"))
-                    {
-                        dic4 = _userData.GetFirstAquariumDictionary();
-                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("first").Children)
-                        {
-                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                            int number = int.Parse(d[_fishNumberString].ToString());
-                            int type = int.Parse(d[_fishTypeString].ToString());
-                            float length = float.Parse(d[_lengthString].ToString());
-                            string name = d[_nameString].ToString();
-                            int price = int.Parse(d[_priceString].ToString());
-                            float weight = float.Parse(d[_weightString].ToString());
-                            string key = d[_keyString].ToString();
-                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
-                            fishInfo.SetKey(key);
-
-                            if (dic4.ContainsKey(number))
-                            {
-                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
-                                dic4[number].Add(fishInfo);
-                            }
-                            else
-                            {
-                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
-                                list.Add(fishInfo);
-                                dic4.Add(number, list);
-                            }
-                        }
-
-                    }
-                }
-
-                if (_userData._haveSecondAquarium && ss.HasChild(_aquariumString))
-                {
-                    if (ss.Child(_aquariumString).HasChild("second"))
-                    {
-                        dic4 = _userData.GetSecondAquariumDictionary();
-                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("second").Children)
-                        {
-                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                            int number = int.Parse(d[_fishNumberString].ToString());
-                            int type = int.Parse(d[_fishTypeString].ToString());
-                            float length = float.Parse(d[_lengthString].ToString());
-                            string name = d[_nameString].ToString();
-                            int price = int.Parse(d[_priceString].ToString());
-                            float weight = float.Parse(d[_weightString].ToString());
-                            string key = d[_keyString].ToString();
-                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
-                            fishInfo.SetKey(key);
-
-                            if (dic4.ContainsKey(number))
-                            {
-                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
-                                dic4[number].Add(fishInfo);
-                            }
-                            else
-                            {
-                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
-                                list.Add(fishInfo);
-                                dic4.Add(number, list);
-                            }
-                        }
-                    }
-                }
-                if (_userData._haveThirdAquarium && ss.HasChild(_aquariumString))
-                {
-                    if (ss.Child(_aquariumString).HasChild("third"))
-                    {
-                        dic4 = _userData.GetThirdAquariumDictionary();
-                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("third").Children)
-                        {
-                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                            int number = int.Parse(d[_fishNumberString].ToString());
-                            int type = int.Parse(d[_fishTypeString].ToString());
-                            float length = float.Parse(d[_lengthString].ToString());
-                            string name = d[_nameString].ToString();
-                            int price = int.Parse(d[_priceString].ToString());
-                            float weight = float.Parse(d[_weightString].ToString());
-                            string key = d[_keyString].ToString();
-                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
-                            fishInfo.SetKey(key);
-                            if (dic4.ContainsKey(number))
-                            {
-                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
-                                dic4[number].Add(fishInfo);
-                            }
-                            else
-                            {
-                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
-                                list.Add(fishInfo);
-                                dic4.Add(number, list);
-                            }
-                        }
-                    }
-
-                }
-
-                if (_userData._haveFourthAquarium && ss.HasChild(_aquariumString))
-                {
-                    if (ss.Child(_aquariumString).HasChild("fourth"))
-                    {
-                        dic4 = _userData.GetFourthAquariumDictionary();
-                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("fourth").Children)
-                        {
-                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                            int number = int.Parse(d[_fishNumberString].ToString());
-                            int type = int.Parse(d[_fishTypeString].ToString());
-                            float length = float.Parse(d[_lengthString].ToString());
-                            string name = d[_nameString].ToString();
-                            int price = int.Parse(d[_priceString].ToString());
-                            float weight = float.Parse(d[_weightString].ToString());
-                            string key = d[_keyString].ToString();
-                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
-                            fishInfo.SetKey(key);
-                            if (dic4.ContainsKey(number))
-                            {
-                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
-                                dic4[number].Add(fishInfo);
-                            }
-                            else
-                            {
-                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
-                                list.Add(fishInfo);
-                                dic4.Add(number, list);
-                            }
-                        }
-                    }
-                }
-
-                if (_userData._haveFifthAquarium && ss.HasChild(_aquariumString))
-                {
-                    if (ss.Child(_aquariumString).HasChild("fifth"))
-                    {
-                        dic4 = _userData.GetFifthAquariumDictionary();
-                        foreach (DataSnapshot data in ss.Child(_aquariumString).Child("fifth").Children)
-                        {
-                            Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                            int number = int.Parse(d[_fishNumberString].ToString());
-                            int type = int.Parse(d[_fishTypeString].ToString());
-                            float length = float.Parse(d[_lengthString].ToString());
-                            string name = d[_nameString].ToString();
-                            int price = int.Parse(d[_priceString].ToString());
-                            float weight = float.Parse(d[_weightString].ToString());
-                            string key = d[_keyString].ToString();
-                            PublicDefined.stFishInfo fishInfo = new PublicDefined.stFishInfo(number, name, length, weight, price, (PublicDefined.eFishType)type);
-                            fishInfo.SetKey(key);
-                            if (dic4.ContainsKey(number))
-                            {
-                                // 만약 해당 번호의 물고기가 이미 있다면 리스트에 추가해야 한다.
-                                dic4[number].Add(fishInfo);
-                            }
-                            else
-                            {
-                                List<PublicDefined.stFishInfo> list = new List<PublicDefined.stFishInfo>();
-                                list.Add(fishInfo);
-                                dic4.Add(number, list);
-                            }
-                        }
-                    }
-                }
-
-                _userData.CheckAquariumCount();
-               // Debug.Log("아쿠아리움 데이터 로드");
-                _dataLoadProgress = 2;
-                LoadPassData();
-            }
-        });
-    }
-
-    void LoadPassData()
-    {
-        
-        //Debug.Log("패스");
-        DatabaseReference reference;
-        if (Application.platform.Equals(RuntimePlatform.WindowsEditor))
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
-        }
-        else
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
-        }
-
-        reference.GetValueAsync().ContinueWith(t =>
-        {
-            if (t.IsFaulted)
-            {
-                Debug.Log("실패 이유: " + t.Result.ToString());
-            }
-            else if (t.IsCompleted)
-            {
-                DataSnapshot ss = t.Result;
-
-                Dictionary<int, int> dic;
-                Dictionary<int, bool> dic2;
-                Dictionary<int, Dictionary<int, int>> dic5;
-
-                // 패스 보유 여부
-                _userData._haveJeongdongjinPass = bool.Parse(ss.Child("_haveJeongdongjinPass").Value.ToString());
-                _userData._haveSkywayPass = bool.Parse(ss.Child("_haveSkywayPass").Value.ToString());
-                _userData._haveHomerspitPass = bool.Parse(ss.Child("_haveHomerspitPass").Value.ToString());
-
-                // 각 맵의 패스 인덱스
-                _userData._currentJeongdongjinPassIndex = int.Parse(ss.Child("_currentJeongdongjinPassIndex").Value.ToString());
-                _userData._currentSkywayPassIndex = int.Parse(ss.Child("_currentSkywayPassIndex").Value.ToString());
-                _userData._currentHomerspitPassIndex = int.Parse(ss.Child("_currentHomerspitPassIndex").Value.ToString());
-
-
-                // 패스 보상 수령 정보 받아오기
-                dic2 = _userData.GetCheckJeongdongjinPassFreeReward();
-
-                for (int i = 0; i < ss.Child(_jeongdongjinFreeReward).ChildrenCount; i++)
-                {
-                    dic2[i] = bool.Parse(ss.Child(_jeongdongjinFreeReward).Child(i.ToString()).Value.ToString());
-                }
-
-                dic2 = _userData.GetCheckSkywayPassFreeReward();
-
-                for (int i = 0; i < ss.Child(_skywayFreeReward).ChildrenCount; i++)
-                {
-                    dic2[i] = bool.Parse(ss.Child(_skywayFreeReward).Child(i.ToString()).Value.ToString());
-                }
-
-                dic2 = _userData.GetCheckHomerPassFreeReward();
-
-                for (int i = 0; i < ss.Child(_homerspitFreeReward).ChildrenCount; i++)
-                {
-                    dic2[i] = bool.Parse(ss.Child(_homerspitFreeReward).Child(i.ToString()).Value.ToString());
-                }
-
-                dic2 = _userData.GetCheckJeongdongjinPassPremiumReward();
-
-                for (int i = 0; i < ss.Child(_jeongdongjinPreReward).ChildrenCount; i++)
-                {
-                    dic2[i] = bool.Parse(ss.Child(_jeongdongjinPreReward).Child(i.ToString()).Value.ToString());
-                }
-
-                dic2 = _userData.GetCheckSkywayPassPremiumReward();
-
-                for (int i = 0; i < ss.Child(_skywayPreReward).ChildrenCount; i++)
-                {
-                    dic2[i] = bool.Parse(ss.Child(_skywayPreReward).Child(i.ToString()).Value.ToString());
-                }
-
-                dic2 = _userData.GetCheckHomerspitPassPremiumReward();
-
-                for (int i = 0; i < ss.Child(_homerspitPreReward).ChildrenCount; i++)
-                {
-                    dic2[i] = bool.Parse(ss.Child(_homerspitPreReward).Child(i.ToString()).Value.ToString());
-                }
-                //Debug.Log("1");
-                // 물고기와 관련된 패스 정보 받아오기
-                if (ss.HasChild(_passAboutFish_jeongdongjinString))
-                {
-                    // 자식이 있다면 안에 무슨 자료가 있긴 하니까 받아오자.
-                    dic5 = _userData.GetCurrentStateOfJeongdongjinPassAboutFish();
-                    Dictionary<string, object> fishDic;
-                   //Debug.Log(ss.Child(_passAboutFish_jeongdongjinString).ChildrenCount);
-
-                    foreach (DataSnapshot data in ss.Child(_passAboutFish_jeongdongjinString).Children)
-                    {
-                        //Debug.Log(data.Key);
-                        fishDic = ObjectToDictionary2(data.Value);
-
-                        Dictionary<int, int> dic55 = new Dictionary<int, int>();
-                       // Debug.Log("가");
-                        foreach (KeyValuePair<string, object> data2 in fishDic)
-                        {
-                           // Debug.Log("나");
-                           // Debug.Log("data2.Key : " + data2.Key + ", " + data2.Key.GetType());
-                           // Debug.Log("data2.Value : " + data2.Value + ", " + data2.Value.GetType());
-                            dic55.Add(int.Parse(data2.Key), int.Parse(data2.Value.ToString()));
-                        }
-                        dic5[int.Parse(data.Key)] = dic55;
-                    }
-                }
-               // Debug.Log("2");
-                if (ss.HasChild(_passAboutFish_skywayString))
-                {
-                    // 자식이 있다면 안에 무슨 자료가 있긴 하니까 받아오자.
-                    dic5 = _userData.GetCurrentStateOfSkywayPassAboutFish();
-                    Dictionary<string, object> fishDic;
-                    foreach (DataSnapshot data in ss.Child(_passAboutFish_skywayString).Children)
-                    {
-                        fishDic = ObjectToDictionary2(data.Value);
-                        Dictionary<int, int> dic55 = new Dictionary<int, int>();
-                        foreach (KeyValuePair<string, object> data2 in fishDic)
-                        {
-                            //Debug.Log("data.Key : " + key + ", " + data.Key.GetType());
-                            //Debug.Log("data2.Key : " + data2.Key + ", " + data2.Key.GetType());
-                            //Debug.Log("data2.Value : " + data2.Value + ", " + data2.Value.GetType());
-                            dic55.Add(int.Parse(data2.Key), int.Parse(data2.Value.ToString()));
-                        }
-                        dic5[int.Parse(data.Key)] = dic55;
-                    }
-                }
-                //Debug.Log("3");
-                if (ss.HasChild(_passAboutFish_homerspitString))
-                {
-                    // 자식이 있다면 안에 무슨 자료가 있긴 하니까 받아오자.
-                    dic5 = _userData.GetCurrentStateOfHomerspitPassAboutFish();
-                    Dictionary<string, object> fishDic;
-                    foreach (DataSnapshot data in ss.Child(_passAboutFish_homerspitString).Children)
-                    {
-                        fishDic = ObjectToDictionary2(data.Value);
-                        Dictionary<int, int> dic55 = new Dictionary<int, int>();
-                        foreach (KeyValuePair<string, object> data2 in fishDic)
-                        {
-                            dic55.Add(int.Parse(data2.Key), int.Parse(data2.Value.ToString()));
-                        }
-                        dic5[int.Parse(data.Key)] = dic55;
-                    }
-                }
-               // Debug.Log("5");
-                // 액션과 관련된 패스 정보 받아오기
-                if (ss.HasChild(_passAboutAction_jeongdongjinString))
-                {
-                    dic = _userData.GetCurrentStateOfJeongdongjinPassAboutAction();
-                    Dictionary<string, object> diczz = ObjectToDictionary2(ss.Child(_passAboutAction_jeongdongjinString).Value);
-
-                    foreach (KeyValuePair<string, object> datazz in diczz)
-                    {
-                        dic[int.Parse(datazz.Key)] = int.Parse(datazz.Value.ToString());
-                    }
-                }
-                //Debug.Log("6");
-                if (ss.HasChild(_passAboutAction_skywayString))
-                {
-                    dic = _userData.GetCurrentStateOfSkywayPassAboutAction();
-                    Dictionary<string, object> diczz = ObjectToDictionary2(ss.Child(_passAboutAction_skywayString).Value);
-                    foreach (KeyValuePair<string, object> datazz in diczz)
-                    {
-                        dic[int.Parse(datazz.Key)] = int.Parse(datazz.Value.ToString());
-                    }
-                }
-                //Debug.Log("7");
-                if (ss.HasChild(_passAboutAction_homerspitString))
-                {
-                    dic = _userData.GetCurrentStateOfHomerspitPassAboutAction();
-                    Dictionary<string, object> diczz = ObjectToDictionary2(ss.Child(_passAboutAction_homerspitString).Value);
-
-                    foreach (KeyValuePair<string, object> datazz in diczz)
-                    {
-                        dic[int.Parse(datazz.Key)] = int.Parse(datazz.Value.ToString());
-                    }
-                }
-                _dataLoadProgress = 3;
-              //  Debug.Log("패스 데이터 로드");
-                LoadItemData();
-            }
-        });
-    }
-
-    void LoadRankData()
-    {
-        //Debug.Log("랭크");
-        DatabaseReference reference;
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_editorFirebaseUid).Child(_dataString);
-        }
-        else
-        {
-            reference = FirebaseDatabase.DefaultInstance.GetReference(_userinfoString).Child(_userData.GetUId()).Child(_dataString);
-        }
-        reference.GetValueAsync().ContinueWith(t =>
-        {
-            if (t.IsFaulted)
-            {
-                Debug.Log("실패 이유: " + t.Result.ToString());
-            }
-            else if (t.IsCompleted)
-            {
-                DataSnapshot ss = t.Result;
-
-                Dictionary<int, PublicDefined.stRankFishInfo> dic5;
-
-                string key = "jeongdongjinRank";
-
-                // 각 수족관에 무슨 물고기가 있는지 로드해야 한다.
-                if (ss.HasChild(key))
-                {
-                    dic5 = _userData.GetJeongdongjinRankDictionary();
-
-                    foreach (DataSnapshot data in ss.Child(key).Children)
-                    {
-                        Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                        int number = int.Parse(d[_fishNumberString].ToString());
-                        int type = int.Parse(d[_fishTypeString].ToString());
-                        float length = float.Parse(d[_lengthString].ToString());
-                        string name = d[_nameString].ToString();
-                        float weight = float.Parse(d[_weightString].ToString());
-
-                        PublicDefined.stRankFishInfo fishInfo = new PublicDefined.stRankFishInfo(number, name, length, weight, (PublicDefined.eFishType)type);
-
-                        dic5.Add(number, fishInfo);
-                    }
-                }
-                key = "skywayRank";
-
-                if (ss.HasChild(key))
-                {
-                    dic5 = _userData.GetSkywayRankDictionary();
-
-                    foreach (DataSnapshot data in ss.Child(key).Children)
-                    {
-                        Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                        int number = int.Parse(d[_fishNumberString].ToString());
-                        int type = int.Parse(d[_fishTypeString].ToString());
-                        float length = float.Parse(d[_lengthString].ToString());
-                        string name = d[_nameString].ToString();
-                        float weight = float.Parse(d[_weightString].ToString());
-
-                        PublicDefined.stRankFishInfo fishInfo = new PublicDefined.stRankFishInfo(number, name, length, weight, (PublicDefined.eFishType)type);
-
-                        dic5.Add(number, fishInfo);
-                    }
-                }
-
-                key = "homerspitRank";
-
-                if (ss.HasChild(key))
-                {
-                    dic5 = _userData.GetHomerspitRankDictionary();
-
-                    foreach (DataSnapshot data in ss.Child(key).Children)
-                    {
-                        Dictionary<string, object> d = ObjectToDictionary2(data.Value);
-
-                        int number = int.Parse(d[_fishNumberString].ToString());
-                        int type = int.Parse(d[_fishTypeString].ToString());
-                        float length = float.Parse(d[_lengthString].ToString());
-                        string name = d[_nameString].ToString();
-                        float weight = float.Parse(d[_weightString].ToString());
-
-                        PublicDefined.stRankFishInfo fishInfo = new PublicDefined.stRankFishInfo(number, name, length, weight, (PublicDefined.eFishType)type);
-
-                        dic5.Add(number, fishInfo);
-                    }
-                }
-
-
-
-                _dataLoadSuccess = true;
-                _dataLoadProgress = 5;
-                Debug.Log("데이터 로드 끝");
-            }
-        });
-    }
+    
     Dictionary<int, bool> ObjectToDictionary(object obj)
     {
         string json = JsonConvert.SerializeObject(obj);

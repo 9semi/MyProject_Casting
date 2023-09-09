@@ -27,14 +27,13 @@ public class AquariumManager : MonoBehaviour
     float _rotateX = 0;
     float _moveSpeed = 15f;
     int _fov = 0;
-
-    // 카메라 줌인, 줌아웃 관련
+    
     float _befGap;
     float _aftGap;
     int _fovPower = 1;
     Vector2 _firstTouchPos, _secondTouchPos;
     
-    [Header("물고기는 여기에 버리자")]
+    [Header("비활성화 물고기")]
     public Transform _garbageObject;
 
     bool _isCameraRunning = false; public bool IsCameraRunning { set { _isCameraRunning = value; } }
@@ -47,25 +46,21 @@ public class AquariumManager : MonoBehaviour
     
     private void Start()
     {
-        //AudioManager.INSTANCE.StopBGM();
         if (!AudioManager.INSTANCE.CheckIsSameBGM(PublicDefined.eBGMType.lobbyscene))
             AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.lobbyscene, true);
 
-        _fishObjectParentList = _flock.GetParents();
+        _fishObjectParentList = _flock.Parents;
     }
 
     private void Update()
     {
         if (_isCameraRunning && !_fishInfoUI.gameObject.activeSelf)
         {
-            //_fov = _joystick._getY;
-            //CameraMove();
-
-            if (Input.touchCount == 1) // 카메라 이동
+            if (Input.touchCount == 1)
             {
                 Touch touch = Input.GetTouch(0);
 
-                if (_aquariumUI.CurrentFishSlotState.Equals(AquariumUI.eFishSlotType.On)) // FishSlot이 올라온 상태
+                if (_aquariumUI.CurrentFishSlotState.Equals(AquariumUI.eFishSlotType.On))
                 {
                     if (touch.position.y < 300)
                         return;
@@ -79,9 +74,9 @@ public class AquariumManager : MonoBehaviour
                     case TouchPhase.Moved:
                     case TouchPhase.Stationary:
                         _secondTouchPos = touch.position - touch.deltaPosition;
-                        if (_firstTouchPos.x - _secondTouchPos.x < 0) // 카메라가 왼쪽으로 회전
+                        if (_firstTouchPos.x - _secondTouchPos.x < 0)
                             _finalPositionX += -_moveSpeed * Time.deltaTime;
-                        else                                          // 카메라가 오른쪽으로 회전
+                        else            
                             _finalPositionX += _moveSpeed * Time.deltaTime;
 
                         _finalPositionX = Mathf.Clamp(_finalPositionX, -30, 30);
@@ -91,7 +86,7 @@ public class AquariumManager : MonoBehaviour
                 }
             }
 
-            if(Input.touchCount == 2) // 카메라 확대, 축소
+            if(Input.touchCount == 2)
             {
                 if (Input.touches[0].phase.Equals(TouchPhase.Moved) || Input.touches[1].phase.Equals(TouchPhase.Moved) || Input.touches
                     [1].phase.Equals(TouchPhase.Stationary))

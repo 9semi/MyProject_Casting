@@ -62,7 +62,6 @@ public class CreateNicknameUI : MonoBehaviour
 
         switch(_currentState)
         {
-            // 오브젝트 갈아치우기 
             case eStateType.First:
                 _name = _nicknameInput.text.ToLower();
                 DBManager.INSTANCE.SetName(_name);
@@ -76,7 +75,6 @@ public class CreateNicknameUI : MonoBehaviour
                         _currentState = eStateType.Second;
                 }));
                 break;
-            // 서버에 닉네임 저장하고 창 닫기
             case eStateType.Second:
                 DBManager.INSTANCE.SaveNewUserData();
                 gameObject.SetActive(false);
@@ -99,17 +97,15 @@ public class CreateNicknameUI : MonoBehaviour
         }
         else
         {
-            // 닉네임이 조건에 맞는지 확인
             if (_nicknameInput.text.Length < 3 || _nicknameInput.text.Length > 16)
             {
                 _stateText.color = _redColor;
                 _stateText.text = "이름이 너무 짧거나 길어요!";
 
             }
-            else // 서버에서 같은 닉네임이 있는지 확인
+            else
             {
                 _name = _nicknameInput.text.ToLower();
-                //TheNameIsAvailable();
                 StartCoroutine(DBManager.INSTANCE.ExistNickname(_name));
             }
         }
@@ -129,13 +125,11 @@ public class CreateNicknameUI : MonoBehaviour
 
     public void InputFieldEndEdit()
     {
-        //Debug.Log("zz");
         _nicknameInput.text = _nicknameInput.text.ToLower();
     }
 
     public void TheNameAlreadyExists()
     {
-        //Debug.Log("들어오나요?2");
         _stateText.color = _redColor;
         _stateText.text = "이미 다른 유저의 이름입니다.";
     }

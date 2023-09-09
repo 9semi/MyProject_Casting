@@ -122,8 +122,7 @@ public class FishControl : FishBase
         biteCor = null;
         _shutCoroutine = null;
         _userData = DBManager.INSTANCE.GetUserData();
-
-        // 블루투스 오브젝트 연결
+        
         if (GameObject.FindGameObjectWithTag("Bluetooth"))
         {
             _bleTotal = GameObject.FindGameObjectWithTag("Bluetooth").GetComponent<BLETotal>();
@@ -162,8 +161,7 @@ public class FishControl : FishBase
         else
             return _fishBLDC + add;
     }
-
-    // 활성도는 0 ~ 3
+    
     public IEnumerator DC()
     {
         switch (_fishData._motorType)
@@ -219,8 +217,7 @@ public class FishControl : FishBase
                 break;
         }
     }
-
-    #region bitting
+    
     public void OnBite(int second1, int second2, int chance1, int chance2)
     {
         if(!_isPause)
@@ -238,8 +235,7 @@ public class FishControl : FishBase
     {
         _shutCoroutine = StartCoroutine(ShutInEdge());
     }
-
-    // 잡은 물고기 데이터 가져오는 함수
+    
     public void SetFish(GameObject fishObject, GameObject _fishSkin, Transform __fishTransform, stFishData fishData)
     {
         _fishObject = fishObject;
@@ -270,14 +266,13 @@ public class FishControl : FishBase
             {
                 _gameManager.AddForceToNeedle(0, 0, -200);
             }
-            else if (_target.position.y > -3f) // 물고기가 해수면이랑 가까울 때
+            else if (_target.position.y > -3f)
             {
                 _gameManager.AddForceToNeedle(0, -180, 0);
             }
             yield return PublicDefined._02secDelay;
         }
     }
-    // 찌를 물었고 챔질까지 성공한 상태
     public IEnumerator Fighting()
     {
         switch (DataManager.INSTANCE._mapType)
@@ -293,6 +288,7 @@ public class FishControl : FishBase
                 AudioManager.INSTANCE.PlayBGM(PublicDefined.eBGMType.homerspitFighting, true);
                 break;
         }
+
         _gameManager.CurrentState = GameManager.eIngameState.fighting;
         _gameManager.IsNoBite = true; 
         _petManager.IsCatch = true;
@@ -321,13 +317,12 @@ public class FishControl : FishBase
             _dcCoroutine = StartCoroutine(DC());
         }
 
-        while (!_isDeath)    // 죽기전까지 계속 반복
+        while (!_isDeath) 
         {
             term = UnityEngine.Random.Range(3f, 4.5f);
 
             FightPower(_fishData._activityType, term);
-
-            // #블루투스
+            
             if (_bleTotal != null && _bleTotal.ConnectedMain && !_isTutorial)
             {
                 _bleTotal.Motor(BLDC(isY, isZ), _dcValue);
@@ -1541,7 +1536,6 @@ public class FishControl : FishBase
             
         }
     }
-    #endregion
     public void PlayBGMWhenBittingFail()
     {
         _gameManager.IsPlayingBGM = true;

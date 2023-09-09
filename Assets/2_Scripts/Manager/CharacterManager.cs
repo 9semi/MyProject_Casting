@@ -10,7 +10,7 @@ public class CharacterManager : MonoBehaviour
     
     Animator _ani;
     Vector3 _myOriginPos;
-    GameObject _reelAudioObject = null;         // 릴 풀리는 소리
+    GameObject _reelAudioObject = null;
 
     GameManager _gameManager;
 
@@ -25,34 +25,27 @@ public class CharacterManager : MonoBehaviour
     }
     public void Shot()
     {
-        // 던지는 효과음 재생
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.casting).GetComponent<AudioPoolObject>().Init();
-
-        // 카메라 타겟 바늘로 설정
+        
         _gameManager.SettingTargetOfCamera();
         _gameManager.CastingNeedle();
-
-        // 바늘 날라감 표시
+        
         StartCoroutine(ShotCoroutine());
 
         if (!_gameManager.UserData.GetCurrentEquipmentDictionary()["sinker"].Equals(-1))
         {
             _gameManager.SetSinkerObjectActive(false);
         }
-
-        // 릴 줄 풀리는 효과음 재생
+        
         _reelAudioObject = AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.reelUntied, true);
     }
     public void ForwardSpeed()
     {
-        // 블록 애니메이션 재생
         _ani.SetFloat(_blockspeedHash, 1f);
-        // 낚싯대 팽팽해지는 효과음 재생
         AudioManager.INSTANCE.PlayEffect(PublicDefined.eEffectSoundType.rodSpring).GetComponent<AudioPoolObject>().Init();
     }
     public void ReverseSpeed()
     {
-        // 블록 애니메이션 재생
         _ani.SetFloat(_blockspeedHash, -0.5f);
     }
     public void CharacterTransformReset()

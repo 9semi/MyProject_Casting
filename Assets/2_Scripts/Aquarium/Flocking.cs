@@ -181,9 +181,5 @@ public class Flocking : MonoBehaviour
 
         _isFlocking = true;
     }
-
-    public List<Transform> GetParents()
-    {
-        return _parents;
-    }
+    
 }
